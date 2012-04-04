@@ -10,4 +10,32 @@ Jim Danz
 Stefan Muller
 Rob Bowden
 Willie Yao
-Leora Pearson
+Leora PearsonKenny Yu, Joshua Lee
+
+To import into Eclipse:
+======================
+1) Make a directory (e.g. cs262) that will be your eclipse workspace directory.
+2) cd into that directory, and execute:
+      git clone git@github.com:kennyyu/cs262project.git
+3) Open up eclipse and set the workspace to be the cs262 directory.
+4) Go to File > Import... > General > Existing Projects Into Workspace
+5) Select root directory to be the current directory.
+6) 'cs262project' should show up on the bottom. Hit OK.
+
+NOTE:
+* Every time you pull new changes, click on the project's name on the left side 
+  (containing the directory tree), and hit 'refresh'
+
+To compile:
+==========
+To compile, execute:
+      make
+
+To run tests:
+============
+Tests require JUnit installed. To compile and run the JUnit tests, execute:
+      make test
+
+To run:
+======
+
