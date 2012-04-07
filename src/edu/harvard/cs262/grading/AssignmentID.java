@@ -1,5 +1,5 @@
 package edu.harvard.cs262.grading;
 
-public class AssignmentID {
-
+public interface AssignmentID {
+	
 }
