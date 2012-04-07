@@ -10,7 +10,8 @@ import java.util.Set;
 public interface SubmissionStorageService extends Remote {
 
 	/**
-	 * Start the service
+	 * Start the service.
+	 * @throws Exception
 	 */
 	public void init() throws Exception;
 

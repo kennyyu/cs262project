@@ -11,6 +11,7 @@ public interface SubmissionReceiverService extends Remote {
 
 	/**
 	 * Start the service.
+	 * @throws Exception
 	 */
 	public void init() throws Exception;
 
