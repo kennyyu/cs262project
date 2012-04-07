@@ -44,7 +44,8 @@ public class SubmissionReceiverServiceServer implements
 					throw e;
 			} catch (NotBoundException e) {
 				if (i + 1 == NUM_LOOKUP_RETRIES) {
-					System.err.println("Looking up SubmissionStorageService failed");
+					System.err
+							.println("Looking up SubmissionStorageService failed");
 					System.exit(-1);
 				}
 			}
