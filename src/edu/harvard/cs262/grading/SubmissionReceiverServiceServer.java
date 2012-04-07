@@ -29,7 +29,7 @@ public class SubmissionReceiverServiceServer implements
 	 * Attempts to find the SubmissionStorageService, and dies after
 	 * NUM_LOOKUP_RETRIES.
 	 */
-	private void lookupStorageService() {
+	private void lookupStorageService() throws RemoteException {
 		for (int i = 0; i < NUM_LOOKUP_RETRIES; i++) {
 			try {
 				Registry registry = LocateRegistry.getRegistry(); // need to
@@ -40,9 +40,13 @@ public class SubmissionReceiverServiceServer implements
 				server = s; // update our new server to reflect the new registry
 				return;
 			} catch (RemoteException e) {
-				// empty
+				if (i + 1 == NUM_LOOKUP_RETRIES)
+					throw e;
 			} catch (NotBoundException e) {
-				// empty
+				if (i + 1 == NUM_LOOKUP_RETRIES) {
+					System.err.println("Looking up SubmissionStorageService failed");
+					System.exit(-1);
+				}
 			}
 
 			try {
@@ -51,8 +55,6 @@ public class SubmissionReceiverServiceServer implements
 				// empty;
 			}
 		}
-		System.err.println("Looking up SubmissionStorageService failed");
-		System.exit(-1);
 	}
 
 	@Override
