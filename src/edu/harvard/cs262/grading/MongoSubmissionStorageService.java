@@ -1,6 +1,8 @@
 package edu.harvard.cs262.grading;
 
 import java.net.UnknownHostException;
+import java.rmi.RemoteException;
+import java.util.Set;
 
 import com.mongodb.Mongo;
 import com.mongodb.DB;
@@ -41,6 +43,27 @@ public class MongoSubmissionStorageService implements SubmissionStorageService {
         doc.put("info", info);
         
         coll.insert(doc);
+	}
+
+	@Override
+	public Submission getSubmission(StudentID studentID,
+			AssignmentID assignmentID) throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Set<Submission> getStudentWork(StudentID studentID)
+			throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Set<Submission> getAllSubmissions(AssignmentID assignmentID)
+			throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

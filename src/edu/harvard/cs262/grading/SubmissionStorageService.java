@@ -15,7 +15,7 @@ public interface SubmissionStorageService extends Remote {
 	 * @return true on success
 	 * @throws RemoteException
 	 */
-	public boolean storeSubmission(Submission submission)
+	public void storeSubmission(Submission submission)
 		throws RemoteException;
 
 	/**
