@@ -10,6 +10,11 @@ import java.sql.Blob;
 public interface SubmissionReceiverService extends Remote {
 
 	/**
+	 * Start the service.
+	 */
+	public void init() throws Exception;
+	
+	/**
 	 * Submits the contents for the specified student and assignment number.
 	 * @param studentId
 	 * @param assignmentId
@@ -17,6 +22,6 @@ public interface SubmissionReceiverService extends Remote {
 	 * @return A submission object on success, containing the timestamp.
 	 * @throws RemoteException
 	 */
-	Submission submit(StudentID studentId, AssignmentID assignmentId, Blob contents)
+	Submission submit(StudentID studentID, AssignmentID assignmentID, Blob contents)
 		throws RemoteException;
 }

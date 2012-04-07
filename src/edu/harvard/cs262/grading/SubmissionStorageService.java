@@ -10,6 +10,11 @@ import java.util.Set;
 public interface SubmissionStorageService extends Remote {
 
 	/**
+	 * Start the service
+	 */
+	public void init() throws Exception;
+
+	/**
 	 * Places the submission into persistent storage.
 	 * @param submission
 	 * @return true on success
