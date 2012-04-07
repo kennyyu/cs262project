@@ -13,15 +13,17 @@ public interface SubmissionReceiverService extends Remote {
 	 * Start the service.
 	 */
 	public void init() throws Exception;
-	
+
 	/**
 	 * Submits the contents for the specified student and assignment number.
+	 * 
 	 * @param studentId
 	 * @param assignmentId
-	 * @param contents a Blob object containing the contents of the submission
+	 * @param contents
+	 *            a Blob object containing the contents of the submission
 	 * @return A submission object on success, containing the timestamp.
 	 * @throws RemoteException
 	 */
-	Submission submit(StudentID studentID, AssignmentID assignmentID, Blob contents)
-		throws RemoteException;
+	Submission submit(StudentID studentID, AssignmentID assignmentID,
+			Blob contents) throws RemoteException;
 }

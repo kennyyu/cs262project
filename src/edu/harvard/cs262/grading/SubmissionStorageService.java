@@ -16,38 +16,41 @@ public interface SubmissionStorageService extends Remote {
 
 	/**
 	 * Places the submission into persistent storage.
+	 * 
 	 * @param submission
 	 * @return true on success
 	 * @throws RemoteException
 	 */
-	public void storeSubmission(Submission submission)
-		throws RemoteException;
+	public void storeSubmission(Submission submission) throws RemoteException;
 
 	/**
 	 * Get the submission for the given student and assignment
+	 * 
 	 * @param studentID
 	 * @param assignmentID
 	 * @return the requested submission
 	 * @throws RemoteException
 	 */
-	public Submission getSubmission(StudentID studentID, AssignmentID assignmentID)
-		throws RemoteException;
+	public Submission getSubmission(StudentID studentID,
+			AssignmentID assignmentID) throws RemoteException;
 
 	/**
 	 * Return a set of all submitted assignments for this student
+	 * 
 	 * @param studentID
 	 * @return a set of all submitted assignments for this student
 	 * @throws RemoteException
 	 */
 	public Set<Submission> getStudentWork(StudentID studentID)
-		throws RemoteException;
+			throws RemoteException;
 
 	/**
 	 * Return a set of all submitted assignments for the given assignment ID
+	 * 
 	 * @param assignmentID
 	 * @return
 	 * @throws RemoteException
 	 */
 	public Set<Submission> getAllSubmissions(AssignmentID assignmentID)
-		throws RemoteException;
+			throws RemoteException;
 }

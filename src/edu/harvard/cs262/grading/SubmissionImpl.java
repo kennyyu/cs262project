@@ -8,13 +8,14 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 public class SubmissionImpl implements Submission {
-	
+
 	private StudentID studentID;
 	private AssignmentID assignmentID;
 	private Blob contents;
 	private Timestamp timestamp;
-	
-	public SubmissionImpl(StudentID studentID, AssignmentID assignmentID, Blob contents) {
+
+	public SubmissionImpl(StudentID studentID, AssignmentID assignmentID,
+			Blob contents) {
 		this.studentID = studentID;
 		this.assignmentID = assignmentID;
 		this.contents = contents;

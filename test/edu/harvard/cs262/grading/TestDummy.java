@@ -24,7 +24,7 @@ public class TestDummy {
 	@After
 	public void tearDown() throws Exception {
 	}
-	
+
 	@Test
 	public void testDummy() {
 		assertTrue(true);
