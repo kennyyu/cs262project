@@ -9,12 +9,12 @@ import java.util.Date;
 
 public class SubmissionImpl implements Submission {
 
-	private StudentID studentID;
-	private AssignmentID assignmentID;
+	private Student studentID;
+	private Assignment assignmentID;
 	private Blob contents;
 	private Timestamp timestamp;
 
-	public SubmissionImpl(StudentID studentID, AssignmentID assignmentID,
+	public SubmissionImpl(Student studentID, Assignment assignmentID,
 			Blob contents) {
 		this.studentID = studentID;
 		this.assignmentID = assignmentID;
@@ -23,12 +23,12 @@ public class SubmissionImpl implements Submission {
 	}
 
 	@Override
-	public StudentID getStudentID() {
+	public Student getStudentID() {
 		return studentID;
 	}
 
 	@Override
-	public AssignmentID getAssignmentID() {
+	public Assignment getAssignmentID() {
 		return assignmentID;
 	}
 

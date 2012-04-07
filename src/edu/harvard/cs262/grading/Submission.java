@@ -8,12 +8,12 @@ public interface Submission {
 	/**
 	 * @return the student ID for this submission
 	 */
-	public StudentID getStudentID();
+	public Student getStudentID();
 
 	/**
 	 * @return the assignment ID for this submission
 	 */
-	public AssignmentID getAssignmentID();
+	public Assignment getAssignmentID();
 
 	/**
 	 * @return the timestamp ID for this submission

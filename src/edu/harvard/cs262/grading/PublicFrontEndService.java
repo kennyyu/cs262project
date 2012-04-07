@@ -9,6 +9,7 @@ public interface PublicFrontEndService extends Remote {
 
 	/**
 	 * Starts the service.
+	 * 
 	 * @throws Exception
 	 */
 	public void init() throws Exception;

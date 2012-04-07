@@ -11,6 +11,7 @@ public interface SubmissionStorageService extends Remote {
 
 	/**
 	 * Start the service.
+	 * 
 	 * @throws Exception
 	 */
 	public void init() throws Exception;
@@ -27,31 +28,31 @@ public interface SubmissionStorageService extends Remote {
 	/**
 	 * Get the submission for the given student and assignment
 	 * 
-	 * @param studentID
-	 * @param assignmentID
+	 * @param student
+	 * @param assignment
 	 * @return the requested submission
 	 * @throws RemoteException
 	 */
-	public Submission getSubmission(StudentID studentID,
-			AssignmentID assignmentID) throws RemoteException;
+	public Submission getSubmission(Student student, Assignment assignment)
+			throws RemoteException;
 
 	/**
 	 * Return a set of all submitted assignments for this student
 	 * 
-	 * @param studentID
+	 * @param student
 	 * @return a set of all submitted assignments for this student
 	 * @throws RemoteException
 	 */
-	public Set<Submission> getStudentWork(StudentID studentID)
+	public Set<Submission> getStudentWork(Student student)
 			throws RemoteException;
 
 	/**
 	 * Return a set of all submitted assignments for the given assignment ID
 	 * 
-	 * @param assignmentID
+	 * @param assignment
 	 * @return
 	 * @throws RemoteException
 	 */
-	public Set<Submission> getAllSubmissions(AssignmentID assignmentID)
+	public Set<Submission> getAllSubmissions(Assignment assignment)
 			throws RemoteException;
 }

@@ -47,21 +47,21 @@ public class MongoSubmissionStorageService implements SubmissionStorageService {
 	}
 
 	@Override
-	public Submission getSubmission(StudentID studentID,
-			AssignmentID assignmentID) throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Set<Submission> getStudentWork(StudentID studentID)
+	public Submission getSubmission(Student student, Assignment assignment)
 			throws RemoteException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Set<Submission> getAllSubmissions(AssignmentID assignmentID)
+	public Set<Submission> getStudentWork(Student student)
+			throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Set<Submission> getAllSubmissions(Assignment assignment)
 			throws RemoteException {
 		// TODO Auto-generated method stub
 		return null;
