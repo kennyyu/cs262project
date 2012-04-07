@@ -67,4 +67,8 @@ public class MongoSubmissionStorageService implements SubmissionStorageService {
 		return null;
 	}
 
+	public static void main(String[] args) {
+		// TODO : add registry stuff
+	}
+
 }
