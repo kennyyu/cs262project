@@ -6,17 +6,17 @@ import java.sql.Timestamp;
 public interface Submission {
 
 	/**
-	 * @return the student ID for this submission
+	 * @return the student for this submission
 	 */
-	public Student getStudentID();
+	public Student getStudent();
 
 	/**
-	 * @return the assignment ID for this submission
+	 * @return the assignment for this submission
 	 */
-	public Assignment getAssignmentID();
+	public Assignment getAssignment();
 
 	/**
-	 * @return the timestamp ID for this submission
+	 * @return the timestamp for this submission
 	 */
 	public Timestamp getTimeStamp();
 

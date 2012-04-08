@@ -1,6 +1,5 @@
 package edu.harvard.cs262.grading;
 
-import java.rmi.RemoteException;
 import java.util.Map;
 import java.util.Set;
 
@@ -23,8 +22,7 @@ public interface Shard {
 	 * Get the graders for a particular student
 	 * 
 	 * @param submission
-	 * @return
-	 * @throws RemoteException
+	 * @return the set of graders
 	 */
 	public Set<Student> getGraders(Student student);
 

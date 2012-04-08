@@ -36,8 +36,8 @@ public class MongoSubmissionStorageService implements SubmissionStorageService {
 
 		BasicDBObject info = new BasicDBObject();
 
-		info.put("studentID", submission.getStudentID());
-		info.put("assignmentID", submission.getAssignmentID());
+		info.put("studentID", submission.getStudent());
+		info.put("assignmentID", submission.getAssignment());
 		info.put("timestamp", submission.getTimeStamp());
 		info.put("contents", submission.getContents());
 
