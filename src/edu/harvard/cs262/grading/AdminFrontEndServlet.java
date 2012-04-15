@@ -13,7 +13,11 @@ import javax.servlet.http.HttpServlet;
  */
 public class AdminFrontEndServlet extends HttpServlet {
 
-    String registry;    // path to RMI registry
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 01L;
+	String registry;    // path to RMI registry
 
     public void init(ServletConfig config) throws ServletException {
 

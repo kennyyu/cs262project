@@ -21,7 +21,11 @@ import java.rmi.RemoteException;
  */
 public class AdminGetSubmissionsServlet extends AdminFrontEndServlet {
 
-    // operation codes
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 11L;
+	// operation codes
     static final int GET_SUBMISSION = 00;
     static final int GET_ALL_FOR_ASSIGNMENT = 01;
     static final int GET_ALL_FOR_STUDENT = 02;

@@ -20,7 +20,12 @@ import java.rmi.RemoteException;
  */
 public class AdminGetGradesServlet extends AdminFrontEndServlet {
 
-    // operation codes
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 12L;
+
+	// operation codes
     static final int GET_GRADES_FOR_SUBMISSION = 00;
 
     GradeStorageService gradeStorage;
