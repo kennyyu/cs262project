@@ -12,12 +12,12 @@ import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
+
 /**
- * Created with IntelliJ IDEA.
- * User: Administrator
- * Date: 4/15/12
- * Time: 10:03 AM
- * To change this template use File | Settings | File Templates.
+ * Servlet is the middle communication layer between Administrative
+ * front end web app and the SubmissionStorageService. RMI is used to
+ * talk to the server, and http is the is used between this
+ * servlet and the web app.
  */
 public class AdminGetSubmissionsServlet extends AdminFrontEndServlet {
 
