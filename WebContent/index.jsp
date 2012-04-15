@@ -7,6 +7,12 @@
 <title>Administration - Distributed Grading (CS 262 Final Project)</title>
 </head>
 <body>
-
+<div id="wrapper-main">
+<div id="header">
+	<h1>Admin Panel</h1>
+</div>
+<div id="content">
+</div>
+</div>
 </body>
 </html>
