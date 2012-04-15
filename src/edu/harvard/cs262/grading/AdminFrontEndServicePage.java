@@ -12,9 +12,4 @@ import javax.servlet.http.HttpServlet;
 public class AdminFrontEndServicePage
 	extends HttpServlet {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 31L;
-
 }

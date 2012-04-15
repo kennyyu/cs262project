@@ -12,11 +12,7 @@ import javax.servlet.http.HttpServlet;
  * To change this template use File | Settings | File Templates.
  */
 public class AdminFrontEndServlet extends HttpServlet {
-
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 01L;
+	
 	String registry;    // path to RMI registry
 
     public void init(ServletConfig config) throws ServletException {
