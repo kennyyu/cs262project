@@ -30,9 +30,11 @@ public class GradeCompilerServiceServer implements GradeCompilerService {
 	public Grade storeGrade(Student grader, Submission submission, Score score)
 			throws RemoteException {
 		// TODO Auto-generated method stub
-		GradeStorageService gradeStorageService = new GradeStorageServiceImp();
+		GradeStorageService gradeStorageService = new GradeStorageServiceServer();
+		/*
 		gradeStorageService.init();
 		gradeStorageService.submitGrade(grader,submission,score);
+		*/
 		return null;
 	}
 
