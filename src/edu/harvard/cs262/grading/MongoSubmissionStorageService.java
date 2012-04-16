@@ -4,6 +4,9 @@ import java.net.UnknownHostException;
 import java.rmi.RemoteException;
 import java.sql.Blob;
 import java.util.LinkedHashSet;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.Set;
 
 import com.mongodb.DBCursor;
@@ -108,8 +111,20 @@ public class MongoSubmissionStorageService implements SubmissionStorageService {
 		return submissions;
 	}
 
+	// TODO (kennyu): Is this right?  How would we know?
 	public static void main(String[] args) {
-		// TODO : add registry stuff
+		try {
+			MongoSubmissionStorageService obj = new MongoSubmissionStorageService();
+			SubmissionStorageService stub = (SubmissionStorageService) UnicastRemoteObject
+					.exportObject(obj, 0);
+
+			// Bind the remote object's stub in the registry
+			Registry registry = LocateRegistry.getRegistry();
+			registry.bind("SubmissionStorageService", stub);
+		} catch (Exception e) {
+			System.err.println("Server exception: " + e.toString());
+			e.printStackTrace();
+		}
 	}
 
 }
