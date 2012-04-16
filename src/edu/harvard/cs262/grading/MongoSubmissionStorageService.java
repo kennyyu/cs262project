@@ -2,8 +2,15 @@ package edu.harvard.cs262.grading;
 
 import java.net.UnknownHostException;
 import java.rmi.RemoteException;
+import java.sql.Blob;
+import java.util.LinkedHashSet;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.Set;
 
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
 import com.mongodb.Mongo;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -49,26 +56,75 @@ public class MongoSubmissionStorageService implements SubmissionStorageService {
 	@Override
 	public Submission getSubmission(Student student, Assignment assignment)
 			throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+
+		BasicDBObject query = new BasicDBObject();
+		query.put("studentID", student);
+		query.put("assignmentID", assignment);
+		
+		DBObject info = coll.findOne(query);
+		
+		Submission submission = new SubmissionImpl(student, assignment, (Blob) info.get("contents"));
+		
+		return submission;
 	}
 
 	@Override
 	public Set<Submission> getStudentWork(Student student)
 			throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+
+		BasicDBObject query = new BasicDBObject();
+		query.put("studentID", student);
+		
+		DBCursor results = coll.find(query);
+		
+		Set<Submission> submissions = new LinkedHashSet<Submission>();
+		
+		for (DBObject result : results) {
+			Submission submission = new SubmissionImpl(student, 
+					(Assignment) result.get("assignmentID"), 
+					(Blob) result.get("contents"));
+			submissions.add(submission);
+		}
+		
+		return submissions;
 	}
 
 	@Override
 	public Set<Submission> getAllSubmissions(Assignment assignment)
 			throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+
+		BasicDBObject query = new BasicDBObject();
+		query.put("assignmentID", assignment);
+		
+		DBCursor results = coll.find(query);
+		
+		Set<Submission> submissions = new LinkedHashSet<Submission>();
+		
+		for (DBObject result : results) {
+			Submission submission = new SubmissionImpl(
+					(Student) result.get("studentID"), 
+					assignment, 
+					(Blob) result.get("contents"));
+			submissions.add(submission);
+		}
+		
+		return submissions;
 	}
 
+	// TODO (kennyu): Is this right?  How would we know?
 	public static void main(String[] args) {
-		// TODO : add registry stuff
+		try {
+			MongoSubmissionStorageService obj = new MongoSubmissionStorageService();
+			SubmissionStorageService stub = (SubmissionStorageService) UnicastRemoteObject
+					.exportObject(obj, 0);
+
+			// Bind the remote object's stub in the registry
+			Registry registry = LocateRegistry.getRegistry();
+			registry.bind("SubmissionStorageService", stub);
+		} catch (Exception e) {
+			System.err.println("Server exception: " + e.toString());
+			e.printStackTrace();
+		}
 	}
 
 }

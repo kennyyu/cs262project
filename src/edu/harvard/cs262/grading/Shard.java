@@ -14,9 +14,9 @@ public interface Shard {
 	public int shardID();
 
 	/**
-	 * @return a mapping from grader to gradee
+	 * @return a mapping from grader to gradees
 	 */
-	public Map<Student, Student> getShard();
+	public Map<Student, Set<Student>> getShard();
 
 	/**
 	 * Get the graders for a particular student
