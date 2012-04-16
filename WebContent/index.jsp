@@ -14,15 +14,12 @@
 <div id="content">
 <div id="wrapper-form">
 	<form>
-		<select name="opcode" type="hidden">
-			<option>
-			</option>
-		</select>
-		<select>
-			<option>
-			</option>
-		</select>
-		<input type="submit" value="send request" />
+		<div class="form-section">
+			<div class="section-label">What do you want?</div>
+			<select name="what">
+				<option></option>
+			</select>
+		</div>
 	</form>
 </div>
 </div>
