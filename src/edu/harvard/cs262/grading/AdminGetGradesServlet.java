@@ -11,6 +11,8 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.Enumeration;
+import java.util.List;
 
 /**
  * Servlet is the middle communication layer between Administrative
@@ -48,7 +50,23 @@ public class AdminGetGradesServlet extends AdminFrontEndServlet {
 
     public void doPost(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
+    	
+    	// get posted parameters
+    	String rawType = request.getParameter("type");
+    	String rawStudent = request.getParameter("student");
+    	String rawAssignment = request.getParameter("assignment");
+    	
+    	response.setContentType("text/Javascript");
 
+    	if(rawType == "grades") {
+    	} else if (rawType == "submissions") {
+    		
+    	} else {
+    		response.sendError(HttpServletResponse.SC_BAD_REQUEST,
+                    "Unrecognized operation");
+    	}
+    	
+    	/* ObjectStream version
         // use ObjectStream to send objects between web front and servers
         ObjectInputStream in = new ObjectInputStream(request.getInputStream());
         ObjectOutputStream out = new ObjectOutputStream(response.getOutputStream());
@@ -75,7 +93,7 @@ public class AdminGetGradesServlet extends AdminFrontEndServlet {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST,
                     "Invalid arguments for operation.");
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
+        }*/
 
     }
 }

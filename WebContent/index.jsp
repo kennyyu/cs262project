@@ -24,7 +24,7 @@
 				<form>
 					<div class="form-section">
 						<div class="section-label">What do you want?</div>
-						<select name="what">
+						<select name="type">
 							<option selected="selected" value="">choose one</option>
 							<option>grades</option>
 							<option>submissions</option>
@@ -32,9 +32,8 @@
 					</div>
 					<div class="form-section">
 						<div class="section-label">For what/whom?</div>
-						<input class="submissions-param" disabled="disabled" maxlength="32" name="student" type="text" placeholder="type student id here" />
-						<input class="submissions-param" disabled="disabled" maxlength="32" name="assignment" type="text" placeholder="type assignment id here" />
-						<input class="grades-param" disabled="disabled" maxlength="32" name="submission" type="text" placeholder="type submission id here" />
+						<input disabled="disabled" maxlength="32" name="student" type="text" placeholder="type student id here" />
+						<input disabled="disabled" maxlength="32" name="assignment" type="text" placeholder="type assignment id here" />
 					</div>
 					<div class="form-section">
 						<div class="section-label">&nbsp;</div>
