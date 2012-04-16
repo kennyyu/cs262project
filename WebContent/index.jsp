@@ -12,6 +12,19 @@
 	<h1>Admin Panel</h1>
 </div>
 <div id="content">
+<div id="wrapper-form">
+	<form>
+		<select name="opcode" type="hidden">
+			<option>
+			</option>
+		</select>
+		<select>
+			<option>
+			</option>
+		</select>
+		<input type="submit" value="send request" />
+	</form>
+</div>
 </div>
 </div>
 </body>
