@@ -57,14 +57,6 @@ public class AdminGetGradesServlet extends AdminFrontEndServlet {
     	String rawAssignment = request.getParameter("assignment");
     	
     	response.setContentType("text/Javascript");
-
-    	if(rawType == "grades") {
-    	} else if (rawType == "submissions") {
-    		
-    	} else {
-    		response.sendError(HttpServletResponse.SC_BAD_REQUEST,
-                    "Unrecognized operation");
-    	}
     	
     	/* ObjectStream version
         // use ObjectStream to send objects between web front and servers

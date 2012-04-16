@@ -56,6 +56,14 @@ public class AdminGetSubmissionsServlet extends AdminFrontEndServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+    	// get posted parameters
+    	String rawType = request.getParameter("type");
+    	String rawStudent = request.getParameter("student");
+    	String rawAssignment = request.getParameter("assignment");
+    	
+    	response.setContentType("text/Javascript");
+    	
+    	/* ObjectStream version
         // use ObjectStream to send objects between web front and servers
         ObjectInputStream in = new ObjectInputStream(request.getInputStream());
         ObjectOutputStream out = new ObjectOutputStream(response.getOutputStream());
@@ -107,7 +115,7 @@ public class AdminGetSubmissionsServlet extends AdminFrontEndServlet {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST,
                     "Invalid arguments for operation.");
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
+        }*/
 
     }
 }
