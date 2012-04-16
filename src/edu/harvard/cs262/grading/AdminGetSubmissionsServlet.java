@@ -47,7 +47,7 @@ public class AdminGetSubmissionsServlet extends AdminFrontEndServlet {
             System.err.println("AdminGetSubmissionsServlet: Malformed URL.");
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         } catch (NotBoundException e) {
-            System.err.println("AdminGetSubmissionsServlet: Could not find GradeStorageService in registry.");
+            System.err.println("AdminGetSubmissionsServlet: Could not find SubmissionStorageService in registry.");
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
 
@@ -57,7 +57,6 @@ public class AdminGetSubmissionsServlet extends AdminFrontEndServlet {
             throws ServletException, IOException {
 
     	// get posted parameters
-    	String rawType = request.getParameter("type");
     	String rawStudent = request.getParameter("student");
     	String rawAssignment = request.getParameter("assignment");
     	

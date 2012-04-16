@@ -4,3 +4,7 @@ body{background-color:#000;color:#fff;font-size:14pt;}
 input[type="text"],select{display:block;background-color:#000;color:#fff;}
 input[type="text"]{width:32em;}
 input[disabled="disabled"]{background-color:#ddd;}
+div.form-section{
+	display:inline-block;
+	vertical-align:text-top; 
+}

@@ -32,8 +32,8 @@
 					</div>
 					<div class="form-section">
 						<div class="section-label">For what/whom?</div>
-						<input disabled="disabled" maxlength="32" name="student" type="text" placeholder="type student id here" />
-						<input disabled="disabled" maxlength="32" name="assignment" type="text" placeholder="type assignment id here" />
+						<input maxlength="32" name="student" type="text" placeholder="type student id here" />
+						<input maxlength="32" name="assignment" type="text" placeholder="type assignment id here" />
 					</div>
 					<div class="form-section">
 						<div class="section-label">&nbsp;</div>
