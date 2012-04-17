@@ -1,20 +1,17 @@
 package edu.harvard.cs262.grading;
 
+import java.io.IOException;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.util.List;
+import java.util.ListIterator;
+
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
-import java.net.MalformedURLException;
-import java.rmi.Naming;
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
-import java.util.Enumeration;
-import java.util.List;
-import java.util.ListIterator;
 
 /**
  * Servlet is the middle communication layer between Administrative
@@ -34,13 +31,11 @@ public class AdminGetGradesServlet extends AdminFrontEndServlet {
 
         try {
             // get reference to database service
-            String name = registry + "/GradeStorageService";
-            gradeStorage = (GradeStorageService) Naming.lookup(name);
+            // get reference to database service
+        	Registry registry = LocateRegistry.getRegistry("127.0.0.1");
+        	gradeStorage = (GradeStorageService) registry.lookup("GradeStorageService");
         } catch (RemoteException e) {
             System.err.println("AdminGetGradesServlet: Could not contact registry.");
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (MalformedURLException e) {
-            System.err.println("AdminGetGradesServlet: Malformed URL.");
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         } catch (NotBoundException e) {
             System.err.println("AdminGetGradesServlet: Could not find GradeStorageService in registry.");
@@ -49,13 +44,10 @@ public class AdminGetGradesServlet extends AdminFrontEndServlet {
 
         try {
             // get reference to database service
-            String name = registry + "/SubmissionStorageService";
-            submissionStorage = (SubmissionStorageService) Naming.lookup(name);
+        	Registry registry = LocateRegistry.getRegistry("127.0.0.1");
+        	submissionStorage = (SubmissionStorageService) registry.lookup("SubmissionStorageService");
         } catch (RemoteException e) {
             System.err.println("AdminGetSubmissionsServlet: Could not contact registry.");
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (MalformedURLException e) {
-            System.err.println("AdminGetSubmissionsServlet: Malformed URL.");
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         } catch (NotBoundException e) {
             System.err.println("AdminGetSubmissionsServlet: Could not find SubmissionStorageService in registry.");
