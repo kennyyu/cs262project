@@ -96,6 +96,25 @@ public class AdminGetGradesServlet extends AdminFrontEndServlet {
 	    	// get grade
 	    	grades = gradeStorage.getGrade(submissionStorage.getSubmission(student, assignment));
 	    	
+	    	StringBuilder responseBuilder = new StringBuilder();
+	    	responseBuilder.append("{grades:[");
+	    	if(grades != null) {
+	    		ListIterator<Grade> gradeIter = grades.listIterator();
+	    		while(gradeIter.hasNext()) {
+	    			Grade grade = gradeIter.next();
+	    			responseBuilder.append("{grader:");
+	    			responseBuilder.append(grade.getGrader().studentID());
+	    			responseBuilder.append(",score:");
+	    			responseBuilder.append(grade.getScore().getScore()+"/"+grade.getScore().maxScore());
+	    			responseBuilder.append("}");
+	    		}
+	    	}
+	    	responseBuilder.append("]}");
+
+	    	response.setContentType("text/Javascript");
+	    	response.setCharacterEncoding("UTF-8");
+	    	response.getWriter().write(responseBuilder.toString());
+	    	
     	} catch (NumberFormatException e){
             response.sendError(HttpServletResponse.SC_BAD_REQUEST,
                     "invalid values given");
@@ -104,25 +123,6 @@ public class AdminGetGradesServlet extends AdminFrontEndServlet {
     				"grade retrieval failed");
     		e.printStackTrace();
     	}
-    	
-    	StringBuilder responseBuilder = new StringBuilder();
-    	responseBuilder.append("{grades:[");
-    	if(grades != null) {
-    		ListIterator<Grade> gradeIter = grades.listIterator();
-    		while(gradeIter.hasNext()) {
-    			Grade grade = gradeIter.next();
-    			responseBuilder.append("{grader:");
-    			responseBuilder.append(grade.getGrader().studentID());
-    			responseBuilder.append(",score:");
-    			responseBuilder.append(grade.getScore().getScore()+"/"+grade.getScore().maxScore());
-    			responseBuilder.append("}");
-    		}
-    	}
-    	responseBuilder.append("]}");
-
-    	response.setContentType("text/Javascript");
-    	response.setCharacterEncoding("UTF-8");
-    	response.getWriter().write(responseBuilder.toString());
     	
     	/* ObjectStream version
         // use ObjectStream to send objects between web front and servers

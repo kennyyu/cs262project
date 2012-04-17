@@ -11,6 +11,10 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Set;
 
 
 /**
@@ -31,10 +35,8 @@ public class AdminGetSubmissionsServlet extends AdminFrontEndServlet {
     static final int GET_ALL_FOR_STUDENT = 02;
 
     SubmissionStorageService submissionStorage;
-
-    public void init(ServletConfig config) throws ServletException {
-
-        super.init(config);
+    
+    public void lookupServices() {
 
         try {
             // get reference to database service
@@ -50,6 +52,14 @@ public class AdminGetSubmissionsServlet extends AdminFrontEndServlet {
             System.err.println("AdminGetSubmissionsServlet: Could not find SubmissionStorageService in registry.");
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
+    	
+    }
+
+    public void init(ServletConfig config) throws ServletException {
+
+        super.init(config);
+        
+        lookupServices();
 
     }
 
@@ -60,7 +70,132 @@ public class AdminGetSubmissionsServlet extends AdminFrontEndServlet {
     	String rawStudent = request.getParameter("student");
     	String rawAssignment = request.getParameter("assignment");
     	
-    	response.setContentType("text/Javascript");
+    	// build response
+    	StringBuilder responseBuilder = new StringBuilder();
+    	
+    	// attempt to get submission for corresponding parameters
+    	if(rawStudent != null && rawAssignment != null) {
+        	
+    		Submission submission = null;
+    		
+        	// try to convert parameters into usable format
+        	try{
+    	    	Integer studentID = Integer.parseInt(rawStudent);
+    	    	Integer assignmentID = Integer.parseInt(rawAssignment);
+    	    	Student student = new StudentImpl(studentID);
+    	    	Assignment assignment = new AssignmentImpl(assignmentID);
+    	    	
+    	    	// get submission
+    	    	submission = submissionStorage.getSubmission(student, assignment);
+    	    	
+        	} catch (NumberFormatException e){
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST,
+                        "invalid values given");
+        	} catch (NullPointerException e) {
+        		response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+        				"submission retrieval failed");
+        		e.printStackTrace();
+        	}
+        	
+        	responseBuilder.append("{submissions:[");
+        	if(submission != null) {
+    			responseBuilder.append("{student:");
+    			responseBuilder.append(submission.getStudent().studentID());
+    			responseBuilder.append(",contents:");
+    			responseBuilder.append(submission.getContents().toString());
+    			responseBuilder.append("}");
+        	}
+        	responseBuilder.append("]}");
+
+        	response.setContentType("text/Javascript");
+        	response.setCharacterEncoding("UTF-8");
+        	response.getWriter().write(responseBuilder.toString());
+    		
+    	}
+    	else if(rawAssignment != null) {
+        	
+    		Set<Submission> submissions = null;
+    		
+        	// try to convert parameters into usable format
+        	try{
+    	    	Integer assignmentID = Integer.parseInt(rawAssignment);
+    	    	Assignment assignment = new AssignmentImpl(assignmentID);
+    	    	
+    	    	// get submission
+    	    	submissions = submissionStorage.getAllSubmissions(assignment);
+    	    	
+        	} catch (NumberFormatException e){
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST,
+                        "invalid values given");
+        	} catch (NullPointerException e) {
+        		response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+        				"submission retrieval failed");
+        		e.printStackTrace();
+        	}
+        	
+        	responseBuilder.append("{submissions:[");
+        	if(submissions != null) {
+        		Iterator<Submission> submissionIter = submissions.iterator();
+        		while(submissionIter.hasNext()) {
+        			Submission submission = submissionIter.next();
+        			responseBuilder.append("{student:");
+        			responseBuilder.append(submission.getStudent().studentID());
+        			responseBuilder.append(",contents:");
+        			responseBuilder.append(submission.getContents());
+        			responseBuilder.append("}");
+        		}
+        	}
+        	responseBuilder.append("]}");
+
+        	response.setContentType("text/Javascript");
+        	response.setCharacterEncoding("UTF-8");
+        	response.getWriter().write(responseBuilder.toString());
+        	
+    	}
+    	else if (rawStudent != null) {
+        	
+    		Set<Submission> submissions = null;
+    		
+        	// try to convert parameters into usable format
+        	try{
+    	    	Integer studentID = Integer.parseInt(rawStudent);
+    	    	Student student = new StudentImpl(studentID);
+    	    	
+    	    	// get submission
+    	    	submissions = submissionStorage.getStudentWork(student);
+    	    	
+        	} catch (NumberFormatException e){
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST,
+                        "invalid values given");
+        	} catch (NullPointerException e) {
+        		response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+        				"submission retrieval failed");
+        		e.printStackTrace();
+        	}
+        	
+        	responseBuilder.append("{submissions:[");
+        	if(submissions != null) {
+        		Iterator<Submission> submissionIter = submissions.iterator();
+        		while(submissionIter.hasNext()) {
+        			Submission submission = submissionIter.next();
+        			responseBuilder.append("{student:");
+        			responseBuilder.append(submission.getStudent().studentID());
+        			responseBuilder.append(",contents:");
+        			responseBuilder.append(submission.getContents());
+        			responseBuilder.append("}");
+        		}
+        	}
+        	responseBuilder.append("]}");
+
+        	response.setContentType("text/Javascript");
+        	response.setCharacterEncoding("UTF-8");
+        	response.getWriter().write(responseBuilder.toString());
+    		
+    	}
+    	else {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST,
+                    "parameter(s) not set");
+    	}
     	
     	/* ObjectStream version
         // use ObjectStream to send objects between web front and servers
