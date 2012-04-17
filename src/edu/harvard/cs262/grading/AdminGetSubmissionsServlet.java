@@ -38,8 +38,9 @@ public class AdminGetSubmissionsServlet extends AdminFrontEndServlet {
 
         try {
             // get reference to database service
-        	Registry registry = LocateRegistry.getRegistry("127.0.0.1");
+        	Registry registry = LocateRegistry.getRegistry();
         	submissionStorage = (SubmissionStorageService) registry.lookup("SubmissionStorageService");
+        	System.err.println("Successfully located submission storage service.");
         } catch (RemoteException e) {
             System.err.println("AdminGetSubmissionsServlet: Could not contact registry.");
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.

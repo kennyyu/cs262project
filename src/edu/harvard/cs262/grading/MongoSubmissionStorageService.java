@@ -121,6 +121,9 @@ public class MongoSubmissionStorageService implements SubmissionStorageService {
 			// Bind the remote object's stub in the registry
 			Registry registry = LocateRegistry.getRegistry();
 			registry.bind("SubmissionStorageService", stub);
+			
+			System.err.println("MongoSubmissionStorageService running");
+			
 		} catch (Exception e) {
 			System.err.println("Server exception: " + e.toString());
 			e.printStackTrace();

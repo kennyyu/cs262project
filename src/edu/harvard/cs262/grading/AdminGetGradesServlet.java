@@ -32,7 +32,7 @@ public class AdminGetGradesServlet extends AdminFrontEndServlet {
         try {
             // get reference to database service
             // get reference to database service
-        	Registry registry = LocateRegistry.getRegistry("127.0.0.1");
+        	Registry registry = LocateRegistry.getRegistry();
         	gradeStorage = (GradeStorageService) registry.lookup("GradeStorageService");
         } catch (RemoteException e) {
             System.err.println("AdminGetGradesServlet: Could not contact registry.");
@@ -44,7 +44,7 @@ public class AdminGetGradesServlet extends AdminFrontEndServlet {
 
         try {
             // get reference to database service
-        	Registry registry = LocateRegistry.getRegistry("127.0.0.1");
+        	Registry registry = LocateRegistry.getRegistry();
         	submissionStorage = (SubmissionStorageService) registry.lookup("SubmissionStorageService");
         } catch (RemoteException e) {
             System.err.println("AdminGetSubmissionsServlet: Could not contact registry.");
@@ -76,44 +76,46 @@ public class AdminGetGradesServlet extends AdminFrontEndServlet {
     	if(rawStudent == null || rawAssignment == null) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST,
                     "parameters not set");
-    	}
+    	} else {
     	
-    	// try to convert parameters into usable format
-    	try{
-	    	Integer studentID = Integer.parseInt(rawStudent);
-	    	Integer assignmentID = Integer.parseInt(rawAssignment);
-	    	Student student = new StudentImpl(studentID);
-	    	Assignment assignment = new AssignmentImpl(assignmentID);
-	    	
-	    	// get grade
-	    	grades = gradeStorage.getGrade(submissionStorage.getSubmission(student, assignment));
-	    	
-	    	StringBuilder responseBuilder = new StringBuilder();
-	    	responseBuilder.append("{grades:[");
-	    	if(grades != null) {
-	    		ListIterator<Grade> gradeIter = grades.listIterator();
-	    		while(gradeIter.hasNext()) {
-	    			Grade grade = gradeIter.next();
-	    			responseBuilder.append("{grader:");
-	    			responseBuilder.append(grade.getGrader().studentID());
-	    			responseBuilder.append(",score:");
-	    			responseBuilder.append(grade.getScore().getScore()+"/"+grade.getScore().maxScore());
-	    			responseBuilder.append("}");
-	    		}
+	    	// try to convert parameters into usable format
+	    	try{
+		    	Integer studentID = Integer.parseInt(rawStudent);
+		    	Integer assignmentID = Integer.parseInt(rawAssignment);
+		    	Student student = new StudentImpl(studentID);
+		    	Assignment assignment = new AssignmentImpl(assignmentID);
+		    	
+		    	// get grade
+		    	grades = gradeStorage.getGrade(submissionStorage.getSubmission(student, assignment));
+		    	
+		    	StringBuilder responseBuilder = new StringBuilder();
+		    	responseBuilder.append("{grades:[");
+		    	if(grades != null) {
+		    		ListIterator<Grade> gradeIter = grades.listIterator();
+		    		while(gradeIter.hasNext()) {
+		    			Grade grade = gradeIter.next();
+		    			responseBuilder.append("{grader:");
+		    			responseBuilder.append(grade.getGrader().studentID());
+		    			responseBuilder.append(",score:");
+		    			responseBuilder.append(grade.getScore().getScore()+"/"+grade.getScore().maxScore());
+		    			responseBuilder.append("}");
+		    		}
+		    	}
+		    	responseBuilder.append("]}");
+	
+		    	response.setContentType("text/Javascript");
+		    	response.setCharacterEncoding("UTF-8");
+		    	response.getWriter().write(responseBuilder.toString());
+		    	
+	    	} catch (NumberFormatException e){
+	            response.sendError(HttpServletResponse.SC_BAD_REQUEST,
+	                    "invalid values given");
+	    	} catch (NullPointerException e) {
+	    		response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+	    				"grade retrieval failed");
+	    		e.printStackTrace();
 	    	}
-	    	responseBuilder.append("]}");
-
-	    	response.setContentType("text/Javascript");
-	    	response.setCharacterEncoding("UTF-8");
-	    	response.getWriter().write(responseBuilder.toString());
 	    	
-    	} catch (NumberFormatException e){
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST,
-                    "invalid values given");
-    	} catch (NullPointerException e) {
-    		response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-    				"grade retrieval failed");
-    		e.printStackTrace();
     	}
     	
     	/* ObjectStream version

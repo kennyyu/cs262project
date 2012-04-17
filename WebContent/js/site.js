@@ -49,10 +49,11 @@ $(document).ready(function() {
 		var request = {
 				type:"post",
 				data: {},
-				dataType:"json",
 				success: function(data) {
-					$("#results-content").append($("<div class='request-result'>").append(data));
-				}
+					console.log(data);
+					//$("#results-content").append($("<div class='request-result'>").append(data));
+				},
+				error: function(e,jqXHR,ajaxSettings,exception){console.log(e.responseText);}
 		};
 		
 		// check grades request
@@ -76,7 +77,7 @@ $(document).ready(function() {
 				isValidRequest = true;
 			}
 			if(isValidRequest)
-				$.ajax(data);
+				$.ajax(request);
 		}
 		
 		return false;
