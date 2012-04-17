@@ -5,15 +5,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.MalformedURLException;
-import java.rmi.Naming;
+/*import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;*/
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
 import java.util.Set;
 
 
@@ -40,13 +38,10 @@ public class AdminGetSubmissionsServlet extends AdminFrontEndServlet {
 
         try {
             // get reference to database service
-            String name = registry + "/SubmissionStorageService";
-            submissionStorage = (SubmissionStorageService) Naming.lookup(name);
+        	Registry registry = LocateRegistry.getRegistry("127.0.0.1");
+        	submissionStorage = (SubmissionStorageService) registry.lookup("SubmissionStorageService");
         } catch (RemoteException e) {
             System.err.println("AdminGetSubmissionsServlet: Could not contact registry.");
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (MalformedURLException e) {
-            System.err.println("AdminGetSubmissionsServlet: Malformed URL.");
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         } catch (NotBoundException e) {
             System.err.println("AdminGetSubmissionsServlet: Could not find SubmissionStorageService in registry.");
