@@ -6,15 +6,10 @@ import java.util.Map;
 import java.util.Set;
 
 public class ShardImpl implements Shard {
-	
+
 	private int shardID;
-	static int counter = 0;
 	
 	private Map<Student, Set<Student>> sharding;
-	
-	public ShardImpl() {
-		new ShardImpl(counter++);
-	}
 	
 	public ShardImpl(int shardID) {
 		this.shardID = shardID;

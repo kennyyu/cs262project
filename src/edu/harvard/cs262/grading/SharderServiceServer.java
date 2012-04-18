@@ -1,14 +1,24 @@
 package edu.harvard.cs262.grading;
 
+import java.net.UnknownHostException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.sql.Blob;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
+
+import com.mongodb.BasicDBObject;
+import com.mongodb.DB;
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
+import com.mongodb.Mongo;
+import com.mongodb.MongoException;
 
 public class SharderServiceServer implements SharderService {
 
@@ -16,11 +26,71 @@ public class SharderServiceServer implements SharderService {
 	
 	static int GRADERS_PER_SUBMISSION = 2;
 	
-	Map<Integer, Shard> shards;
+	private Mongo m;
+	private DB db;
+	private DBCollection coll;
+
+	public void init() throws UnknownHostException, MongoException {
+		m = new Mongo();
+		db = m.getDB("mydb");
+		coll = db.getCollection("testCollection");
+	}
 	
+	private int getNextShardID() {
+		BasicDBObject query = new BasicDBObject();
+		
+		DBCursor results = coll.find(query);
+
+		int nextID = 0;
+		for (DBObject result : results) {
+			if (((Integer) result.get("id")) > nextID) nextID = (Integer) result.get("id");
+		}
+		
+		return nextID + 1;
+	}
+	
+	private Shard readShard(int ShardID) {
+		BasicDBObject query = new BasicDBObject();
+		query.put("id", ShardID);
+		
+		ShardImpl shard = new ShardImpl(ShardID);
+		
+		DBCursor results = coll.find(query);
+
+		for (DBObject result : results) {
+			shard.addGrader((Student)result.get("grader"), (Student)result.get("gradee"));
+		}
+		
+		return shard;
+	}
+	
+	private void writeShard(Shard shard) {
+		Map<Student, Set<Student>> sharding = shard.getShard();
+
+		BasicDBObject doc = new BasicDBObject();
+
+		doc.put("name", "MongoDB");
+		doc.put("type", "database");
+		doc.put("count", 1);
+		
+		for (Student grader : sharding.keySet()) {
+			for (Student gradee : sharding.get(grader)) {
+
+				BasicDBObject info = new BasicDBObject();
+	
+				info.put("id", shard.shardID());
+				info.put("grader", grader);
+				info.put("gradee", gradee);
+	
+				doc.put("info", info);
+	
+				coll.insert(doc);
+			}	
+		}
+	}
 	
 	public Shard assign(Set<Student> students, Set<Submission> submissions) throws RemoteException {
-		ShardImpl shard = new ShardImpl();
+		ShardImpl shard = new ShardImpl(getNextShardID());
 
 		Random rand = new Random();
 		Map<Student, Integer> canStillGrade = new LinkedHashMap<Student, Integer>();
@@ -45,6 +115,7 @@ public class SharderServiceServer implements SharderService {
 				}				
 			}
 		}
+
 		return shard;
 	}
 	@Override
@@ -62,21 +133,14 @@ public class SharderServiceServer implements SharderService {
 		//Randomly assign graders. We could be smarter.
 		Shard shard = assign(students, submissions);
 		
-		shards.put(shard.shardID(), shard);
+		writeShard(shard);
 		return shard;
 		
 	}
 
 	@Override
 	public Shard getShard(int shardID) throws RemoteException {
-		return shards.get(shardID);
-	}
-
-	@Override
-	public void init() throws Exception {
-		//TODO: Find a submission storage server
-		
-		shards = new LinkedHashMap<Integer, Shard>();
+		return readShard(shardID);
 	}
 	
 	public static void main(String[] args) {
