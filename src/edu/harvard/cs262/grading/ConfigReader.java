@@ -1,5 +1,4 @@
 package edu.harvard.cs262.grading;
 
-public class ConfigReader {
-
+public interface ConfigReader {
 }
