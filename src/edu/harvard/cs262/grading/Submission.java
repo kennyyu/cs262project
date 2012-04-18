@@ -1,9 +1,10 @@
 package edu.harvard.cs262.grading;
 
+import java.io.Serializable;
 import java.sql.Blob;
 import java.sql.Timestamp;
 
-public interface Submission {
+public interface Submission extends Serializable {
 
 	/**
 	 * @return the student for this submission

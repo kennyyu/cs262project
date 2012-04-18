@@ -2,6 +2,11 @@ package edu.harvard.cs262.grading;
 
 public class AssignmentImpl implements Assignment {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private int assignmentID;
 	
 	static int counter = 0;
