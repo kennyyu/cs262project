@@ -6,6 +6,10 @@ import java.util.Date;
 
 public class SubmissionImpl implements Submission {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private final Student student;
 	private final Assignment assignment;
 	private final Blob contents;
