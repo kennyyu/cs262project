@@ -14,7 +14,7 @@ import edu.harvard.cs262.grading.Submission;
 
 public class GradeCompilerServiceServer implements GradeCompilerService {
 
-	private GradeCompilerService server;
+	private GradeStorageService server;
 	
 	public GradeCompilerServiceServer(){
 		server = null;

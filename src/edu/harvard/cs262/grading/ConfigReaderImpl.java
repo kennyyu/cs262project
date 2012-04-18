@@ -1,5 +1,5 @@
 package edu.harvard.cs262.grading;
 
-public class ConfigReaderImpl {
+public class ConfigReaderImpl implements ConfigReader {
 
 }
