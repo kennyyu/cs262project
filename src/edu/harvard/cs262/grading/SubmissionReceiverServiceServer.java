@@ -11,26 +11,27 @@ public class SubmissionReceiverServiceServer implements
 		SubmissionReceiverService {
 
 	private ConfigReader config;
-	private final static int NUM_LOOKUP_RETRIES = 1;
-	private final static int TIME_TO_SLEEP = 0;
-	private SubmissionStorageService server;
+	//private final static int NUM_LOOKUP_RETRIES = 1;
+	//private final static int TIME_TO_SLEEP = 0;
+	//private SubmissionStorageService server;
 
 	public SubmissionReceiverServiceServer() {
 		config = new ConfigReaderImpl();
-		server = null;
+		//server = null;
 	}
 
 	/**
 	 * Start the service.
 	 */
 	public void init() throws Exception {
-		lookupService();
+		//lookupService();
 	}
 
 	/**
 	 * Attempts to find the SubmissionStorageService, and dies after
 	 * NUM_LOOKUP_RETRIES.
 	 */
+	/*
 	private void lookupService() throws RemoteException {
 		List<String> registryNames = config.getService("SubmissionStorageService");
 		if (registryNames.size() == 0) {
@@ -64,7 +65,7 @@ public class SubmissionReceiverServiceServer implements
 				}
 			}
 		}
-	}
+	} */
 
 	@Override
 	public Submission submit(Student student, Assignment assignment,
@@ -108,8 +109,8 @@ public class SubmissionReceiverServiceServer implements
 
 			// Bind the remote object's stub in the registry
 			Registry registry = LocateRegistry.getRegistry();
-			//obj.init();
-			//System.out.println("finished init!");
+			obj.init();
+
 			registry.bind("SubmissionReceiverService", stub);
 			
 			System.out.println("SubmissionReceiverService running");
