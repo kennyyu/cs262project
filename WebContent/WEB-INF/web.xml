@@ -39,11 +39,19 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>AdminGenerateShardServlet</servlet-name>
-    <url-pattern>/admingenerateshard</url-pattern>
+    <url-pattern>/adminshardassignment</url-pattern>
   </servlet-mapping>
   <servlet>
     <servlet-name>AdminReviewShardServlet</servlet-name>
     <servlet-class>edu.harvard.cs262.grading.AdminReviewShardServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AdminAddAssignmentServlet</servlet-name>
+    <url-pattern>/adminshardassignment</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>AdminAddAssignmentServlet</servlet-name>
+    <servlet-class>edu.harvard.cs262.grading.AddAssignmentServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>AdminReviewShardServlet</servlet-name>
