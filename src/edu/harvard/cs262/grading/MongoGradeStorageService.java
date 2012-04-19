@@ -26,7 +26,7 @@ public class MongoGradeStorageService implements GradeStorageService {
 	public void init() throws UnknownHostException, MongoException {
 		m = new Mongo();
 		db = m.getDB("mydb");
-		coll = db.getCollection("testCollection"); //change collection name?
+		coll = db.getCollection("grades"); //change collection name?
 	}
 	
 	@Override
