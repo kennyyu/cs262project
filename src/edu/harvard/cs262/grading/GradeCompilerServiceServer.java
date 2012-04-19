@@ -1,5 +1,10 @@
 package edu.harvard.cs262.grading;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -14,10 +19,10 @@ import edu.harvard.cs262.grading.Submission;
 
 public class GradeCompilerServiceServer implements GradeCompilerService {
 
-	private GradeStorageService server;
+	private ConfigReader config;
 	
-	public GradeCompilerServiceServer(){
-		server = null;
+	public GradeCompilerServiceServer() {
+		config = new ConfigReaderImpl();
 	}
 	
 	@Override
@@ -29,13 +34,25 @@ public class GradeCompilerServiceServer implements GradeCompilerService {
 	@Override
 	public Grade storeGrade(Student grader, Submission submission, Score score)
 			throws RemoteException {
-		// TODO Auto-generated method stub
-		GradeStorageService gradeStorageService = new GradeStorageServiceServer();
-		/*
-		gradeStorageService.init();
-		gradeStorageService.submitGrade(grader,submission,score);
-		*/
-		return null;
+		Grade grade = new GradeImpl(score, grader);
+		List<String> registryNames = config.getService("GradeStorageService");
+		for (int j = 0; j < registryNames.size(); j++) {
+			try {
+				Registry registry = LocateRegistry.getRegistry(registryNames.get(j));
+				GradeStorageService storage = (GradeStorageService) registry.lookup("GradeStorageService");
+				storage.submitGrade(submission, grade);
+				return grade;
+			} catch (RemoteException e) {
+				if (j + 1 == registryNames.size())
+					throw e;
+			} catch (NotBoundException e) {
+				if (j + 1 == registryNames.size()) {
+					System.err.println("Looking up GradeStorageService failed");
+					System.exit(-1);
+				}
+			}
+		}
+		return grade;
 	}
 
 	@Override
@@ -48,8 +65,46 @@ public class GradeCompilerServiceServer implements GradeCompilerService {
 	@Override
 	public Map<Submission, List<Grade>> getCompiledGrades(Assignment assignment)
 			throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+		// get the list of submissions for this assignment
+		Set<Submission> submissions = new HashSet<Submission>();
+		List<String> submissionStorageServiceNames = config.getService("SubmissionStorageService");
+		for (int j = 0; j < submissionStorageServiceNames.size(); j++) {
+			try {
+				Registry registry = LocateRegistry.getRegistry(submissionStorageServiceNames.get(j));
+				SubmissionStorageService storage = (SubmissionStorageService) registry.lookup("SubmissionStorageService");
+				submissions = storage.getAllSubmissions(assignment);
+			} catch (RemoteException e) {
+				if (j + 1 == submissionStorageServiceNames.size())
+					throw e;
+			} catch (NotBoundException e) {
+				if (j + 1 == submissionStorageServiceNames.size()) {
+					System.err.println("Looking up SubmissionStorageService failed");
+					System.exit(-1);
+				}
+			}
+		}
+		
+		// for each submission, retrieve the list of grades for that submission
+		Map<Submission, List<Grade>> grades = new HashMap<Submission, List<Grade>>();
+		List<String> gradeStorageServiceNames = config.getService("GradeStorageService");
+		for (int j = 0; j < gradeStorageServiceNames.size(); j++) {
+			try {
+				Registry registry = LocateRegistry.getRegistry(gradeStorageServiceNames.get(j));
+				GradeStorageService storage = (GradeStorageService) registry.lookup("GradeStorageService");
+				for (Submission s : submissions)
+					grades.put(s, storage.getGrade(s));
+				return grades;
+			} catch (RemoteException e) {
+				if (j + 1 == gradeStorageServiceNames.size())
+					throw e;
+			} catch (NotBoundException e) {
+				if (j + 1 == gradeStorageServiceNames.size()) {
+					System.err.println("Looking up GradeStorageService failed");
+					System.exit(-1);
+				}
+			}
+		}
+		return grades;
 	}
 
 }

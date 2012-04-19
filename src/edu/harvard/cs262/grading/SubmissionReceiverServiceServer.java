@@ -25,14 +25,14 @@ public class SubmissionReceiverServiceServer implements
 	 * Start the service.
 	 */
 	public void init() throws Exception {
-		lookupStorageService();
+		lookupService();
 	}
 
 	/**
 	 * Attempts to find the SubmissionStorageService, and dies after
 	 * NUM_LOOKUP_RETRIES.
 	 */
-	private void lookupStorageService() throws RemoteException {
+	private void lookupService() throws RemoteException {
 		List<String> registryNames = config.getService("SubmissionStorageService");
 		if (registryNames.size() == 0) {
 			System.err.println("No bindings for SubmissionStorageService");
@@ -76,7 +76,7 @@ public class SubmissionReceiverServiceServer implements
 			server.storeSubmission(submission);
 			return submission;
 		} catch (RemoteException e) {
-			lookupStorageService(); // retry looking up the service
+			lookupService(); // retry looking up the service
 			server.storeSubmission(submission);
 			return submission;
 		}

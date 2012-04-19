@@ -19,16 +19,14 @@ public interface GradeStorageService extends Remote {
 	/**
 	 * Submit a score for grading
 	 * 
-	 * @param grader
-	 *            the person grading this assignment
+	 * @param grade
+	 * 			the grade for this assignment
 	 * @param submission
 	 *            the submission being graded
-	 * @param score
-	 *            the score for the submission
 	 * @param return the Grade object
 	 * @throws RemoteException
 	 */
-	public void submitGrade(Student grader, Submission submission, Score score)
+	public void submitGrade(Submission submission, Grade grade)
 			throws RemoteException;
 
 	/**
