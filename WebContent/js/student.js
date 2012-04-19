@@ -88,12 +88,12 @@ $(document).ready(function(){
 						.hide().fadeIn(2000));
 			}
 			
-		} else if(type == "grade") {
+		} else if(type == "graded") {
 			
 			if(!isNaN(student) && !isNaN(assignment) && !isNaN(score)) {
 
 				request.url = "./studentsubmitgrade";
-				request.data.id = student;
+				request.data.student = student;
 				request.data.assignment = assignment;
 				request.data.uid = uid;
 				request.data.score = score;
