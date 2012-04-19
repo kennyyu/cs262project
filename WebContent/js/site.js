@@ -9,15 +9,15 @@ $(document).ready(function() {
 	 */
 	// enabled/disable appropriate input fields depending
 	// upon selection
-	$("#review-student-work select").change(function(){
+	$("#tab-review-student-work select").change(function(){
 		if(this.options[0].selected)
-			$("#review-student-work form input[type='text']").attr("disabled","disabled");
+			$("#tab-review-student-work form input[type='text']").attr("disabled","disabled");
 		else
-			$("#review-student-work form input[type='text']").removeAttr("disabled");
+			$("#tab-review-student-work form input[type='text']").removeAttr("disabled");
 	});
 	
 	// enable submit button only when necessary fields have been filled
-	$("#review-student-work form").change(function(){
+	$("#tab-review-student-work form").change(function(){
 		
 		var fields_to_fill = $("input[type='text']:enabled");
 		var fields_to_fill_count = fields_to_fill.size();
@@ -37,7 +37,7 @@ $(document).ready(function() {
 	
 	// handle form submission
 	// validate inputs and then send AJAX request
-	$("#review-student-work form").submit(function(){
+	$("#tab-review-student-work form").submit(function(){
 		
 		// retrieve and sanitize input values
 		var student = parseInt($.trim(this.elements["student"].value));
