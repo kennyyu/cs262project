@@ -94,7 +94,7 @@ public class StudentGetGradesServlet extends AdminFrontEndServlet{
 		    	Set<List<Grade>> allGradeLists = new HashSet<List<Grade>>();
 		    	
 		    	for(Assignment assignment : allAssignments){
-		    		allGradeLists.add(gradeStorage.getGrade(submissionStorage.getSubmission(student, assignment)));
+		    		allGradeLists.add(gradeStorage.getGrade(submissionStorage.getLatestSubmission(student, assignment)));
 		    	}
 		    	
 		    	for(List<Grade> grades : allGradeLists){
