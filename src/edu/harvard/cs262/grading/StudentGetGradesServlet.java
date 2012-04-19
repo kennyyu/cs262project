@@ -22,7 +22,11 @@ import java.util.*;
 
 public class StudentGetGradesServlet extends AdminFrontEndServlet{
 
-    GradeStorageService gradeStorage;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8258290257175670745L;
+	GradeStorageService gradeStorage;
     SubmissionStorageService submissionStorage;
     
     public void lookupServices() {
