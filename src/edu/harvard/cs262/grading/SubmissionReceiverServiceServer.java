@@ -90,6 +90,8 @@ public class SubmissionReceiverServiceServer implements
 			// Bind the remote object's stub in the registry
 			Registry registry = LocateRegistry.getRegistry();
 			registry.bind("SubmissionReceiverService", stub);
+			
+			System.out.println("SubmissionReceiverService running");
 			obj.init();
 		} catch (Exception e) {
 			System.err.println("Server exception: " + e.toString());
