@@ -17,7 +17,7 @@ $(document).ready(function() {
 				])
 			]);
 	}
-	$("div#form-error-box").live("button",'click',function(){
+	$("div.form-error-box").live("button",'click',function(){
 		$(this).parent().remove();
 	});
 	
@@ -72,7 +72,7 @@ $(document).ready(function() {
 		};
 		
 		// grab reference to error box just in case
-		var errorBox = $("div#form-error-box");
+		var errorBox = $(this).find("div.form-error-box");
 		
 		// check grades request
 		if(this.elements["type"].value == "grades") {
@@ -80,7 +80,7 @@ $(document).ready(function() {
 			if(!isNaN(student) && !isNaN(assignment)) {
 				request.data.student = student;
 				request.data.assignment = assignment;
-				$.ajax(data);
+				$.ajax(request);
 			} else {
 				var newError = buildFormError(
 							'To request grades ' +
@@ -173,7 +173,7 @@ $(document).ready(function() {
 		};
 		
 		// grab reference to error box just in case
-		var errorBox = $("div#form-error-box");
+		var errorBox = $(this).find("div.form-error-box");
 		
 		// check grades request
 		if(this.elements["type"].value == "add") {
@@ -181,7 +181,7 @@ $(document).ready(function() {
 			assignment = $.trim(this.elements["assignmentDescription"].value);
 			if(assigment != "") {
 				request.data.assignment = assignment;
-				$.ajax(data);
+				$.ajax(request);
 			} else {
 				var newError = buildFormError(
 							'To add an assignment ' +
@@ -195,7 +195,7 @@ $(document).ready(function() {
 			assignment = parseInt($.trim(this.elements["assignmentID"].value));
 			if(!isNaN(assigment)) {
 				request.data.assignment = assignment;
-				$.ajax(data);
+				$.ajax(request);
 			} else {
 				var newError = buildFormError(
 							'To shard an assignment ' +

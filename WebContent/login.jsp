@@ -1,16 +1,18 @@
 <%@ page language="java" contentType="text/html; UTF-8"
     pageEncoding="UTF-8"%>
 <%
-	if(request.getParameter("type") == "student" &&
-		request.getParameter("username") == "student") {
-		session.setAttribute("uid", "1");
-		session.setAttribute("utype", "student");
-		response.sendRedirect("./index.jsp");
-	} else if(request.getParameter("type") == "admin" &&
-			request.getParameter("username") == "admin") {
-		session.setAttribute("uid", "0");
-		session.setAttribute("utype", "admin");
-		response.sendRedirect("./index.jsp");
+	if(request.getMethod().equals("POST")) {
+		if(request.getParameter("type").equals("student") &&
+			request.getParameter("username").equals("student")) {
+			session.setAttribute("uid", "1");
+			session.setAttribute("utype", "student");
+			response.sendRedirect("./student.jsp");
+		} else if(request.getParameter("type").equals("admin") &&
+				request.getParameter("username").equals("admin")) {
+			session.setAttribute("uid", "0");
+			session.setAttribute("utype", "admin");
+			response.sendRedirect("./admin.jsp");
+		}
 	}
 %>
 <!DOCTYPE html>
@@ -34,8 +36,8 @@
 		<div id="main-header" class="header-text">
 			<h1>Log In</h1>
 		</div>
-		<div id="content">
-			<form action="./login.jsp">
+		<div id="main-content">
+			<form action="./login.jsp" method="post">
 				<div class="form-section">
 					<div class="form-field-wrapper centered">
 						student <input type="radio" name="type" checked="checked" value="student" />
@@ -43,8 +45,8 @@
 					</div>
 					<div class="form-field-wrapper">username: <input name="username" type="text" placeholder="enter userid" /></div>
 					<div class="form-field-wrapper">password: <input name="password" type="password" placeholder="enter password" /></div>
-					<input name="submit" type="submit" />
 				</div>
+				<input name="submit" type="submit" value="log in" />
 			</form>
 		</div>
 		<div id="main-footer" class="header-text">

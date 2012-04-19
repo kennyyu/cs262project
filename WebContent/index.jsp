@@ -1,7 +1,13 @@
 <%@ page language="java" contentType="text/html; UTF-8"
     pageEncoding="UTF-8"%>
-<% if(session.getAttribute("uid") == null)
-		response.sendRedirect("./login.jsp"); %>
+<%
+	if(session.getAttribute("uid") != null) {
+		if(session.getAttribute("utype").equals("admin"))
+			response.sendRedirect("./admin.jsp");
+		else if(session.getAttribute("utype").equals("student"))
+			response.sendRedirect("./student.jsp");
+	}
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,14 +31,13 @@
 		</div>
 		<div id="main-nav">
 			<ul class="tabs">
-				<li class="active-tab">Review Student Work</li>
-				<li>Manage Assignments</li>
+				<li class="active-tab">View Grades</li>
 			</ul>
 		</div>
-		<div><a style="font-style:italic;float:right;font-size:11pt;" href="./login.jsp?logout=1">Log Out</a></div>
+		<div><a style="font-style:italic;float:right;font-size:11pt;" href="./login.jsp">Log In</a></div>
 		<article id="main-content" style="clear:both;">
-			<section class="active-tab" id="tab-review-student-work">
-				<h2 class="tab-header">Review Student Work</h2>
+			<section class="active-tab" id="tab-view-grades">
+				<h2 class="tab-header">View Grades</h2>
 				<div class="tab-content">
 					<form>
 						<div class="form-section first-section">
@@ -49,35 +54,7 @@
 							<input disabled="disabled" maxlength="32" name="assignment" type="text" placeholder="type assignment id here" />
 						</div>
 						<div id="form-error-box"></div>
-						<input disabled="disabled" name="submit" type="submit" value="request data" />
-					</form>
-					<hr />
-					<div id="results-wrapper">
-						<div id="results-header" class="header-text">Request Results</div>
-						<div id="results-content">
-						</div>
-					</div>
-				</div>
-			</section>
-			<section id="tab-manage-assignments">
-				<h2 class="tab-header">Manage Assignments</h2>
-				<div class="tab-content">
-					<form>
-						<div class="form-section first-section">
-							<div class="section-label">What do you want to do?</div>
-							<select name="type">
-								<option value="" selected="selected" value="">choose one</option>
-								<option value="add">add assignment</option>
-								<option value="shard">shard assignment</option>
-							</select>
-						</div>
-						<div class="form-section second-section">
-							<div class="section-label">And...</div>
-							<input disabled="disabled" maxlength="32" name="assignmentID" type="text" placeholder="type assignment id here" />
-							<input disabled="disabled" maxlength="64" name="assignmentDescription" type="text" placeholder="type assignment description here" /> 
-						</div>
-						<div id="form-error-box"></div>
-						<input disabled="disabled" name="submit" type="submit" value="submit" />
+						<input disabled="disabled" name="submit" type="submit" value="get grades" />
 					</form>
 					<hr />
 					<div id="results-wrapper">

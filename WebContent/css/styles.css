@@ -22,6 +22,10 @@ div#wrapper-main {
 	margin-top: 1em;
 	maring-bottom: 1em;
 }
+div#main-content {
+	margin-top: 1em;
+	margin-bottom: 1em;
+}
 div#main-header {
 	border-bottom: 0.5em ridge #1D2D2C;
 	border-top: 0.5em ridge #1D2D2C;
