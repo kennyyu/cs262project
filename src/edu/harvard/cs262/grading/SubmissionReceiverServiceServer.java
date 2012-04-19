@@ -69,9 +69,8 @@ public class SubmissionReceiverServiceServer implements
 
 	@Override
 	public Submission submit(Student student, Assignment assignment,
-			Blob contents) throws RemoteException {
-		Submission submission = new SubmissionImpl(student, assignment,
-				contents);
+			byte[] contents) throws RemoteException {
+		Submission submission = new SubmissionImpl(student, assignment, contents);
 		try {
 			server.storeSubmission(submission);
 			return submission;

@@ -5,11 +5,11 @@ import java.io.Serializable;
 /**
  * Represents a Student.
  */
-public interface Student extends Serializable {
+public interface Student {
 
 	/**
 	 * @return the unique ID identifying this student
 	 */
-	public int studentID();
+	public long studentID();
 
 }

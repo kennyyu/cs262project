@@ -2,7 +2,6 @@ package edu.harvard.cs262.grading;
 
 import java.net.UnknownHostException;
 import java.rmi.RemoteException;
-import java.sql.Blob;
 import java.util.LinkedHashSet;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -43,8 +42,8 @@ public class MongoSubmissionStorageService implements SubmissionStorageService {
 
 		BasicDBObject info = new BasicDBObject();
 
-		info.put("studentID", submission.getStudent());
-		info.put("assignmentID", submission.getAssignment());
+		info.put("studentID", submission.getStudent().studentID());
+		info.put("assignmentID", submission.getAssignment().assignmentID());
 		info.put("timestamp", submission.getTimeStamp());
 		info.put("contents", submission.getContents());
 
@@ -63,7 +62,7 @@ public class MongoSubmissionStorageService implements SubmissionStorageService {
 		
 		DBObject info = coll.findOne(query);
 		
-		Submission submission = new SubmissionImpl(student, assignment, (Blob) info.get("contents"));
+		Submission submission = new SubmissionImpl(student, assignment, (byte[]) info.get("contents"));
 		
 		return submission;
 	}
@@ -82,7 +81,7 @@ public class MongoSubmissionStorageService implements SubmissionStorageService {
 		for (DBObject result : results) {
 			Submission submission = new SubmissionImpl(student, 
 					(Assignment) result.get("assignmentID"), 
-					(Blob) result.get("contents"));
+					(byte[]) result.get("contents"));
 			submissions.add(submission);
 		}
 		
@@ -104,7 +103,7 @@ public class MongoSubmissionStorageService implements SubmissionStorageService {
 			Submission submission = new SubmissionImpl(
 					(Student) result.get("studentID"), 
 					assignment, 
-					(Blob) result.get("contents"));
+					(byte[]) result.get("contents"));
 			submissions.add(submission);
 		}
 		

@@ -1,20 +1,18 @@
 package edu.harvard.cs262.grading;
 
-import java.io.Serializable;
-
-public class StudentImpl implements Student, Serializable {
-
-	private int studentID;
+public class StudentImpl implements Student {
+	
+	private long studentID;
 	
 	public StudentImpl() {
 		this.studentID = 0;
 	}
 	
-	public StudentImpl(int studentID) {
+	public StudentImpl(long studentID) {
 		this.studentID = studentID;
 	}
 
-	public int studentID() {
+	public long studentID() {
 		return this.studentID;
 	}
 

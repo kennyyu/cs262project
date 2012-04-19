@@ -5,10 +5,10 @@ import java.io.Serializable;
 /**
  * Represents an assignment.
  */
-public interface Assignment extends Serializable {
+public interface Assignment {
 
 	/**
 	 * @return the unique ID identifying this assignment
 	 */
-	public int assignmentID();
+	public long assignmentID();
 }
