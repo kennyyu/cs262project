@@ -3,6 +3,8 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -58,8 +60,30 @@ public class GradeCompilerServiceServer implements GradeCompilerService {
 	@Override
 	public Set<Student> getGraders(Submission submission)
 			throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+		// get the list of grades for this submission
+		List<Grade> grades = new ArrayList<Grade>();
+		List<String> gradeStorageServiceNames = config.getService("GradeStorageService");
+		for (int j = 0; j < gradeStorageServiceNames.size(); j++) {
+			try {
+				Registry registry = LocateRegistry.getRegistry(gradeStorageServiceNames.get(j));
+				GradeStorageService storage = (GradeStorageService) registry.lookup("GradeStorageService");
+				grades = storage.getGrade(submission);
+			} catch (RemoteException e) {
+				if (j + 1 == gradeStorageServiceNames.size())
+					throw e;
+			} catch (NotBoundException e) {
+				if (j + 1 == gradeStorageServiceNames.size()) {
+					System.err.println("Looking up SubmissionStorageService failed");
+					System.exit(-1);
+				}
+			}
+		}
+		
+		// get the graders from the grades
+		Set<Student> graders = new HashSet<Student>();
+		for (Grade g : grades)
+			graders.add(g.getGrader());
+		return graders;
 	}
 
 	@Override
@@ -105,6 +129,21 @@ public class GradeCompilerServiceServer implements GradeCompilerService {
 			}
 		}
 		return grades;
+	}
+	
+	public static void main(String[] args) {
+		try {
+			GradeCompilerServiceServer obj = new GradeCompilerServiceServer();
+			GradeCompilerService stub = (GradeCompilerService) UnicastRemoteObject.exportObject(obj, 0);
+			
+			// bind the remote object's stub in the registry
+			Registry registry = LocateRegistry.getRegistry();
+			registry.bind("GradeCompilerService", stub);
+			obj.init();
+		} catch (Exception e) {
+			System.err.println("Server exception: " + e.toString());
+			e.printStackTrace();
+		}
 	}
 
 }
