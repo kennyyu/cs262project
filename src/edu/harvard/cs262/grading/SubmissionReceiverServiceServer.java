@@ -33,7 +33,7 @@ public class SubmissionReceiverServiceServer implements
 	 * NUM_LOOKUP_RETRIES.
 	 */
 	private void lookupStorageService() throws RemoteException {
-		List<String> registryNames = config.get("SubmissionStorageService");
+		List<String> registryNames = config.getService("SubmissionStorageService");
 		if (registryNames.size() == 0) {
 			System.err.println("No bindings for SubmissionStorageService");
 			System.exit(-1);
