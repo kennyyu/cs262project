@@ -99,9 +99,9 @@ public class AdminGetGradesServlet extends HttpServlet {
 		    	Student student = new StudentImpl(studentID);
 		    	Assignment assignment = new AssignmentImpl(assignmentID);
 		    	
-		    	// XXX: This needs to be fixed to make sure to the correct submission, as there might be duplicates
-		    	// get grade
-		    	grades = gradeStorage.getGrade(submissionStorage.getSubmission(student, assignment));
+		    	// XXX: This needs to be double-checked to sure that we get the grade pertaining to the latest
+		    	// submission
+		    	grades = gradeStorage.getGrade(submissionStorage.getLatestSubmission(student, assignment));
 		    	
 		    	StringBuilder responseBuilder = new StringBuilder();
 		    	responseBuilder.append("{grades:[");

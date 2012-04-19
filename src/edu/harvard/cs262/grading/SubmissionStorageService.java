@@ -37,7 +37,8 @@ public interface SubmissionStorageService extends Remote {
 	public Submission getSubmission(Student student, Assignment assignment, Timestamp timestamp)
 			throws RemoteException;
 	
-	public Submission getLatestSubmission(Student student, Assignment assignment);
+	public Submission getLatestSubmission(Student student, Assignment assignment)
+			throws RemoteException;
 	
 	public Set<Submission> getSubmissions(Student student, Assignment assignment)
 			throws RemoteException;

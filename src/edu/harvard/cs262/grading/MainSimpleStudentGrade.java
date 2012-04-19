@@ -4,6 +4,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class MainSimpleStudentGrade {
 
@@ -26,9 +27,8 @@ public class MainSimpleStudentGrade {
 		Submission submission = new SubmissionImpl(submitter, assignment, contents);
 		Score score = new ScoreImpl(Integer.parseInt(args[4]),100);
 		
-		// remote call
-		Grade grade = s.storeGrade(grader, submission, score);
-		
+		// remote calls
+		Grade grade = s.storeGrade(grader, submission, score);		
 		System.out.println(grade.getGrader());
 		System.out.println(grade.getScore());
 		System.out.println(grade.getTimeStamp());
@@ -36,6 +36,10 @@ public class MainSimpleStudentGrade {
 		// get all grades
 		Map<Submission, List<Grade>> grades = s.getCompiledGrades(assignment);
 		System.out.println(grades);
+		
+		// get all graders
+		Set<Student> graders = s.getGraders(submission);
+		System.out.println(graders);
 	}
 
 }

@@ -79,7 +79,7 @@ public class StudentSubmissionsServlet extends AdminFrontEndServlet{
 	    	try{
 	    		submissionStorage.storeSubmission(submission);
 	    	}catch (Exception e){
-	    		
+	    		// ignore for now
 	    	} 	
     	}
     }

@@ -62,6 +62,7 @@ public class SharderServiceServer implements SharderService {
 		return null;
 	}
 	
+	@SuppressWarnings("unused")
 	private int getNextShardID() {
 		BasicDBObject query = new BasicDBObject();
 		
@@ -140,16 +141,24 @@ public class SharderServiceServer implements SharderService {
 	public Shard generateShard(Assignment assignment) throws RemoteException {
 		Set<Submission> submissions = storage.getAllSubmissions(assignment);
 		
+		
 		//Compile list of students
 		Set<Student> students = new LinkedHashSet<Student>();
 		for (Submission s : submissions) {
 			students.add(s.getStudent());
 		}
 		
+		// For each student, this will store the latest submission
+		// XXX: This does a ton of database queries.  But it's the simplest thing to implement
+		Set<Submission> latestSubmissions = new LinkedHashSet<Submission>();
+		for (Student student : students) {
+			latestSubmissions.add(storage.getLatestSubmission(student, assignment));
+		}
+		
 
 		
 		//Randomly assign graders. We could be smarter.
-		Shard shard = assign(students, submissions);
+		Shard shard = assign(students, latestSubmissions);
 		
 		writeShard(shard);
 		return shard;
@@ -161,15 +170,35 @@ public class SharderServiceServer implements SharderService {
 		return readShard(shardID);
 	}
 	
+	public int getShardID(Assignment assignment) throws RemoteException {
+		BasicDBObject query = new BasicDBObject();
+		query.put("assignmentID", assignment.assignmentID());
+		
+		DBCursor results = coll.find(query);
+		DBObject toSortBy = new BasicDBObject();
+		
+		// XXX: is this right?
+		toSortBy.put("id", null);
+		results.sort(toSortBy);
+		
+		List<DBObject> objs = results.toArray();
+		DBObject latest = objs.get(objs.size() - 1);
+		
+		return (Integer) latest.get("id");
+	}
+	
 	public static void main(String[] args) {
 		try {
 			SharderServiceServer obj = new SharderServiceServer();
-			SubmissionStorageService stub = (SubmissionStorageService) UnicastRemoteObject
+			SharderService stub = (SharderService) UnicastRemoteObject
 					.exportObject(obj, 0);
+			obj.init(false);
 
 			// Bind the remote object's stub in the registry
 			Registry registry = LocateRegistry.getRegistry();
 			registry.bind("SharderService", stub);
+			
+			System.out.println("SharderService running");
 		} catch (Exception e) {
 			System.err.println("Server exception: " + e.toString());
 			e.printStackTrace();

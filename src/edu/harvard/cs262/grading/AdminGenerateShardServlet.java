@@ -13,6 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 
 public class AdminGenerateShardServlet extends AdminFrontEndServlet {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -109316267304084820L;
 	SharderServiceServer sharderService;
 
 	public void lookupServices() {
