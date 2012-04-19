@@ -29,8 +29,6 @@ public class GradeCompilerServiceServer implements GradeCompilerService {
 	
 	@Override
 	public void init() throws Exception {
-		// TODO Auto-generated method stub
-		// copy the same logic as lookupStorageService in SubmissionReceiver?
 	}
 
 	@Override
@@ -135,11 +133,13 @@ public class GradeCompilerServiceServer implements GradeCompilerService {
 		try {
 			GradeCompilerServiceServer obj = new GradeCompilerServiceServer();
 			GradeCompilerService stub = (GradeCompilerService) UnicastRemoteObject.exportObject(obj, 0);
+			obj.init();
 			
 			// bind the remote object's stub in the registry
 			Registry registry = LocateRegistry.getRegistry();
 			registry.bind("GradeCompilerService", stub);
-			obj.init();
+
+			System.out.println("GradeCompilerService running");
 		} catch (Exception e) {
 			System.err.println("Server exception: " + e.toString());
 			e.printStackTrace();

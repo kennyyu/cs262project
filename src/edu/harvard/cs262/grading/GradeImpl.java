@@ -77,5 +77,10 @@ public class GradeImpl implements Grade {
 			return false;
 		return true;
 	}
+	
+	@Override
+	public String toString() {
+		return "Grade. " + score + ", " + grader + ", " + timestamp;
+	}
 
 }

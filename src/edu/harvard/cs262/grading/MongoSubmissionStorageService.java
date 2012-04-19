@@ -3,9 +3,11 @@ package edu.harvard.cs262.grading;
 import java.net.UnknownHostException;
 import java.rmi.RemoteException;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.sql.Timestamp;
 import java.util.Set;
 
 import com.mongodb.DBCursor;
@@ -36,35 +38,67 @@ public class MongoSubmissionStorageService implements SubmissionStorageService {
 
 		BasicDBObject doc = new BasicDBObject();
 
-		doc.put("name", "MongoDB");
-		doc.put("type", "database");
-		doc.put("count", 1);
-
-		BasicDBObject info = new BasicDBObject();
-
-		info.put("studentID", submission.getStudent().studentID());
-		info.put("assignmentID", submission.getAssignment().assignmentID());
-		info.put("timestamp", submission.getTimeStamp());
-		info.put("contents", submission.getContents());
-
-		doc.put("info", info);
+		doc.put("studentID", submission.getStudent().studentID());
+		doc.put("assignmentID", submission.getAssignment().assignmentID());
+		doc.put("timestamp", submission.getTimeStamp());
+		doc.put("contents", submission.getContents());
 
 		coll.insert(doc);
 	}
 
-	@Override
-	public Submission getSubmission(Student student, Assignment assignment)
-			throws RemoteException {
-
+	public Submission getSubmission(Student student, Assignment assignment, Timestamp timestamp) {
 		BasicDBObject query = new BasicDBObject();
-		query.put("studentID", student);
-		query.put("assignmentID", assignment);
+		query.put("studentID", student.studentID());
+		query.put("assignmentID", assignment.assignmentID());
+		query.put("timestamp", timestamp);
 		
 		DBObject info = coll.findOne(query);
 		
 		Submission submission = new SubmissionImpl(student, assignment, (byte[]) info.get("contents"));
 		
 		return submission;
+	}
+	
+	public Submission getLatestSubmission(Student student, Assignment assignment) {
+		BasicDBObject query = new BasicDBObject();
+		query.put("studentID", student.studentID());
+		query.put("assignmentID", assignment.assignmentID());
+		
+		DBCursor results = coll.find(query);
+		DBObject toSortBy = new BasicDBObject();
+		
+		// XXX: is this right?
+		toSortBy.put("timestamp", null);
+		results.sort(toSortBy);
+		
+		List<DBObject> objs = results.toArray();
+		DBObject latest = objs.get(objs.size() - 1);
+		
+		Submission submission =
+			new SubmissionImpl(student, assignment,
+								(byte[]) latest.get("contents"), (Timestamp) latest.get("timestamp"));
+		
+		return submission;
+	}
+	
+	public Set<Submission> getSubmissions(Student student, Assignment assignment) {
+		BasicDBObject query = new BasicDBObject();
+		query.put("studentID", student.studentID());
+		query.put("assignmentID", assignment.assignmentID());
+		
+		DBCursor results = coll.find(query);
+		
+		Set<Submission> submissions = new LinkedHashSet<Submission>();
+		for (DBObject result : results) {
+			Submission submission = new SubmissionImpl(student, 
+					new AssignmentImpl((Long)(result.get("assignmentID"))), 
+					(byte[]) result.get("contents"),
+					(Timestamp) result.get("timestamp"));
+			submissions.add(submission);		
+		}
+		
+		
+		return submissions;		
 	}
 
 	@Override
@@ -80,8 +114,9 @@ public class MongoSubmissionStorageService implements SubmissionStorageService {
 		
 		for (DBObject result : results) {
 			Submission submission = new SubmissionImpl(student, 
-					(Assignment) result.get("assignmentID"), 
-					(byte[]) result.get("contents"));
+					new AssignmentImpl((Long)(result.get("assignmentID"))), 
+					(byte[]) result.get("contents"),
+					(Timestamp) result.get("timestamp"));
 			submissions.add(submission);
 		}
 		
@@ -93,7 +128,7 @@ public class MongoSubmissionStorageService implements SubmissionStorageService {
 			throws RemoteException {
 
 		BasicDBObject query = new BasicDBObject();
-		query.put("assignmentID", assignment);
+		query.put("assignmentID", assignment.assignmentID());
 		
 		DBCursor results = coll.find(query);
 		
@@ -101,9 +136,10 @@ public class MongoSubmissionStorageService implements SubmissionStorageService {
 		
 		for (DBObject result : results) {
 			Submission submission = new SubmissionImpl(
-					(Student) result.get("studentID"), 
+					new StudentImpl((Long) result.get("studentID")),
 					assignment, 
-					(byte[]) result.get("contents"));
+					(byte[]) result.get("contents"),
+					(Timestamp) result.get("timestamp"));
 			submissions.add(submission);
 		}
 		
@@ -120,6 +156,7 @@ public class MongoSubmissionStorageService implements SubmissionStorageService {
 
 			// Bind the remote object's stub in the registry
 			Registry registry = LocateRegistry.getRegistry();
+			obj.init();
 			registry.bind("SubmissionStorageService", stub);
 			
 			System.err.println("MongoSubmissionStorageService running");

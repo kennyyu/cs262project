@@ -6,6 +6,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -64,8 +65,8 @@ public class MongoGradeStorageService implements GradeStorageService {
 			DBObject gradeObject = cur.next();
 			// I'm assuming that, if I put it in as an int, I can pull it out and cast it to Integer????
 			Score score = new ScoreImpl((Integer)gradeObject.get("score"), (Integer)gradeObject.get("maxScore"));
-			Student grader = new StudentImpl((Integer)gradeObject.get("studentID"));
-			Timestamp tm = (Timestamp)gradeObject.get("timestamp");
+			Student grader = new StudentImpl((Long) (gradeObject.get("studentID")));
+			Timestamp tm = new Timestamp(((Date) gradeObject.get("timestamp")).getTime());
 			Grade grade = new GradeImpl(score, grader, tm);
 			grades.add(grade);
 		}
@@ -79,6 +80,7 @@ public class MongoGradeStorageService implements GradeStorageService {
 			MongoGradeStorageService obj = new MongoGradeStorageService();
 			GradeStorageService stub = (GradeStorageService) UnicastRemoteObject
 					.exportObject(obj, 0);
+			obj.init();
 
 			// Bind the remote object's stub in the registry
 			Registry registry = LocateRegistry.getRegistry();

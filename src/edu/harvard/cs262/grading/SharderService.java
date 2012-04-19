@@ -13,7 +13,7 @@ public interface SharderService extends Remote {
 	 * 
 	 * @throws Exception
 	 */
-	public void init() throws Exception;
+	public void init(boolean sandbox) throws Exception;
 
 	/**
 	 * Generate a new sharding for the given assignment
