@@ -20,7 +20,7 @@ public class StudentImpl implements Student {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + studentID;
+		result = prime * result + (int) (studentID ^ (studentID >>> 32));
 		return result;
 	}
 
@@ -37,5 +37,4 @@ public class StudentImpl implements Student {
 			return false;
 		return true;
 	}
-	
 }
