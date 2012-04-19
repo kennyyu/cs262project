@@ -12,10 +12,11 @@ import java.util.Set;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class AdminReviewShardServlet extends AdminFrontEndServlet {
+public class AdminReviewShardServlet extends HttpServlet {
 	SharderServiceServer sharderService;
 
 	public void lookupServices() {

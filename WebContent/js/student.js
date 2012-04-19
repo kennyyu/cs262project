@@ -92,7 +92,7 @@ $(document).ready(function(){
 		var errorBox = $(this).find("div.form-error-box");
 		
 		// check grades request
-		request.url = "./studentviewgrades";
+		request.url = "./studentgetgrades";
 		
 		// retrieve and sanitize input values
 		var assignment = parseInt($.trim(this.elements["assignment"].value));

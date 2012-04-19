@@ -11,6 +11,7 @@ import java.util.Set;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -20,7 +21,7 @@ import java.util.*;
 
 // not sure how to fix this serialization error
 
-public class StudentGetGradesServlet extends AdminFrontEndServlet{
+public class StudentGetGradesServlet extends HttpServlet {
 
     /**
 	 * 

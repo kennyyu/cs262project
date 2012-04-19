@@ -33,4 +33,36 @@
     <servlet-name>AdminGetSubmissionsServlet</servlet-name>
     <url-pattern>/admingetsubmissions</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <servlet-name>AdminGenerateShardServlet</servlet-name>
+    <servlet-class>edu.harvard.cs262.grading.AdminGenerateShardServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AdminGenerateShardServlet</servlet-name>
+    <url-pattern>/admingenerateshard</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>AdminReviewShardServlet</servlet-name>
+    <servlet-class>edu.harvard.cs262.grading.AdminReviewShardServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AdminReviewShardServlet</servlet-name>
+    <url-pattern>/adminreviewshards</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>StudentGetGradesServlet</servlet-name>
+    <servlet-class>edu.harvard.cs262.grading.StudentGetGradesServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>StudentGetGradesServlet</servlet-name>
+    <url-pattern>/studentgetgrades</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>StudentSubmissionsServlet</servlet-name>
+    <servlet-class>edu.harvard.cs262.grading.StudentSubmissionsServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>StudentSubmissionsServlet</servlet-name>
+    <url-pattern>/studentsubmitgrade</url-pattern>
+  </servlet-mapping>
 </web-app>
