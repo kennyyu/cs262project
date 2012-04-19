@@ -2,6 +2,10 @@ package edu.harvard.cs262.grading;
 
 public class ScoreImpl implements Score {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8497228136055930585L;
 	private int score;
 	private int maxScore;
 	

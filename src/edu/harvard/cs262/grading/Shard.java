@@ -1,12 +1,13 @@
 package edu.harvard.cs262.grading;
 
+import java.io.Serializable;
 import java.util.Map;
 import java.util.Set;
 
 /**
  * Represents a sharding of the work, mapping graders to gradees.
  */
-public interface Shard {
+public interface Shard extends Serializable {
 
 	/**
 	 * @return the unique ID for this shard

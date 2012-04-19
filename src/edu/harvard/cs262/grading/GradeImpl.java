@@ -5,6 +5,10 @@ import java.util.Date;
 
 public class GradeImpl implements Grade {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1144414253427338461L;
 	private final Score score;
 	private final Student grader;
 	private final Timestamp timestamp;

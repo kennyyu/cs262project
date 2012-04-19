@@ -17,6 +17,7 @@ import com.mongodb.MongoException;
 
 import static org.junit.Assert.*;
 
+@SuppressWarnings("unused")
 public class MongoSubmissionStorageServiceTests {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {

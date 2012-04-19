@@ -5,7 +5,6 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.sql.Blob;
 import java.util.List;
 
 public class SubmissionReceiverServiceServer implements
@@ -89,10 +88,11 @@ public class SubmissionReceiverServiceServer implements
 
 			// Bind the remote object's stub in the registry
 			Registry registry = LocateRegistry.getRegistry();
+			obj.init();
 			registry.bind("SubmissionReceiverService", stub);
 			
 			System.out.println("SubmissionReceiverService running");
-			obj.init();
+			
 		} catch (Exception e) {
 			System.err.println("Server exception: " + e.toString());
 			e.printStackTrace();
