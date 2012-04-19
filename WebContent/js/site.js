@@ -103,4 +103,22 @@ $(document).ready(function() {
 		return false;
 	});
 	
+	/**
+	 * navigation
+	 */
+	$("div#main-nav > ul > li").click(function() {
+		var thisTab = $(this);
+		if(!thisTab.hasClass("active-tab")) {
+			var tabToShowText = $(thisTab).text();
+			var activeTabSection = $("section.active-tab");
+			activeTabSection.fadeOut(2000);
+			activeTabSection.removeClass("active-tab");
+			var tabToShow = $("section > h2:contains('"+tabToShowText+"')");
+			tabToShow.show("slow");
+			tabToShow.addClass("active-tab");
+			$("div#main-nav > ul > li.active-tab").removeClass("active-tab");
+			thisTab.addClass("active-tab");
+		}
+	});
+	
 });

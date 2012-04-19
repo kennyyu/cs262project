@@ -114,6 +114,7 @@ public class MongoSubmissionStorageService implements SubmissionStorageService {
 	public static void main(String[] args) {
 		try {
 			MongoSubmissionStorageService obj = new MongoSubmissionStorageService();
+			obj.init();
 			SubmissionStorageService stub = (SubmissionStorageService) UnicastRemoteObject
 					.exportObject(obj, 0);
 

@@ -23,12 +23,12 @@
 		</div>
 		<div id="main-nav">
 			<ul class="tabs">
-				<li>Review Student Work</li>
+				<li class="active-tab">Review Student Work</li>
 				<li>Manage Assignments</li>
 			</ul>
 		</div>
 		<article id="main-content">
-			<section id="tab-review-student-work">
+			<section class="active-tab" id="tab-review-student-work">
 				<h2 class="tab-header">Review Student Work</h2>
 				<div class="tab-content">
 					<form>
@@ -56,7 +56,7 @@
 					</div>
 				</div>
 			</section>
-			<section id="tab-manage-assignments">
+			<section id="tab-manage-assignments" class="hidden">
 				<h2 class="tab-header">Manage Assignments</h2>
 			</section>
 		</article>
