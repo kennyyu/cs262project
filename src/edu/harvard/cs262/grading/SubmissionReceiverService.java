@@ -26,6 +26,6 @@ public interface SubmissionReceiverService extends Remote {
 	 * @return A submission object on success, containing the timestamp.
 	 * @throws RemoteException
 	 */
-	Submission submit(Student student, Assignment assignment, Blob contents)
+	Submission submit(Student student, Assignment assignment, byte[] contents)
 			throws RemoteException;
 }

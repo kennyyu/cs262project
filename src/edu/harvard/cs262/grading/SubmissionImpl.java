@@ -9,11 +9,10 @@ public class SubmissionImpl implements Submission {
 	private static final long serialVersionUID = 1L;
 	private final Student student;
 	private final Assignment assignment;
-	private final Blob contents;
+	private final byte[] contents;
 	private final Timestamp timestamp;
 
-	public SubmissionImpl(Student student, Assignment assignment,
-			Blob contents) {
+	public SubmissionImpl(Student student, Assignment assignment, byte[] contents) {
 		this.student = student;
 		this.assignment = assignment;
 		this.contents = contents;
@@ -36,7 +35,7 @@ public class SubmissionImpl implements Submission {
 	}
 
 	@Override
-	public Blob getContents() {
+	public byte[] getContents() {
 		return contents;
 	}
 
