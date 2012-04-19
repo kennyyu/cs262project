@@ -72,8 +72,14 @@ div#form-error-box:empty {
 	display:none;
 }
 div.form-error {
+	font-size: 10pt;
 	border: 2px solid #F0F2F2;
 	margin: 8px 0 8px 0;
+}
+div.form-error button {
+	background: none;
+	border: none;
+	float: right;
 }
 input[type="text"],select{
 	display:block;

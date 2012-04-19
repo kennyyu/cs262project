@@ -85,7 +85,16 @@ $(document).ready(function() {
 						'To request submissions(s) ' +
 						'you need to enter a number for ' +
 						'the student ID and/or the ' +
-						'assignment ID'
+						'assignment ID',
+						el('button.form-error-close-button',
+								{title:'click to close'},[
+								el('img',{
+									src:'./images/icons_mono_32x32/stop32.png',
+									height: 16,
+									width: 16
+								})
+								
+						])
 					]);
 				errorBox.append(newError).hide().fadeIn(2000);
 			}
