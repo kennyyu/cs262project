@@ -47,7 +47,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>AdminAddAssignmentServlet</servlet-name>
-    <url-pattern>/adminshardassignment</url-pattern>
+    <url-pattern>/adminaddassignment</url-pattern>
   </servlet-mapping>
   <servlet>
     <servlet-name>AdminAddAssignmentServlet</servlet-name>

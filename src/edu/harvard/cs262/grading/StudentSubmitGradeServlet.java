@@ -14,8 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 
 public class StudentSubmitGradeServlet extends HttpServlet {
 
-    GradeStorageService gradeStorage;
-    SubmissionStorageService submissionStorage;
+    private GradeStorageService gradeStorage;
+    private SubmissionStorageService submissionStorage;
     
     public void lookupServices() {
 
@@ -75,8 +75,6 @@ public class StudentSubmitGradeServlet extends HttpServlet {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST,
                     "parameters not set");
     	} else {
-    		
-    		Grade grade;
 
 	    	// try to convert parameters into usable format
 	    	try{
@@ -89,14 +87,19 @@ public class StudentSubmitGradeServlet extends HttpServlet {
     	    	Student student = new StudentImpl(studentID);
     	    	Assignment assignment = new AssignmentImpl(assignmentID);
 		    	
-		    	grade = new GradeImpl(score,grader);
+		    	Grade grade = new GradeImpl(score,grader);
 		    	Submission submission = submissionStorage.getLatestSubmission(student, assignment);
-	    		gradeStorage.submitGrade(submission, grade);
-
-	        	response.setContentType("text/Javascript");
-	        	response.setCharacterEncoding("UTF-8");
-	        	response.getWriter().write("Succesfully submitted grade for student "+studentID+"'s assignment "+assignmentID+".");
-		    	
+		    	if(submission == null) {
+		    		response.sendError(HttpServletResponse.SC_BAD_REQUEST,
+	                    "Student "+studentID+" does not have a submission for assignment "+assignmentID);
+		    	} else {
+		    		gradeStorage.submitGrade(submission, grade);
+	
+		        	response.setContentType("text/Javascript");
+		        	response.setCharacterEncoding("UTF-8");
+		        	response.getWriter().write("Succesfully submitted grade for student "+studentID+"'s assignment "+assignmentID+".");
+		    	}
+	        	
 	    	} catch (NumberFormatException e){
 	            response.sendError(HttpServletResponse.SC_BAD_REQUEST,
 	                    "invalid values given");
