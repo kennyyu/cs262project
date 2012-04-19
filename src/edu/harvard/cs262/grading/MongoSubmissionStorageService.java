@@ -49,8 +49,8 @@ public class MongoSubmissionStorageService implements SubmissionStorageService {
 			throws RemoteException {
 
 		BasicDBObject query = new BasicDBObject();
-		query.put("studentID", student);
-		query.put("assignmentID", assignment);
+		query.put("studentID", student.studentID());
+		query.put("assignmentID", assignment.assignmentID());
 		
 		DBObject info = coll.findOne(query);
 		

@@ -99,8 +99,8 @@ public class SharderServiceServer implements SharderService {
 				BasicDBObject doc = new BasicDBObject();
 	
 				doc.put("id", shard.shardID());
-				doc.put("grader", grader);
-				doc.put("gradee", gradee);
+				doc.put("grader", grader.studentID());
+				doc.put("gradee", gradee.studentID());
 	
 				coll.insert(doc);
 			}	
