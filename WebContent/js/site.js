@@ -1,22 +1,13 @@
 $(document).ready(function() {
-	
-	/*
+
 	// enabled/disable appropriate input fields depending
 	// upon selection
 	$("select").change(function(){
-		
-		var options = this.options;	// <select> options
-		
-		// iterate over options
-		for(var i = 0; i < options.length; i++) {
-			var option = options[i];
-			if(option.selected)
-				$("."+option.text+"-param").removeAttr("disabled");
-			else
-				$("."+option.text+"-param").attr("disabled","disabled");
-		}
-		
-	});*/
+		if(this.options[0].selected)
+			$("form input[type='text']").attr("disabled","disabled");
+		else
+			$("form input[type='text']").removeAttr("disabled");
+	});
 	
 	// enable submit button only when necessary fields have been filled
 	$("form").change(function(){
@@ -56,6 +47,9 @@ $(document).ready(function() {
 				error: function(e,jqXHR,ajaxSettings,exception){console.log(e.responseText);}
 		};
 		
+		// grab reference to error box just in case
+		var errorBox = $("div#form-error-box");
+		
 		// check grades request
 		if(this.elements["type"].value == "grades") {
 			request.url = "./admingetgrades";
@@ -63,6 +57,14 @@ $(document).ready(function() {
 				request.data.student = student;
 				request.data.assignment = assignment;
 				$.ajax(data);
+			} else {
+				var newError = el('div.form-error',[
+							'To request grades ' +
+							'you need to enter a number for ' +
+							'both the student ID and the ' +
+							'assignment ID'
+						]);
+				errorBox.append(newError).hide().fadeIn(2000);
 			}
 		} // check submissions request
 		else if (this.elements["type"].value == "submissions") {
@@ -78,6 +80,15 @@ $(document).ready(function() {
 			}
 			if(isValidRequest)
 				$.ajax(request);
+			else {
+				var newError = el('div.form-error',[
+						'To request submissions(s) ' +
+						'you need to enter a number for ' +
+						'the student ID and/or the ' +
+						'assignment ID'
+					]);
+				errorBox.append(newError).hide().fadeIn(2000);
+			}
 		}
 		
 		return false;
