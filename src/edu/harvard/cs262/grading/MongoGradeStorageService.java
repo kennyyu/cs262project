@@ -25,7 +25,7 @@ public class MongoGradeStorageService implements GradeStorageService {
 	}
 	
 	@Override
-	public void submitGrade(Student grader, Submission submission, Score score)
+	public void submitGrade(Submission submission, Grade grade)
 			throws RemoteException {
 		// TODO Auto-generated method stub
 
