@@ -141,16 +141,22 @@ public class SharderServiceServer implements SharderService {
 	public Shard generateShard(Assignment assignment) throws RemoteException {
 		Set<Submission> submissions = storage.getAllSubmissions(assignment);
 		
+		// For each student, this will store the latest submission
+		Set<Submission> latestSubmissions = new LinkedHashSet<Submission>();
+		
+		// XXX: This does a ton of database queries.  But it's the simplest thing to impelement
 		//Compile list of students
 		Set<Student> students = new LinkedHashSet<Student>();
 		for (Submission s : submissions) {
-			students.add(s.getStudent());
+			Student student = s.getStudent();
+			students.add(student);
+			latestSubmissions.add(storage.getLatestSubmission(student, assignment));
 		}
 		
 
 		
 		//Randomly assign graders. We could be smarter.
-		Shard shard = assign(students, submissions);
+		Shard shard = assign(students, latestSubmissions);
 		
 		writeShard(shard);
 		return shard;
