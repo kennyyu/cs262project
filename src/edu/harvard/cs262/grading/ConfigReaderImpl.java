@@ -34,7 +34,7 @@ public class ConfigReaderImpl implements ConfigReader {
 			while((strLine = br.readLine()) != null) {
 				if (p.matcher(strLine).matches()) {
 					if(!IPs.isEmpty()) {
-						Service2IP.put(currService, IPs);
+						Service2IP.put(currService.substring(1), IPs);
 					}
 					IPs = new ArrayList<String>();
 					currService = strLine;
@@ -43,7 +43,7 @@ public class ConfigReaderImpl implements ConfigReader {
 				}
 			}
 			if(!IPs.isEmpty()) {
-				Service2IP.put(currService, IPs);
+				Service2IP.put(currService.substring(1), IPs);
 			}
 		}
 		catch (Exception e) { // generic

@@ -1,0 +1,9 @@
+#!/bin/bash#!/bin/bash
+
+p=$(pwd)
+
+java -Djava.rmi.server.codebase=file:///${p}/classes/ \
+    -Djava.rmi.server.hostname=localhost \
+    -Djava.security.policy=server.policy \
+    -cp lib/javax.servlet-api-3.0.1.jar:lib/mongo-2.7.3.jar:classes \
+    edu.harvard.cs262.grading.SubmissionReceiverServiceServer
