@@ -1,0 +1,7 @@
+#!/bin/bash#!/bin/bash
+
+p=$(pwd)
+
+java -Djava.rmi.server.codebase=file:///${p}/classes/ \
+    -cp lib/javax.servlet-api-3.0.1.jar:lib/mongo-2.7.3.jar:classes \
+    edu.harvard.cs262.grading.SharderServiceServer
