@@ -4,6 +4,7 @@ $(document).ready(function(){
 		
 		$.ajax({
 			url: './studentgetgrades',
+			type: 'post',
 			success: function(data) {
 				console.log(data);
 				//$("#results-content").append($("<div class='request-result'>").append(data));

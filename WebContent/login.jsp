@@ -36,6 +36,7 @@
 		<div id="main-header" class="header-text">
 			<h1>Log In</h1>
 		</div>
+		<div><a style="font-style:italic;float:right;font-size:11pt;" href="./index.jsp">Return to Index</a></div>
 		<div id="main-content">
 			<form action="./login.jsp" method="post">
 				<div class="form-section">

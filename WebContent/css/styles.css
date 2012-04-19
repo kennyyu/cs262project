@@ -130,6 +130,9 @@ div.form-error button {
 	border: none;
 	float: right;
 }
+input[type="submit"] {
+	display:block;
+}
 input[type="text"],select,input[type="password"]{
 	display:block;
 	background-color:#1D2D2C;

@@ -17,7 +17,7 @@
         <link href='http://fonts.googleapis.com/css?family=Sirin+Stencil' rel='stylesheet' type='text/css'>
 	
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-	<script type="text/javascript" src="./js/site.js"></script>
+	<script type="text/javascript" src="./js/index.js"></script>
     <script type="text/javascript" src="./js/Sugared_DOM.js"></script>
 	
 	
