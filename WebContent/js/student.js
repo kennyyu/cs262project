@@ -129,8 +129,11 @@ $(document).ready(function(){
 				data: {},
 				success: function(data) {
 					console.log(data);
-					$("#tab-view-grades div.results-box")
-						.append(buildRequestResult(data));
+					var newResult = el('div.request-result',["- "+data]);
+					$(newResult).prependTo(
+						$("#tab-view-grades div.results-box"))
+						.hide()
+						.slideDown(1000);
 				},
 				error: function(e,jqXHR,ajaxSettings,exception){
 					console.log(e.responseText);
@@ -149,6 +152,7 @@ $(document).ready(function(){
 		if(!isNaN(uid)) {
 			
 			if(!isNaN(assignment)) {
+				request.data.assignment = assignment;
 				request.data.student = uid;
 			}
 			request.data.uid = uid;

@@ -71,7 +71,7 @@ public class StudentGetGradesServlet extends HttpServlet {
         throws ServletException, IOException {
     	
     	// get posted parameters
-    	String rawStudent = request.getParameter("student");
+    	String rawStudent = request.getParameter("uid");
     	
     	// attempt to get corresponding grade
     	if(rawStudent == null) {
