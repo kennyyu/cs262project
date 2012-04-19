@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 
 public class ConfigReaderImpl implements ConfigReader {
 	
-	private static final String DEFAULT_CONFIG = "services.config";
+	private static final String DEFAULT_CONFIG = "config/services.config";
 	private Map<String, List<String>> Service2IP = new HashMap<String, List<String>>(); 
 	
 	public ConfigReaderImpl() {
@@ -50,6 +50,7 @@ public class ConfigReaderImpl implements ConfigReader {
 			
 	}
 
+	@Override
 	public List<String> getService(String service) {
 		if(Service2IP.containsKey(service)) {
 			return Service2IP.get(service);
