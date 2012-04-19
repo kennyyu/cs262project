@@ -12,7 +12,7 @@ public class TestConfigReader {
 	
 	@Before
 	public void setUp() throws Exception {
-		cr = new ConfigReaderImpl("test.txt");
+		cr = new ConfigReaderImpl("config/test.config");
 	}
 
 	@After
