@@ -194,7 +194,7 @@ $(document).ready(function() {
 			request.url = "./adminshardassignment";
 			assignment = parseInt($.trim(this.elements["assignmentID"].value));
 			if(!isNaN(assigment)) {
-				request.data.assignment = assignment;
+				request.data.assignmentID = assignment;
 				$.ajax(request);
 			} else {
 				var newError = buildFormError(
