@@ -13,6 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 
 public class StudentSubmissionsServlet extends AdminFrontEndServlet{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7755775296767098218L;
 	SubmissionStorageService submissionStorage;
 	Submission submission;
 	
