@@ -82,7 +82,7 @@ public class AdminGetSubmissionsServlet extends AdminFrontEndServlet {
     	    	Assignment assignment = new AssignmentImpl(assignmentID);
     	    	
     	    	// get submission
-    	    	submission = submissionStorage.getSubmission(student, assignment);
+    	    	submission = submissionStorage.getLatestSubmission(student, assignment);
     	    	
         	} catch (NumberFormatException e){
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST,

@@ -161,6 +161,23 @@ public class SharderServiceServer implements SharderService {
 		return readShard(shardID);
 	}
 	
+	public int getShardID(Assignment assignment) throws RemoteException {
+		BasicDBObject query = new BasicDBObject();
+		query.put("assignmentID", assignment.assignmentID());
+		
+		DBCursor results = coll.find(query);
+		DBObject toSortBy = new BasicDBObject();
+		
+		// XXX: is this right?
+		toSortBy.put("id", null);
+		results.sort(toSortBy);
+		
+		List<DBObject> objs = results.toArray();
+		DBObject latest = objs.get(objs.size() - 1);
+		
+		return (Integer) latest.get("id");
+	}
+	
 	public static void main(String[] args) {
 		try {
 			SharderServiceServer obj = new SharderServiceServer();
