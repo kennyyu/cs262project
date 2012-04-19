@@ -38,7 +38,7 @@ public class MongoSubmissionStorageServiceTests {
 		service.init();
 		
 		Student student = new StudentImpl();
-		Assignment assn = new AssignmentImpl();
+		Assignment assn = new AssignmentImpl(0);
 		
 		byte[] b = new byte[42];
 		Submission sub = new SubmissionImpl(student, assn, b);
