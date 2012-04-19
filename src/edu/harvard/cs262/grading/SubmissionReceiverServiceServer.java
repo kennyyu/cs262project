@@ -11,8 +11,8 @@ public class SubmissionReceiverServiceServer implements
 		SubmissionReceiverService {
 
 	private ConfigReader config;
-	private final static int NUM_LOOKUP_RETRIES = 100;
-	private final static int TIME_TO_SLEEP = 1000;
+	private final static int NUM_LOOKUP_RETRIES = 1;
+	private final static int TIME_TO_SLEEP = 0;
 	private SubmissionStorageService server;
 
 	public SubmissionReceiverServiceServer() {
@@ -70,6 +70,26 @@ public class SubmissionReceiverServiceServer implements
 	public Submission submit(Student student, Assignment assignment,
 			byte[] contents) throws RemoteException {
 		Submission submission = new SubmissionImpl(student, assignment, contents);
+		List<String> submissionStorageServiceNames = config.getService("SubmissionStorageService");
+		for (int j = 0; j < submissionStorageServiceNames.size(); j++) {
+			try {
+				Registry registry = LocateRegistry.getRegistry(submissionStorageServiceNames.get(j));
+				SubmissionStorageService storage = (SubmissionStorageService) registry.lookup("SubmissionStorageService");
+				storage.storeSubmission(submission);
+				return submission;
+			} catch (RemoteException e) {
+				if (j + 1 == submissionStorageServiceNames.size())
+					throw e;
+			} catch (NotBoundException e) {
+				if (j + 1 == submissionStorageServiceNames.size()) {
+					System.err.println("Looking up SubmissionStorageService failed");
+					System.exit(-1);
+				}
+			}
+		}
+		return submission;
+		
+		/*
 		try {
 			server.storeSubmission(submission);
 			return submission;
@@ -77,7 +97,7 @@ public class SubmissionReceiverServiceServer implements
 			lookupService(); // retry looking up the service
 			server.storeSubmission(submission);
 			return submission;
-		}
+		} */
 	}
 
 	public static void main(String[] args) {
@@ -88,7 +108,8 @@ public class SubmissionReceiverServiceServer implements
 
 			// Bind the remote object's stub in the registry
 			Registry registry = LocateRegistry.getRegistry();
-			obj.init();
+			//obj.init();
+			//System.out.println("finished init!");
 			registry.bind("SubmissionReceiverService", stub);
 			
 			System.out.println("SubmissionReceiverService running");
