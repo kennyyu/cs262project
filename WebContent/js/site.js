@@ -3,6 +3,23 @@ $(document).ready(function() {
 	/*
 	 * Form stuff
 	 */
+	function buildFormError(message) {
+		return 
+			el('div.form-error',[message,
+				el('button.form-error-close-button',
+						{title:'click to close'},[
+						el('img',{
+							src:'./images/icons_mono_32x32/stop32.png',
+							height: 16,
+							width: 16
+						})
+						
+				])
+			]);
+	}
+	$("div#form-error-box").live("button",'click',function(){
+		$(this).parent().remove();
+	});
 	
 	/**
 	 * Review Student Work stuff
@@ -29,9 +46,9 @@ $(document).ready(function() {
 						fields_filled_count >= 1) ||
 				(this.elements["type"].value == "grades" &&
 						fields_filled_count == 2)))
-			$("input[type='submit']").removeAttr("disabled");
+			$(this.elements["submit"]).removeAttr("disabled");
 		else
-			$("input[type='submit']").attr("disabled","disabled");
+			$(this.elements["submit"]).attr("disabled","disabled");
 			
 	});
 	
@@ -65,12 +82,11 @@ $(document).ready(function() {
 				request.data.assignment = assignment;
 				$.ajax(data);
 			} else {
-				var newError = el('div.form-error',[
+				var newError = buildFormError(
 							'To request grades ' +
 							'you need to enter a number for ' +
 							'both the student ID and the ' +
-							'assignment ID'
-						]);
+							'assignment ID');
 				errorBox.append(newError).hide().fadeIn(2000);
 			}
 		} // check submissions request
@@ -88,21 +104,12 @@ $(document).ready(function() {
 			if(isValidRequest)
 				$.ajax(request);
 			else {
-				var newError = el('div.form-error',[
+				var newError = buildFormError(
 						'To request submissions(s) ' +
 						'you need to enter a number for ' +
 						'the student ID and/or the ' +
-						'assignment ID',
-						el('button.form-error-close-button',
-								{title:'click to close'},[
-								el('img',{
-									src:'./images/icons_mono_32x32/stop32.png',
-									height: 16,
-									width: 16
-								})
-								
-						])
-					]);
+						'assignment ID'
+					);
 				errorBox.append(newError).hide().fadeIn(2000);
 			}
 		}
@@ -117,13 +124,13 @@ $(document).ready(function() {
 	// upon selection
 	$("#tab-manage-assignments select").change(function(){
 		var selectedOption = this.options[this.selectedIndex].value;
-		var form = $(this.form);
+		var form = $(this.form)[0];
 		if(selectedOption == "add") {
-			form.elements["assignmentID"].attr("disabled","disabled");
-			form.elements["assignmentContent"].removeAttr("disabled");
-		} else if (selectedOpation == "shard") {
-			form.elements["assignmentID"].removeAttr("disabled");
-			form.elements["assignmentContent"].removeAttr("disabled","disabled");
+			$(form.elements["assignmentID"]).attr("disabled","disabled");
+			$(form.elements["assignmentDescription"]).removeAttr("disabled");
+		} else if (selectedOption == "shard") {
+			$(form.elements["assignmentID"]).removeAttr("disabled");
+			$(form.elements["assignmentContent"]).removeAttr("disabled","disabled");
 		} else {
 			$("#tab-manage-assignments form input").attr("disabled","disabled");
 		}
@@ -138,13 +145,13 @@ $(document).ready(function() {
 			return !/^\s*$/.test(this.value);
 		}).size();
 		if(fields_to_fill_count > 0 && (
-				(this.elements["type"].value == "submissions" &&
+				(this.elements["type"].value == "add" &&
 						fields_filled_count >= 1) ||
-				(this.elements["type"].value == "grades" &&
-						fields_filled_count == 2)))
-			$("input[type='submit']").removeAttr("disabled");
+				(this.elements["type"].value == "shard" &&
+						fields_filled_count >= 1)))
+			$(this.elements["submit"]).removeAttr("disabled");
 		else
-			$("input[type='submit']").attr("disabled","disabled");
+			$(this.elements["submit"]).attr("disabled","disabled");
 			
 	});
 	
@@ -152,9 +159,7 @@ $(document).ready(function() {
 	// validate inputs and then send AJAX request
 	$("#tab-manage-assignments form").submit(function(){
 		
-		// retrieve and sanitize input values
-		var student = parseInt($.trim(this.elements["student"].value));
-		var assignment = parseInt($.trim(this.elements["assignment"].value));
+		var assignment = "";
 		
 		// ajax request object
 		var request = {
@@ -171,51 +176,32 @@ $(document).ready(function() {
 		var errorBox = $("div#form-error-box");
 		
 		// check grades request
-		if(this.elements["type"].value == "grades") {
-			request.url = "./admingetgrades";
-			if(!isNaN(student) && !isNaN(assignment)) {
-				request.data.student = student;
+		if(this.elements["type"].value == "add") {
+			request.url = "./adminaddassignment";
+			assignment = $.trim(this.elements["assignmentDescription"].value);
+			if(assigment != "") {
 				request.data.assignment = assignment;
 				$.ajax(data);
 			} else {
-				var newError = el('div.form-error',[
-							'To request grades ' +
-							'you need to enter a number for ' +
-							'both the student ID and the ' +
-							'assignment ID'
-						]);
+				var newError = buildFormError(
+							'To add an assignment ' +
+							'you need to enter a title'
+						);
 				errorBox.append(newError).hide().fadeIn(2000);
 			}
 		} // check submissions request
-		else if (this.elements["type"].value == "submissions") {
-			request.url = "./admingetsubmissions";
-			var isValidRequest = false;
-			if(!isNaN(student)) {
-				request.data.student = student;
-				isValidRequest = true;
-			}
-			if(!isNaN(assignment)) {
+		else if (this.elements["type"].value == "shard") {
+			request.url = "./adminshardassignment";
+			assignment = parseInt($.trim(this.elements["assignmentID"].value));
+			if(!isNaN(assigment)) {
 				request.data.assignment = assignment;
-				isValidRequest = true;
-			}
-			if(isValidRequest)
-				$.ajax(request);
-			else {
-				var newError = el('div.form-error',[
-						'To request submissions(s) ' +
-						'you need to enter a number for ' +
-						'the student ID and/or the ' +
-						'assignment ID',
-						el('button.form-error-close-button',
-								{title:'click to close'},[
-								el('img',{
-									src:'./images/icons_mono_32x32/stop32.png',
-									height: 16,
-									width: 16
-								})
-								
-						])
-					]);
+				$.ajax(data);
+			} else {
+				var newError = buildFormError(
+							'To shard an assignment ' +
+							'you need to specify an assignment ' +
+							'by entering its ID'
+						);
 				errorBox.append(newError).hide().fadeIn(2000);
 			}
 		}

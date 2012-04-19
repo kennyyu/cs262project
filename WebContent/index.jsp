@@ -46,7 +46,7 @@
 							<input disabled="disabled" maxlength="32" name="assignment" type="text" placeholder="type assignment id here" />
 						</div>
 						<div id="form-error-box"></div>
-						<input disabled="disabled" type="submit" value="request data" />
+						<input disabled="disabled" name="submit" type="submit" value="request data" />
 					</form>
 					<hr />
 					<div id="results-wrapper">
@@ -71,10 +71,10 @@
 						<div class="form-section second-section">
 							<div class="section-label">And...</div>
 							<input disabled="disabled" maxlength="32" name="assignmentID" type="text" placeholder="type assignment id here" />
-							<input disabled="disabled" maxlength="32" name="assignmentContent" type="file" /> 
+							<input disabled="disabled" maxlength="64" name="assignmentDescription" type="text" placeholder="type assignment description here" /> 
 						</div>
 						<div id="form-error-box"></div>
-						<input disabled="disabled" type="submit" value="submit" />
+						<input disabled="disabled" name="submit" type="submit" value="submit" />
 					</form>
 					<hr />
 					<div id="results-wrapper">
