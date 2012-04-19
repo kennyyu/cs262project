@@ -18,37 +18,49 @@
 </head>
 <body>
 	<div id="wrapper-main">
-		<div id="header" class="header-text">
+		<div id="main-header" class="header-text">
 			<h1>Admin Panel</h1>
 		</div>
-		<div id="content">
-			<div id="wrapper-content">
-				<form>
-					<div class="form-section first-section">
-						<div class="section-label">What do you want?</div>
-						<select name="type">
-							<option selected="selected" value="">choose one</option>
-							<option>grades</option>
-							<option>submissions</option>
-						</select>
-					</div>
-					<div class="form-section second-section">
-						<div class="section-label">For what/whom?</div>
-						<input disabled="disabled" maxlength="32" name="student" type="text" placeholder="type student id here" />
-						<input disabled="disabled" maxlength="32" name="assignment" type="text" placeholder="type assignment id here" />
-					</div>
-					<div id="form-error-box"></div>
-					<input disabled="disabled" type="submit" value="request data" />
-				</form>
-				<hr />
-				<div id="results">
-					<div id="results-header" class="header-text">Request Results</div>
-					<div id="results-content">
+		<div id="main-nav">
+			<ul class="tabs">
+				<li>Review Student Work</li>
+				<li>Manage Assignments</li>
+			</ul>
+		</div>
+		<article id="main-content">
+			<section id="tab-review-student-work">
+				<h2 class="tab-header">Review Student Work</h2>
+				<div class="tab-content">
+					<form>
+						<div class="form-section first-section">
+							<div class="section-label">What do you want?</div>
+							<select name="type">
+								<option selected="selected" value="">choose one</option>
+								<option>grades</option>
+								<option>submissions</option>
+							</select>
+						</div>
+						<div class="form-section second-section">
+							<div class="section-label">For what/whom?</div>
+							<input disabled="disabled" maxlength="32" name="student" type="text" placeholder="type student id here" />
+							<input disabled="disabled" maxlength="32" name="assignment" type="text" placeholder="type assignment id here" />
+						</div>
+						<div id="form-error-box"></div>
+						<input disabled="disabled" type="submit" value="request data" />
+					</form>
+					<hr />
+					<div id="results-wrapper">
+						<div id="results-header" class="header-text">Request Results</div>
+						<div id="results-content">
+						</div>
 					</div>
 				</div>
-			</div>
-		</div>
-		<div id="footer" class="header-text">
+			</section>
+			<section id="tab-manage-assignments">
+				<h2 class="tab-header">Manage Assignments</h2>
+			</section>
+		</article>
+		<div id="main-footer" class="header-text">
 			&copy; 2012 Jim Danz, Stefan Muller, Kenny Yu, Tony Ho, Willie Yao, Leora Pearson, Rob Bowden
 		</div>
 	</div>
