@@ -1,0 +1,34 @@
+package edu.harvard.cs262.grading;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.ListIterator;
+
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+public class AdminAddAssignmentServlet extends HttpServlet {
+	
+	public void lookupServices() {
+		
+	}
+	
+	public void init(ServletConfig config) throws ServletException {
+		
+		super.init(config);
+		
+		lookupServices();
+		
+	}
+
+    public void doPost(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+    	
+    	// get posted parameters
+
+    }
+
+}

@@ -99,15 +99,16 @@ ul.tabs > li {
 	margin: 0 2px 0 0;
 	padding: 7px 20px;
 	display: inline-block;
-	color: #F0F2F2;
 	background-color: #1D2D2C;
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	user-select: none;
 	font-size: 10pt;
-}
-ul.tabs > li.active-tab {
 	color: #4D6E77;
+	cursor: pointer;
+}
+ul.tabs > li.active-tab, ul.tabs > li:hover {
+	color: #F0F2F2;
 }
 
 

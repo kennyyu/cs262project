@@ -4,21 +4,23 @@ $(document).ready(function() {
 	 * Form stuff
 	 */
 	function buildFormError(message) {
-		return 
-			el('div.form-error',[message,
-				el('button.form-error-close-button',
-						{title:'click to close'},[
-						el('img',{
-							src:'./images/icons_mono_32x32/stop32.png',
-							height: 16,
-							width: 16
-						})
-						
-				])
-			]);
+		var newError = el('div.form-error',[message,
+	        				el('button.form-error-close-button',
+	        						{title:'click to close'},[
+	        						el('img',{
+	        							src:'./images/icons_mono_32x32/stop32.png',
+	        							height: 16,
+	        							width: 16
+	        						})
+	        						
+	        				])
+	        			]);
+		return newError;
+			
 	}
-	$("div.form-error-box").live("button",'click',function(){
-		$(this).parent().remove();
+	$("div.form-error-box").delegate("button",'click',function(){
+		$(this).parent().hide().remove();
+		return false;
 	});
 	
 	/**
@@ -60,19 +62,22 @@ $(document).ready(function() {
 		var student = parseInt($.trim(this.elements["student"].value));
 		var assignment = parseInt($.trim(this.elements["assignment"].value));
 		
+		// grab reference to error box just in case
+		var errorBox = $(this).find("div.form-error-box");
+		
 		// ajax request object
 		var request = {
 				type:"post",
 				data: {},
 				success: function(data) {
 					console.log(data);
-					//$("#results-content").append($("<div class='request-result'>").append(data));
+					$("#tab-review-student-work div.results-box").append(buildRequestResult(data));
 				},
-				error: function(e,jqXHR,ajaxSettings,exception){console.log(e.responseText);}
+				error: function(e,jqXHR,ajaxSettings,exception){
+					console.log(e.responseText);
+					errorBox.append(buildFormError('query to server failed'));
+				}
 		};
-		
-		// grab reference to error box just in case
-		var errorBox = $(this).find("div.form-error-box");
 		
 		// check grades request
 		if(this.elements["type"].value == "grades") {
@@ -161,19 +166,22 @@ $(document).ready(function() {
 		
 		var assignment = "";
 		
+		// grab reference to error box just in case
+		var errorBox = $(this).find("div.form-error-box");
+		
 		// ajax request object
 		var request = {
 				type:"post",
 				data: {},
 				success: function(data) {
 					console.log(data);
-					//$("#results-content").append($("<div class='request-result'>").append(data));
+					$("#tab-review-student-work div.results-box").append(buildRequestResult(data));
 				},
-				error: function(e,jqXHR,ajaxSettings,exception){console.log(e.responseText);}
+				error: function(e,jqXHR,ajaxSettings,exception){
+					console.log(e.responseText);
+					errorBox.append(buildFormError('query to server failed'));
+				}
 		};
-		
-		// grab reference to error box just in case
-		var errorBox = $(this).find("div.form-error-box");
 		
 		// check grades request
 		if(this.elements["type"].value == "add") {
@@ -207,6 +215,17 @@ $(document).ready(function() {
 		}
 		
 		return false;
+	});
+	
+	/*
+	 * result stuff
+	 */
+	function buildRequestResult(result) {
+		var newResult = el('div.request-result',[result]);
+		return newResult;
+	}
+	$("div.results-box").live("button",'click',function(){
+		$(this).parent().remove();
 	});
 	
 	

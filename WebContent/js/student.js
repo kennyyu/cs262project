@@ -25,19 +25,22 @@ $(document).ready(function(){
 	
 	$("#tab-manage-grading form").submit(function(){
 		
+		// grab reference to error box just in case
+		var errorBox = $(this).find("div.form-error-box");
+		
 		// ajax request object
 		var request = {
 				type:"post",
 				data: {},
 				success: function(data) {
 					console.log(data);
-					//$("#results-content").append($("<div class='request-result'>").append(data));
+					$("#tab-manage-grading div.results-box").append(buildRequestResult(data));
 				},
-				error: function(e,jqXHR,ajaxSettings,exception){console.log(e.responseText);}
+				error: function(e,jqXHR,ajaxSettings,exception){
+					console.log(e.responseText);
+					errorBox.append(buildFormError('query to server failed'));
+				}
 		};
-		
-		// grab reference to error box just in case
-		var errorBox = $(this).find("div.form-error-box");
 		
 		// check grades request
 		request.url = "./studentsubmitgrade";
@@ -77,19 +80,22 @@ $(document).ready(function(){
 	
 	$("#tab-view-grades form").submit(function(){
 		
+		// grab reference to error box just in case
+		var errorBox = $(this).find("div.form-error-box");
+		
 		// ajax request object
 		var request = {
 				type:"post",
 				data: {},
 				success: function(data) {
 					console.log(data);
-					//$("#results-content").append($("<div class='request-result'>").append(data));
+					$("#tab-view-grades div.results-box").append(buildRequestResult(data));
 				},
-				error: function(e,jqXHR,ajaxSettings,exception){console.log(e.responseText);}
+				error: function(e,jqXHR,ajaxSettings,exception){
+					console.log(e.responseText);
+					errorBox.append(buildFormError('query to server failed'));
+				}
 		};
-		
-		// grab reference to error box just in case
-		var errorBox = $(this).find("div.form-error-box");
 		
 		// check grades request
 		request.url = "./studentgetgrades";

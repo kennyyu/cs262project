@@ -58,7 +58,7 @@
 					<hr />
 					<div class="results-wrapper">
 						<div class="results-header" class="header-text">Request Results</div>
-						<div class="results-content">
+						<div class="results-box">
 						</div>
 					</div>
 				</div>
@@ -86,7 +86,7 @@
 					<hr />
 					<div class="results-wrapper">
 						<div class="results-header" class="header-text">Request Results</div>
-						<div class="results-content">
+						<div class="results-box">
 						</div>
 					</div>
 				</div>
