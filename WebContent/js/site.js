@@ -1,16 +1,23 @@
 $(document).ready(function() {
-
+	
+	/*
+	 * Form stuff
+	 */
+	
+	/**
+	 * Review Student Work stuff
+	 */
 	// enabled/disable appropriate input fields depending
 	// upon selection
-	$("select").change(function(){
+	$("#review-student-work select").change(function(){
 		if(this.options[0].selected)
-			$("form input[type='text']").attr("disabled","disabled");
+			$("#review-student-work form input[type='text']").attr("disabled","disabled");
 		else
-			$("form input[type='text']").removeAttr("disabled");
+			$("#review-student-work form input[type='text']").removeAttr("disabled");
 	});
 	
 	// enable submit button only when necessary fields have been filled
-	$("form").change(function(){
+	$("#review-student-work form").change(function(){
 		
 		var fields_to_fill = $("input[type='text']:enabled");
 		var fields_to_fill_count = fields_to_fill.size();
@@ -30,7 +37,7 @@ $(document).ready(function() {
 	
 	// handle form submission
 	// validate inputs and then send AJAX request
-	$("form").submit(function(){
+	$("#review-student-work form").submit(function(){
 		
 		// retrieve and sanitize input values
 		var student = parseInt($.trim(this.elements["student"].value));
@@ -104,6 +111,120 @@ $(document).ready(function() {
 	});
 	
 	/**
+	 * manage assignment stuff
+	 */
+	// enabled/disable appropriate input fields depending
+	// upon selection
+	$("#tab-manage-assignments select").change(function(){
+		var selectedOption = this.options[this.selectedIndex].value;
+		var form = $(this.form);
+		if(selectedOption == "add") {
+			form.elements["assignmentID"].attr("disabled","disabled");
+			form.elements["assignmentContent"].removeAttr("disabled");
+		} else if (selectedOpation == "shard") {
+			form.elements["assignmentID"].removeAttr("disabled");
+			form.elements["assignmentContent"].removeAttr("disabled","disabled");
+		} else {
+			$("#tab-manage-assignments form input").attr("disabled","disabled");
+		}
+	});
+	
+	// enable submit button only when necessary fields have been filled
+	$("#tab-manage-assignments form").change(function(){
+		
+		var fields_to_fill = $("input[type='text']:enabled");
+		var fields_to_fill_count = fields_to_fill.size();
+		var fields_filled_count =  fields_to_fill.filter(function(index){
+			return !/^\s*$/.test(this.value);
+		}).size();
+		if(fields_to_fill_count > 0 && (
+				(this.elements["type"].value == "submissions" &&
+						fields_filled_count >= 1) ||
+				(this.elements["type"].value == "grades" &&
+						fields_filled_count == 2)))
+			$("input[type='submit']").removeAttr("disabled");
+		else
+			$("input[type='submit']").attr("disabled","disabled");
+			
+	});
+	
+	// handle form submission
+	// validate inputs and then send AJAX request
+	$("#tab-manage-assignments form").submit(function(){
+		
+		// retrieve and sanitize input values
+		var student = parseInt($.trim(this.elements["student"].value));
+		var assignment = parseInt($.trim(this.elements["assignment"].value));
+		
+		// ajax request object
+		var request = {
+				type:"post",
+				data: {},
+				success: function(data) {
+					console.log(data);
+					//$("#results-content").append($("<div class='request-result'>").append(data));
+				},
+				error: function(e,jqXHR,ajaxSettings,exception){console.log(e.responseText);}
+		};
+		
+		// grab reference to error box just in case
+		var errorBox = $("div#form-error-box");
+		
+		// check grades request
+		if(this.elements["type"].value == "grades") {
+			request.url = "./admingetgrades";
+			if(!isNaN(student) && !isNaN(assignment)) {
+				request.data.student = student;
+				request.data.assignment = assignment;
+				$.ajax(data);
+			} else {
+				var newError = el('div.form-error',[
+							'To request grades ' +
+							'you need to enter a number for ' +
+							'both the student ID and the ' +
+							'assignment ID'
+						]);
+				errorBox.append(newError).hide().fadeIn(2000);
+			}
+		} // check submissions request
+		else if (this.elements["type"].value == "submissions") {
+			request.url = "./admingetsubmissions";
+			var isValidRequest = false;
+			if(!isNaN(student)) {
+				request.data.student = student;
+				isValidRequest = true;
+			}
+			if(!isNaN(assignment)) {
+				request.data.assignment = assignment;
+				isValidRequest = true;
+			}
+			if(isValidRequest)
+				$.ajax(request);
+			else {
+				var newError = el('div.form-error',[
+						'To request submissions(s) ' +
+						'you need to enter a number for ' +
+						'the student ID and/or the ' +
+						'assignment ID',
+						el('button.form-error-close-button',
+								{title:'click to close'},[
+								el('img',{
+									src:'./images/icons_mono_32x32/stop32.png',
+									height: 16,
+									width: 16
+								})
+								
+						])
+					]);
+				errorBox.append(newError).hide().fadeIn(2000);
+			}
+		}
+		
+		return false;
+	});
+	
+	
+	/*
 	 * navigation
 	 */
 	$("div#main-nav > ul > li").click(function() {
@@ -111,11 +232,10 @@ $(document).ready(function() {
 		if(!thisTab.hasClass("active-tab")) {
 			var tabToShowText = $(thisTab).text();
 			var activeTabSection = $("section.active-tab");
-			activeTabSection.fadeOut(2000);
+			activeTabSection.hide("slow");
 			activeTabSection.removeClass("active-tab");
-			var tabToShow = $("section > h2:contains('"+tabToShowText+"')");
-			tabToShow.show("slow");
-			tabToShow.addClass("active-tab");
+			var tabToShow = $("section:has(h2:contains('"+tabToShowText+"'))");
+			tabToShow.show("slow").addClass("active-tab");
 			$("div#main-nav > ul > li.active-tab").removeClass("active-tab");
 			thisTab.addClass("active-tab");
 		}

@@ -58,6 +58,31 @@
 			</section>
 			<section id="tab-manage-assignments">
 				<h2 class="tab-header">Manage Assignments</h2>
+				<div class="tab-content">
+					<form>
+						<div class="form-section first-section">
+							<div class="section-label">What do you want to do?</div>
+							<select name="type">
+								<option value="" selected="selected" value="">choose one</option>
+								<option value="add">add assignment</option>
+								<option value="shard">shard assignment</option>
+							</select>
+						</div>
+						<div class="form-section second-section">
+							<div class="section-label">And...</div>
+							<input disabled="disabled" maxlength="32" name="assignmentID" type="text" placeholder="type assignment id here" />
+							<input disabled="disabled" maxlength="32" name="assignmentContent" type="file" /> 
+						</div>
+						<div id="form-error-box"></div>
+						<input disabled="disabled" type="submit" value="submit" />
+					</form>
+					<hr />
+					<div id="results-wrapper">
+						<div id="results-header" class="header-text">Request Results</div>
+						<div id="results-content">
+						</div>
+					</div>
+				</div>
 			</section>
 		</article>
 		<div id="main-footer" class="header-text">
