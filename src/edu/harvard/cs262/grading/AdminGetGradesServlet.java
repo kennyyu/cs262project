@@ -21,6 +21,11 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class AdminGetGradesServlet extends AdminFrontEndServlet {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5522723969145795538L;
+
 	// operation codes
     static final int GET_GRADES_FOR_SUBMISSION = 00;
 

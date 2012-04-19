@@ -1,7 +1,9 @@
 package edu.harvard.cs262.grading;
 
 import java.net.UnknownHostException;
+import java.rmi.RemoteException;
 import java.sql.SQLException;
+import java.util.Random;
 
 import javax.sql.rowset.serial.SerialException;
 
@@ -15,6 +17,7 @@ import com.mongodb.MongoException;
 
 import static org.junit.Assert.*;
 
+@SuppressWarnings("unused")
 public class MongoSubmissionStorageServiceTests {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -33,18 +36,22 @@ public class MongoSubmissionStorageServiceTests {
 	}
 
 	@Test
-	public void testMongoInit() throws UnknownHostException, MongoException, SerialException, SQLException {
+	public void testMongoInit() throws UnknownHostException, MongoException, SerialException, SQLException, RemoteException {
 		MongoSubmissionStorageService service = new MongoSubmissionStorageService();
 		service.init();
 		
-		Student student = new StudentImpl();
-		Assignment assn = new AssignmentImpl(0);
+		Random r = new Random();
 		
-		byte[] b = new byte[42];
+		Student student = new StudentImpl(r.nextInt(100));
+		Assignment assn = new AssignmentImpl(r.nextInt(100));
+		
+		String contents = "Hello World, " + r.nextInt(100) + " times.";
+		
+		byte[] b = contents.getBytes();
 		Submission sub = new SubmissionImpl(student, assn, b);
 		
 		service.storeSubmission(sub);
 		
-		assertTrue(true);
+		assert(service.getSubmission(student, assn).getContents().equals(contents.getBytes()));
 	}
 }

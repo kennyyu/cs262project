@@ -1,9 +1,11 @@
 package edu.harvard.cs262.grading;
 
+import java.io.Serializable;
+
 /**
  * Interface for grades. This contains no data about the submission.
  */
-public interface Score {
+public interface Score extends Serializable {
 
 	/**
 	 * @return the score as an integer

@@ -2,7 +2,6 @@ package edu.harvard.cs262.grading;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.sql.Blob;
 
 /**
  * Service for receiving student submissions.

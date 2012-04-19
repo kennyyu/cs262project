@@ -7,6 +7,10 @@ import java.util.Set;
 
 public class ShardImpl implements Shard {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2985077449389912337L;
 	private Map<Student, Set<Student>> sharding;
 	
 	public ShardImpl() {

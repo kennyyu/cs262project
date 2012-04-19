@@ -1,12 +1,14 @@
 package edu.harvard.cs262.grading;
 
-import java.sql.Blob;
 import java.sql.Timestamp;
 import java.util.Date;
 
 public class SubmissionImpl implements Submission {
 
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3891098591063077329L;
 	private final Student student;
 	private final Assignment assignment;
 	private final byte[] contents;

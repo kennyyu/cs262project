@@ -2,6 +2,10 @@ package edu.harvard.cs262.grading;
 
 public class StudentImpl implements Student {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3416718070943451888L;
 	private long studentID;
 	
 	public StudentImpl() {

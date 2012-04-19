@@ -26,13 +26,13 @@ public class ConfigReaderImpl implements ConfigReader {
 			DataInputStream in = new DataInputStream(fstream);
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
 			
-			Pattern p = Pattern.compile("//\\d{1,3}.*");
+			Pattern p = Pattern.compile("#.*");
             String strLine = "", currService = "";
             ArrayList<String> IPs = new ArrayList<String>();
 			while((strLine = br.readLine()) != null) {
-				if (!p.matcher(strLine).matches()) {
+				if (p.matcher(strLine).matches()) {
 					if(!IPs.isEmpty()) {
-						Service2IP.put(currService, IPs);
+						Service2IP.put(currService.substring(1), IPs);
 					}
 					IPs = new ArrayList<String>();
 					currService = strLine;
@@ -41,13 +41,12 @@ public class ConfigReaderImpl implements ConfigReader {
 				}
 			}
 			if(!IPs.isEmpty()) {
-				Service2IP.put(currService, IPs);
+				Service2IP.put(currService.substring(1), IPs);
 			}
 		}
 		catch (Exception e) { // generic
 			System.err.println("Error: cannot open file " + file);
-		}
-			
+		}	
 	}
 
 	@Override
