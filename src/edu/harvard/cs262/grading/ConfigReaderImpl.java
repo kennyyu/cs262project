@@ -3,6 +3,8 @@ package edu.harvard.cs262.grading;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,11 +28,11 @@ public class ConfigReaderImpl implements ConfigReader {
 			DataInputStream in = new DataInputStream(fstream);
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
 			
-			Pattern p = Pattern.compile("//\\d{1,3}.*");
+			Pattern p = Pattern.compile("#.*");
             String strLine = "", currService = "";
             ArrayList<String> IPs = new ArrayList<String>();
 			while((strLine = br.readLine()) != null) {
-				if (!p.matcher(strLine).matches()) {
+				if (p.matcher(strLine).matches()) {
 					if(!IPs.isEmpty()) {
 						Service2IP.put(currService, IPs);
 					}
@@ -46,8 +48,7 @@ public class ConfigReaderImpl implements ConfigReader {
 		}
 		catch (Exception e) { // generic
 			System.err.println("Error: cannot open file " + file);
-		}
-			
+		}	
 	}
 
 	@Override
