@@ -2,6 +2,7 @@ package edu.harvard.cs262.grading;
 
 import java.net.UnknownHostException;
 import java.rmi.RemoteException;
+import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.rmi.registry.LocateRegistry;
@@ -76,7 +77,8 @@ public class MongoSubmissionStorageService implements SubmissionStorageService {
 		
 		Submission submission =
 			new SubmissionImpl(student, assignment,
-								(byte[]) latest.get("contents"), (Timestamp) latest.get("timestamp"));
+								(byte[]) latest.get("contents"),
+								new Timestamp(((Date) latest.get("timestamp")).getTime()));
 		
 		return submission;
 	}
@@ -93,7 +95,7 @@ public class MongoSubmissionStorageService implements SubmissionStorageService {
 			Submission submission = new SubmissionImpl(student, 
 					new AssignmentImpl((Long)(result.get("assignmentID"))), 
 					(byte[]) result.get("contents"),
-					(Timestamp) result.get("timestamp"));
+					new Timestamp(((Date) result.get("timestamp")).getTime()));
 			submissions.add(submission);		
 		}
 		
@@ -116,7 +118,7 @@ public class MongoSubmissionStorageService implements SubmissionStorageService {
 			Submission submission = new SubmissionImpl(student, 
 					new AssignmentImpl((Long)(result.get("assignmentID"))), 
 					(byte[]) result.get("contents"),
-					(Timestamp) result.get("timestamp"));
+					new Timestamp(((Date) result.get("timestamp")).getTime()));
 			submissions.add(submission);
 		}
 		
@@ -139,7 +141,7 @@ public class MongoSubmissionStorageService implements SubmissionStorageService {
 					new StudentImpl((Long) result.get("studentID")),
 					assignment, 
 					(byte[]) result.get("contents"),
-					(Timestamp) result.get("timestamp"));
+					new Timestamp(((Date) result.get("timestamp")).getTime()));
 			submissions.add(submission);
 		}
 		
