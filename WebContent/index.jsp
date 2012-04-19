@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; UTF-8"
     pageEncoding="UTF-8"%>
+<% if(session.getAttribute("uid") == null)
+		response.sendRedirect("./login.jsp"); %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,7 +29,8 @@
 				<li>Manage Assignments</li>
 			</ul>
 		</div>
-		<article id="main-content">
+		<div><a style="font-style:italic;float:right;font-size:11pt;" href="./login.jsp?logout=1">Log Out</a></div>
+		<article id="main-content" style="clear:both;">
 			<section class="active-tab" id="tab-review-student-work">
 				<h2 class="tab-header">Review Student Work</h2>
 				<div class="tab-content">

@@ -128,7 +128,7 @@ div.form-error button {
 	border: none;
 	float: right;
 }
-input[type="text"],select{
+input[type="text"],select,input[type="password"]{
 	display:block;
 	background-color:#1D2D2C;
 	color:#C2D3DB;
@@ -168,4 +168,16 @@ div.first-section {
 }
 div.second-section {
 	width: auto;
+}
+div.form-field-wrapper {
+	text-align: left;
+}
+div.form-field-wrapper.centered {
+	text-align: center;
+}
+div.form-field-wrapper {
+	display:block;
+}
+div.form-field-wrapper * {
+	display: inline-block;
 }
