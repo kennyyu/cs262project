@@ -53,9 +53,8 @@
 							<input disabled="disabled" maxlength="32" name="assignment" type="text" placeholder="type assignment id here" />
 						</div>
 						<div class="form-error-box"></div>
-						<input disabled="disabled" name="submit" type="submit" value="request data" />
+						<input name="submit" type="submit" value="request data" />
 					</form>
-					<hr />
 					<div class="results-wrapper">
 						<div class="results-header" class="header-text">Request Results</div>
 						<div class="results-box">
@@ -81,7 +80,7 @@
 							<input disabled="disabled" maxlength="64" name="assignmentDescription" type="text" placeholder="type assignment description here" /> 
 						</div>
 						<div class="form-error-box"></div>
-						<input disabled="disabled" name="submit" type="submit" value="submit" />
+						<input name="submit" type="submit" value="submit" />
 					</form>
 					<hr />
 					<div class="results-wrapper">

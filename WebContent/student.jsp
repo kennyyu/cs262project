@@ -49,16 +49,15 @@
 						</div>
 						<div class="form-section second-section">
 							<div class="section-label">Please, specify...</div>
-							<input type="text" name="student" placeholder="enter gradee id" />
-							<input type="text" name="assignment" placeholder="enter assignment id" />
-							<input type="text" name="score" placeholder="enter score (grade)" />
-							<input type="file" name="submission" placeholder="upload assignment" />
-							<input type="hidden" name="uid" value="<%=session.getAttribute("uid") %>" />
+							<input disabled="disabled" type="text" name="student" placeholder="enter gradee id" />
+							<input disabled="disabled" type="text" name="assignment" placeholder="enter assignment id" />
+							<input disabled="disabled" type="text" name="score" placeholder="enter score (grade)" />
+							<input disabled="disabled" type="file" name="submission" placeholder="upload assignment" />
+							<input disabled="disabled" type="hidden" name="uid" value="<%=session.getAttribute("uid") %>" />
 						</div>
 						<div class="form-error-box"></div>
-						<input name="submit" type="submit" value="submit grade" />
+						<input name="submit" type="submit" value="submit" />
 					</form>
-					<hr />
 					<div class="results-wrapper">
 						<div class="results-header" class="header-text">Request Results</div>
 						<div class="results-box">
@@ -70,7 +69,11 @@
 				<h2 class="tab-header">View Grades</h2>
 				<div class="tab-content">
 					<form>
-						<div class="form-section"><input type="text" name="assignment" placeholder="enter (optional) assignment id" /></div>
+						<div class="form-section">
+							<div class="section-label">Do you want to specify the assignment?</div>
+							<input type="text" name="assignment" placeholder="enter (optional) assignment id" />
+						</div>
+						<div class="form-error-box"></div>
 						<input type="submit" name="submit" value="get grades" />
 						<input type="hidden" name="uid" value="<%=session.getAttribute("uid") %>" />
 					</form>

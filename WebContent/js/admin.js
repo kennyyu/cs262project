@@ -29,14 +29,17 @@ $(document).ready(function() {
 	// enabled/disable appropriate input fields depending
 	// upon selection
 	$("#tab-review-student-work select").change(function(){
-		if(this.options[0].selected)
-			$("#tab-review-student-work form input[type='text']").attr("disabled","disabled");
-		else
-			$("#tab-review-student-work form input[type='text']").removeAttr("disabled");
+		if(this.selectedIndex == 0) {
+			$(this.form.elements["student"]).attr("disabled","disabled");
+			$(this.form.elements["assignment"]).attr("disabled","disabled");
+		} else {
+			$(this.form.elements["student"]).removeAttr("disabled");
+			$(this.form.elements["assignment"]).removeAttr("disabled");
+		}
 	});
 	
 	// enable submit button only when necessary fields have been filled
-	$("#tab-review-student-work form").change(function(){
+	/*$("#tab-review-student-work form").change(function(){
 		
 		var fields_to_fill = $("input[type='text']:enabled");
 		var fields_to_fill_count = fields_to_fill.size();
@@ -52,7 +55,7 @@ $(document).ready(function() {
 		else
 			$(this.elements["submit"]).attr("disabled","disabled");
 			
-	});
+	});*/
 	
 	// handle form submission
 	// validate inputs and then send AJAX request
@@ -142,7 +145,7 @@ $(document).ready(function() {
 	});
 	
 	// enable submit button only when necessary fields have been filled
-	$("#tab-manage-assignments form").change(function(){
+	/*$("#tab-manage-assignments form").change(function(){
 		
 		var fields_to_fill = $("input[type='text']:enabled");
 		var fields_to_fill_count = fields_to_fill.size();
@@ -158,13 +161,13 @@ $(document).ready(function() {
 		else
 			$(this.elements["submit"]).attr("disabled","disabled");
 			
-	});
+	});*/
 	
 	// handle form submission
 	// validate inputs and then send AJAX request
 	$("#tab-manage-assignments form").submit(function(){
 		
-		var assignment = "";
+		var assignment;
 		
 		// grab reference to error box just in case
 		var errorBox = $(this).find("div.form-error-box");
@@ -187,7 +190,7 @@ $(document).ready(function() {
 		if(this.elements["type"].value == "add") {
 			request.url = "./adminaddassignment";
 			assignment = $.trim(this.elements["assignmentDescription"].value);
-			if(assigment != "") {
+			if(assignment != "") {
 				request.data.assignment = assignment;
 				$.ajax(request);
 			} else {
@@ -201,7 +204,7 @@ $(document).ready(function() {
 		else if (this.elements["type"].value == "shard") {
 			request.url = "./adminshardassignment";
 			assignment = parseInt($.trim(this.elements["assignmentID"].value));
-			if(!isNaN(assigment)) {
+			if(!isNaN(assignment)) {
 				request.data.assignmentID = assignment;
 				$.ajax(request);
 			} else {

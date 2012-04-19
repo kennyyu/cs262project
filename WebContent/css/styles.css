@@ -58,9 +58,6 @@ div.tab-content {
 	margin: 1em;
 	padding: 1em;
 }
-div#results-header {
-	text-decoration: underline;
-}
 .header-text {
     font-family: 'Sirin Stencil','Century Gothic',sans-serif;
 }
@@ -185,4 +182,31 @@ div.form-field-wrapper {
 }
 div.form-field-wrapper * {
 	display: inline-block;
+}
+
+/**
+ * results styling
+ */
+div.results-wrapper {
+	margin-top: 16px;
+	background-color: #F0F2F2;
+	background-color:#F0F2F2;
+	display:inline-block;
+	vertical-align:text-top;
+	-webkit-border-radius: 16px;
+	-moz-border-radius: 16px;
+	border-radius: 16px;
+	padding: 16px;
+	width: 100%;
+	display:block;
+}
+div.results-box {
+	text-align: left;
+}
+div.request-result {
+	font-size: 10pt;
+	font-style: italic;
+}
+div.results-header {
+	text-decoration: underline;
 }

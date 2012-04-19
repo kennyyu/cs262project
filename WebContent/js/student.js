@@ -22,6 +22,25 @@ $(document).ready(function(){
 		$(this).parent().hide().remove();
 		return false;
 	});
+
+	// enabled/disable appropriate input fields depending
+	// upon selection
+	$("#tab-make-submission select").change(function(){
+		if(this.options[0].selected)
+			$(this.form).find("div.second-section input").attr("disabled","disabled");
+		else if(this.value == "completed") {
+			$(this.form.elements["submission"]).removeAttr("disabled");
+			$(this.form.elements["assignment"]).removeAttr("disabled");
+			$(this.form.elements["student"]).attr("disabled","disabled");
+			$(this.form.elements["score"]).attr("disabled","disabled");
+		} else if(this.value == "graded") {
+			$(this.form.elements["submission"]).attr("disabled","disabled");
+			$(this.form.elements["assignment"]).removeAttr("disabled");
+			$(this.form.elements["student"]).removeAttr("disabled");
+			$(this.form.elements["score"]).removeAttr("disabled");
+			
+		}
+	});
 	
 	$("#tab-make-submission form").submit(function(){
 		
@@ -34,11 +53,15 @@ $(document).ready(function(){
 				data: {},
 				success: function(data) {
 					console.log(data);
-					$("#tab-make-submission div.results-box").append(buildRequestResult(data));
+					var newResult = el('div.request-result',["- "+data]);
+					$(newResult).prependTo(
+						$("#tab-make-submission div.results-box"))
+						.hide()
+						.slideDown(1000);
 				},
 				error: function(e,jqXHR,ajaxSettings,exception){
 					console.log(e.responseText);
-					errorBox.append(buildFormError('query to server failed'));
+					errorBox.prepend(buildFormError('query to server failed'));
 				}
 		};
 		
@@ -52,9 +75,10 @@ $(document).ready(function(){
 		
 		if(type == "completed") {
 			
-			if(submission) {
+			if(submission && !isNaN(assignment)) {
 
 				request.url = "./studentsubmitsubmission";
+				request.data.assignment = assignment;
 				request.data.uid = uid;
 				request.data.submission = submission;
 				$.ajax(request);
@@ -82,7 +106,7 @@ $(document).ready(function(){
 							'you need to enter a number for ' +
 							'both the student ID and the ' +
 							'assignment ID');
-				errorBox.prepend(newError).hide().fadeIn(2000);
+				$(newError).prependTo(errorBox).hide().fadeIn(1000);
 			}
 			
 		} else {
@@ -105,11 +129,13 @@ $(document).ready(function(){
 				data: {},
 				success: function(data) {
 					console.log(data);
-					$("#tab-view-grades div.results-box").append(buildRequestResult(data));
+					$("#tab-view-grades div.results-box")
+						.append(buildRequestResult(data));
 				},
 				error: function(e,jqXHR,ajaxSettings,exception){
 					console.log(e.responseText);
-					errorBox.append(buildFormError('query to server failed'));
+					var newError = buildFormError('query to server failed');
+					$(newError).prependTo(errorBox).hide().fadeIn(1000);
 				}
 		};
 		
@@ -133,6 +159,13 @@ $(document).ready(function(){
 		
 		return false;
 		
+	});
+	
+	/*
+	 * result stuff
+	 */
+	$("div.results-box").live("button",'click',function(){
+		$(this).parent().remove();
 	});
 
 	

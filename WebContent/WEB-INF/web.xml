@@ -51,7 +51,7 @@
   </servlet-mapping>
   <servlet>
     <servlet-name>AdminAddAssignmentServlet</servlet-name>
-    <servlet-class>edu.harvard.cs262.grading.AddAssignmentServlet</servlet-class>
+    <servlet-class>edu.harvard.cs262.grading.AdminAddAssignmentServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>AdminReviewShardServlet</servlet-name>
