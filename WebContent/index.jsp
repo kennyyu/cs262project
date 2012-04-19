@@ -27,7 +27,7 @@
 <body>
 	<div id="wrapper-main">
 		<div id="main-header" class="header-text">
-			<h1>Admin Panel</h1>
+			<h1>Anonymized Grades View</h1>
 		</div>
 		<div id="main-nav">
 			<ul class="tabs">
@@ -40,26 +40,11 @@
 				<h2 class="tab-header">View Grades</h2>
 				<div class="tab-content">
 					<form>
-						<div class="form-section first-section">
-							<div class="section-label">What do you want?</div>
-							<select name="type">
-								<option selected="selected" value="">choose one</option>
-								<option>grades</option>
-								<option>submissions</option>
-							</select>
-						</div>
-						<div class="form-section second-section">
-							<div class="section-label">For what/whom?</div>
-							<input disabled="disabled" maxlength="32" name="student" type="text" placeholder="type student id here" />
-							<input disabled="disabled" maxlength="32" name="assignment" type="text" placeholder="type assignment id here" />
-						</div>
-						<div id="form-error-box"></div>
-						<input disabled="disabled" name="submit" type="submit" value="get grades" />
+						<input type="submit" name="submit" value="get grades" />
 					</form>
-					<hr />
-					<div id="results-wrapper">
-						<div id="results-header" class="header-text">Request Results</div>
-						<div id="results-content">
+					<div class="results-wrapper">
+						<div class="results-header" class="header-text">Request Results</div>
+						<div class="results-content">
 						</div>
 					</div>
 				</div>

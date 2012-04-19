@@ -77,7 +77,6 @@
 						<input type="submit" name="submit" value="get grades" />
 						<input type="hidden" name="uid" value="<%=session.getAttribute("uid") %>" />
 					</form>
-					<hr />
 					<div class="results-wrapper">
 						<div class="results-header" class="header-text">Request Results</div>
 						<div class="results-box">
