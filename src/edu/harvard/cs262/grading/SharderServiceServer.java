@@ -1,6 +1,7 @@
 package edu.harvard.cs262.grading;
 
 import java.net.UnknownHostException;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -8,6 +9,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.sql.Blob;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
@@ -22,8 +24,6 @@ import com.mongodb.MongoException;
 
 public class SharderServiceServer implements SharderService {
 
-	SubmissionStorageService storage;
-	
 	static int GRADERS_PER_SUBMISSION = 2;
 	
 	private Mongo m;
@@ -33,7 +33,33 @@ public class SharderServiceServer implements SharderService {
 	public void init() throws UnknownHostException, MongoException {
 		m = new Mongo();
 		db = m.getDB("mydb");
-		coll = db.getCollection("testCollection");
+		coll = db.getCollection("shards");
+		
+
+		
+	}
+	
+	private SubmissionStorageService getStorage() throws RemoteException{
+		ConfigReader cfg = new ConfigReaderImpl();
+		List<String> registryNames = cfg.getService("SubmissionStorageService");
+		for (int j = 0; j < registryNames.size(); j++) {
+			try {
+				Registry registry = LocateRegistry.getRegistry(registryNames.get(j));
+				SubmissionStorageService storage = (SubmissionStorageService) registry.lookup("SubmissionStorageService");
+				return storage;
+			} catch (RemoteException e) {
+				if (j + 1 == registryNames.size())
+					throw e;
+			} catch (NotBoundException e) {
+				if (j + 1 == registryNames.size()) {
+					System.err.println("Looking up SubmissionStorageService failed");
+					System.exit(-1);
+				}
+			}
+		}
+		System.err.println("Looking up SubmissionStorageService failed");
+		System.exit(-1);
+		return null;
 	}
 	
 	private int getNextShardID() {
@@ -53,7 +79,7 @@ public class SharderServiceServer implements SharderService {
 		BasicDBObject query = new BasicDBObject();
 		query.put("id", ShardID);
 		
-		ShardImpl shard = new ShardImpl(ShardID);
+		ShardImpl shard = new ShardImpl();
 		
 		DBCursor results = coll.find(query);
 
@@ -90,7 +116,7 @@ public class SharderServiceServer implements SharderService {
 	}
 	
 	public Shard assign(Set<Student> students, Set<Submission> submissions) throws RemoteException {
-		ShardImpl shard = new ShardImpl(getNextShardID());
+		ShardImpl shard = new ShardImpl();
 
 		Random rand = new Random();
 		Map<Student, Integer> canStillGrade = new LinkedHashMap<Student, Integer>();
@@ -120,6 +146,7 @@ public class SharderServiceServer implements SharderService {
 	}
 	@Override
 	public Shard generateShard(Assignment assignment) throws RemoteException {
+		SubmissionStorageService storage = getStorage();
 		Set<Submission> submissions = storage.getAllSubmissions(assignment);
 		
 		//Compile list of students
