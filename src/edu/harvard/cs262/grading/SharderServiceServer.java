@@ -53,7 +53,7 @@ public class SharderServiceServer implements SharderService {
 		BasicDBObject query = new BasicDBObject();
 		query.put("id", ShardID);
 		
-		ShardImpl shard = new ShardImpl(ShardID);
+		ShardImpl shard = new ShardImpl();
 		
 		DBCursor results = coll.find(query);
 
@@ -90,7 +90,7 @@ public class SharderServiceServer implements SharderService {
 	}
 	
 	public Shard assign(Set<Student> students, Set<Submission> submissions) throws RemoteException {
-		ShardImpl shard = new ShardImpl(getNextShardID());
+		ShardImpl shard = new ShardImpl();
 
 		Random rand = new Random();
 		Map<Student, Integer> canStillGrade = new LinkedHashMap<Student, Integer>();

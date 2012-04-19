@@ -30,4 +30,42 @@ public class GradeImpl implements Grade {
 		return timestamp;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((grader == null) ? 0 : grader.hashCode());
+		result = prime * result + ((score == null) ? 0 : score.hashCode());
+		result = prime * result
+				+ ((timestamp == null) ? 0 : timestamp.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		GradeImpl other = (GradeImpl) obj;
+		if (grader == null) {
+			if (other.grader != null)
+				return false;
+		} else if (!grader.equals(other.grader))
+			return false;
+		if (score == null) {
+			if (other.score != null)
+				return false;
+		} else if (!score.equals(other.score))
+			return false;
+		if (timestamp == null) {
+			if (other.timestamp != null)
+				return false;
+		} else if (!timestamp.equals(other.timestamp))
+			return false;
+		return true;
+	}
+
 }
