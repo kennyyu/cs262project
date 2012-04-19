@@ -28,14 +28,17 @@ public class SharderServiceServer implements SharderService {
 	private Mongo m;
 	private DB db;
 	private DBCollection coll;
+	
+	private SubmissionStorageService storage;
 
-	public void init() throws UnknownHostException, MongoException {
+	public void init(boolean sandbox) throws Exception {
 		m = new Mongo();
 		db = m.getDB("dgs");
 		coll = db.getCollection("shards");
 		
 
-		
+		storage = sandbox ? new MongoSubmissionStorageService() : getStorage();
+		if (sandbox) storage.init();
 	}
 	
 	private SubmissionStorageService getStorage() throws RemoteException{
@@ -91,23 +94,15 @@ public class SharderServiceServer implements SharderService {
 	
 	private void writeShard(Shard shard) {
 		Map<Student, Set<Student>> sharding = shard.getShard();
-
-		BasicDBObject doc = new BasicDBObject();
-
-		doc.put("name", "MongoDB");
-		doc.put("type", "database");
-		doc.put("count", 1);
 		
 		for (Student grader : sharding.keySet()) {
 			for (Student gradee : sharding.get(grader)) {
 
-				BasicDBObject info = new BasicDBObject();
+				BasicDBObject doc = new BasicDBObject();
 	
-				info.put("id", shard.shardID());
-				info.put("grader", grader);
-				info.put("gradee", gradee);
-	
-				doc.put("info", info);
+				doc.put("id", shard.shardID());
+				doc.put("grader", grader);
+				doc.put("gradee", gradee);
 	
 				coll.insert(doc);
 			}	
@@ -145,7 +140,6 @@ public class SharderServiceServer implements SharderService {
 	}
 	@Override
 	public Shard generateShard(Assignment assignment) throws RemoteException {
-		SubmissionStorageService storage = getStorage();
 		Set<Submission> submissions = storage.getAllSubmissions(assignment);
 		
 		//Compile list of students

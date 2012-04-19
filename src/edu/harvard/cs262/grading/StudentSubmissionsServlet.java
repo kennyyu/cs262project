@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 public class StudentSubmissionsServlet extends AdminFrontEndServlet{
 
 	SubmissionStorageService submissionStorage;
+	Submission submission;
 	
 	public void lookupServices() {
 		
@@ -44,9 +45,39 @@ public class StudentSubmissionsServlet extends AdminFrontEndServlet{
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-    	// get posted parameters
-    	String rawStudent = request.getParameter("student");
+    	// get posted parameters (may have to update parameter names)
+    	String rawStudent = request.getParameter("id");
     	String rawAssignment = request.getParameter("assignment");
-    }
+    	String rawSubmissionData = request.getParameter("submission");
+    	
+    	if(rawStudent == null || rawSubmissionData == null) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST,
+                    "parameters not set");
+    	} else {
 
+	    	// try to convert parameters into usable format
+	    	try{
+		    	Integer studentID = Integer.parseInt(rawStudent);
+		    	Integer assignmentID = Integer.parseInt(rawAssignment);
+		    	Assignment assignment = new AssignmentImpl(assignmentID);
+    	    	Student student = new StudentImpl(studentID);
+		    	
+		    	submission = new SubmissionImpl(student, assignment, rawSubmissionData.getBytes());
+		    	
+	    	} catch (NumberFormatException e){
+	            response.sendError(HttpServletResponse.SC_BAD_REQUEST,
+	                    "invalid values given");
+	    	} catch (NullPointerException e) {
+	    		response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+	    				"submission upload failed");
+	    		e.printStackTrace();
+	    	}
+	    	try{
+	    		submissionStorage.storeSubmission(submission);
+	    	}catch (Exception e){
+	    		
+	    	} 	
+    	}
+    }
 }
+
