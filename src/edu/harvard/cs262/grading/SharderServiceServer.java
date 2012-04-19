@@ -33,7 +33,7 @@ public class SharderServiceServer implements SharderService {
 	public void init() throws UnknownHostException, MongoException {
 		m = new Mongo();
 		db = m.getDB("mydb");
-		coll = db.getCollection("testCollection");
+		coll = db.getCollection("shards");
 		
 
 		

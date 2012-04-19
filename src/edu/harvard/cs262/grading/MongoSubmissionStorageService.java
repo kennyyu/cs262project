@@ -25,7 +25,7 @@ public class MongoSubmissionStorageService implements SubmissionStorageService {
 	public void init() throws UnknownHostException, MongoException {
 		m = new Mongo();
 		db = m.getDB("mydb");
-		coll = db.getCollection("testCollection");
+		coll = db.getCollection("submissions");
 	}
 
 	@Override
