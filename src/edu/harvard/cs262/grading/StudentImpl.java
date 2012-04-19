@@ -41,4 +41,9 @@ public class StudentImpl implements Student {
 			return false;
 		return true;
 	}
+	
+	@Override
+	public String toString() {
+		return "Student: " + studentID;
+	}
 }

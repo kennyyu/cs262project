@@ -81,5 +81,10 @@ public class ShardImpl implements Shard {
 			return false;
 		return true;
 	}
+	
+	@Override
+	public String toString() {
+		return "ShardID: " + shardID() + " Mapping:\n" + sharding;
+	}
 
 }

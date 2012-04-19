@@ -42,5 +42,10 @@ public class AssignmentImpl implements Assignment {
 			return false;
 		return true;
 	}
+	
+	@Override
+	public String toString() {
+		return "Assignment: " + assignmentID;
+	}
 
 }

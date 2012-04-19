@@ -41,4 +41,31 @@ public class SubmissionImpl implements Submission {
 		return contents;
 	}
 
+	@Override
+	public int hashCode() {
+		return student.hashCode() + assignment.hashCode() + contents.hashCode() + timestamp.hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		SubmissionImpl other = (SubmissionImpl) obj;
+		if (student.equals(other.student) &&
+			assignment.equals(other.assignment) &&
+			timestamp.equals(other.timestamp) &&
+			contents.equals(other.contents))
+			return true;
+		return false;
+	}
+	
+	@Override
+	public String toString() {
+		return student + ", " + assignment + ", " + timestamp + ", " + contents;
+	}
+
 }
