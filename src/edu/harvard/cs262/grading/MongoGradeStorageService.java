@@ -79,6 +79,7 @@ public class MongoGradeStorageService implements GradeStorageService {
 			MongoGradeStorageService obj = new MongoGradeStorageService();
 			GradeStorageService stub = (GradeStorageService) UnicastRemoteObject
 					.exportObject(obj, 0);
+			obj.init();
 
 			// Bind the remote object's stub in the registry
 			Registry registry = LocateRegistry.getRegistry();
