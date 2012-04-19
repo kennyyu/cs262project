@@ -164,12 +164,15 @@ public class SharderServiceServer implements SharderService {
 	public static void main(String[] args) {
 		try {
 			SharderServiceServer obj = new SharderServiceServer();
-			SubmissionStorageService stub = (SubmissionStorageService) UnicastRemoteObject
+			SharderService stub = (SharderService) UnicastRemoteObject
 					.exportObject(obj, 0);
+			obj.init(false);
 
 			// Bind the remote object's stub in the registry
 			Registry registry = LocateRegistry.getRegistry();
 			registry.bind("SharderService", stub);
+			
+			System.out.println("SharderService running");
 		} catch (Exception e) {
 			System.err.println("Server exception: " + e.toString());
 			e.printStackTrace();

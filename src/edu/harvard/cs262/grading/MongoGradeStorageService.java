@@ -65,7 +65,7 @@ public class MongoGradeStorageService implements GradeStorageService {
 			DBObject gradeObject = cur.next();
 			// I'm assuming that, if I put it in as an int, I can pull it out and cast it to Integer????
 			Score score = new ScoreImpl((Integer)gradeObject.get("score"), (Integer)gradeObject.get("maxScore"));
-			Student grader = new StudentImpl((Long) (gradeObject.get("studentID")));
+			Student grader = new StudentImpl((Long) (gradeObject.get("grader")));
 			Timestamp tm = new Timestamp(((Date) gradeObject.get("timestamp")).getTime());
 			Grade grade = new GradeImpl(score, grader, tm);
 			grades.add(grade);
