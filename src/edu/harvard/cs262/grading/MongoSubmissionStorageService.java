@@ -36,18 +36,10 @@ public class MongoSubmissionStorageService implements SubmissionStorageService {
 
 		BasicDBObject doc = new BasicDBObject();
 
-		doc.put("name", "MongoDB");
-		doc.put("type", "database");
-		doc.put("count", 1);
-
-		BasicDBObject info = new BasicDBObject();
-
-		info.put("studentID", submission.getStudent().studentID());
-		info.put("assignmentID", submission.getAssignment().assignmentID());
-		info.put("timestamp", submission.getTimeStamp());
-		info.put("contents", submission.getContents());
-
-		doc.put("info", info);
+		doc.put("studentID", submission.getStudent().studentID());
+		doc.put("assignmentID", submission.getAssignment().assignmentID());
+		doc.put("timestamp", submission.getTimeStamp());
+		doc.put("contents", submission.getContents());
 
 		coll.insert(doc);
 	}
@@ -93,7 +85,7 @@ public class MongoSubmissionStorageService implements SubmissionStorageService {
 			throws RemoteException {
 
 		BasicDBObject query = new BasicDBObject();
-		query.put("assignmentID", assignment);
+		query.put("assignmentID", assignment.assignmentID());
 		
 		DBCursor results = coll.find(query);
 		
@@ -101,7 +93,7 @@ public class MongoSubmissionStorageService implements SubmissionStorageService {
 		
 		for (DBObject result : results) {
 			Submission submission = new SubmissionImpl(
-					(Student) result.get("studentID"), 
+					new StudentImpl((Long) result.get("studentID")),
 					assignment, 
 					(byte[]) result.get("contents"));
 			submissions.add(submission);
