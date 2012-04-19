@@ -12,7 +12,13 @@ public class GradeImpl implements Grade {
 	public GradeImpl(Score score, Student grader) {
 		this.score = score;
 		this.grader = grader;
-		this.timestamp = new Timestamp((new Date()).getTime()); 
+		this.timestamp = new Timestamp((new Date()).getTime());
+	}
+	
+	public GradeImpl(Score score, Student grader, Timestamp timestamp) {
+		this.score = score;
+		this.grader = grader;
+		this.timestamp = timestamp; 
 	}
 	
 	@Override
