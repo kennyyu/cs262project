@@ -62,6 +62,7 @@ public class SharderServiceServer implements SharderService {
 		return null;
 	}
 	
+	@SuppressWarnings("unused")
 	private int getNextShardID() {
 		BasicDBObject query = new BasicDBObject();
 		
