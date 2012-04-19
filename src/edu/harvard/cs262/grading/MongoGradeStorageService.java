@@ -43,7 +43,7 @@ public class MongoGradeStorageService implements GradeStorageService {
 		info.put("grader", grade.getGrader().studentID());
 		info.put("score", grade.getScore().getScore());
 		info.put("maxScore", grade.getScore().maxScore());
-		info.put("timestamp", grade.getTimeStamp().getTime());
+		info.put("timestamp", grade.getTimeStamp());
 
 		coll.insert(info);
 
@@ -65,7 +65,7 @@ public class MongoGradeStorageService implements GradeStorageService {
 			// I'm assuming that, if I put it in as an int, I can pull it out and cast it to Integer????
 			Score score = new ScoreImpl((Integer)gradeObject.get("score"), (Integer)gradeObject.get("maxScore"));
 			Student grader = new StudentImpl((Integer)gradeObject.get("studentID"));
-			Timestamp tm = new Timestamp((Long)gradeObject.get("timestamp"));
+			Timestamp tm = (Timestamp)gradeObject.get("timestamp");
 			Grade grade = new GradeImpl(score, grader, tm);
 			grades.add(grade);
 		}
