@@ -73,6 +73,8 @@ public class MongoSubmissionStorageService implements SubmissionStorageService {
 		results.sort(toSortBy);
 		
 		List<DBObject> objs = results.toArray();
+		if (objs.size() == 0) return null;
+		
 		DBObject latest = objs.get(objs.size() - 1);
 		
 		Submission submission =
