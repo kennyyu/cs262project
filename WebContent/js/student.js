@@ -23,7 +23,7 @@ $(document).ready(function(){
 		return false;
 	});
 	
-	$("#tab-manage-grading form").submit(function(){
+	$("#tab-make-submission form").submit(function(){
 		
 		// grab reference to error box just in case
 		var errorBox = $(this).find("div.form-error-box");
@@ -34,7 +34,7 @@ $(document).ready(function(){
 				data: {},
 				success: function(data) {
 					console.log(data);
-					$("#tab-manage-grading div.results-box").append(buildRequestResult(data));
+					$("#tab-make-submission div.results-box").append(buildRequestResult(data));
 				},
 				error: function(e,jqXHR,ajaxSettings,exception){
 					console.log(e.responseText);
@@ -42,37 +42,53 @@ $(document).ready(function(){
 				}
 		};
 		
-		// check grades request
-		request.url = "./studentsubmitgrade";
-		
 		// retrieve and sanitize input values
 		var student = parseInt($.trim(this.elements["student"].value));
 		var assignment = parseInt($.trim(this.elements["assignment"].value));
+		var score = parseInt($.trim(this.elements["score"].value));
+		var submission = this.elements["submission"].value;
 		var uid = parseInt($.trim(this.elements["uid"].value));
+		var type = this.elements["type"].value;
 		
-		if(!isNaN(student) && !isNaN(assignment) && !isNaN(uid)) {
+		if(type == "completed") {
 			
-			request.data.id = student;
-			request.data.assignment = assignment;
-			request.data.uid = uid;
-			
-			if(this.elements["grade"].value != "") {
-				request.data.submission = this.elements["grade"].value;
+			if(submission) {
+
+				request.url = "./studentsubmitsubmission";
+				request.data.uid = uid;
+				request.data.submission = submission;
 				$.ajax(request);
+				
 			} else {
 				errorBox.prepend(buildFormError("Please, choose a file to upload.")
 						.hide().fadeIn(2000));
 			}
 			
+		} else if(type == "grade") {
+			
+			if(!isNaN(student) && !isNaN(assignment) && !isNaN(score)) {
+
+				request.url = "./studentsubmitgrade";
+				request.data.id = student;
+				request.data.assignment = assignment;
+				request.data.uid = uid;
+				request.data.score = score;
+
+				$.ajax(request);
+				
+			} else {
+				var newError = buildFormError(
+							'To request grades ' +
+							'you need to enter a number for ' +
+							'both the student ID and the ' +
+							'assignment ID');
+				errorBox.prepend(newError).hide().fadeIn(2000);
+			}
+			
 		} else {
-			var newError = buildFormError(
-						'To request grades ' +
-						'you need to enter a number for ' +
-						'both the student ID and the ' +
-						'assignment ID');
+			var newError = buildFormError('invalid request');
 			errorBox.prepend(newError).hide().fadeIn(2000);
 		}
-		
 		
 		return false;
 		

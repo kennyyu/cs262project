@@ -12,14 +12,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class StudentSubmissionsServlet extends HttpServlet {
+public class StudentSubmitSubmissionServlet extends HttpServlet {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 7755775296767098218L;
-	SubmissionStorageService submissionStorage;
-	Submission submission;
+	private SubmissionStorageService submissionStorage;
 	
 	public void lookupServices() {
 		
@@ -51,14 +50,16 @@ public class StudentSubmissionsServlet extends HttpServlet {
             throws ServletException, IOException {
 
     	// get posted parameters (may have to update parameter names)
-    	String rawStudent = request.getParameter("id");
+    	String rawStudent = request.getParameter("uid");
     	String rawAssignment = request.getParameter("assignment");
-    	String rawSubmissionData = request.getParameter("submission");
+    	String rawSubmission = request.getParameter("submission");
     	
-    	if(rawStudent == null || rawSubmissionData == null) {
+    	if(rawStudent == null || rawSubmission == null || rawAssignment == null) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST,
                     "parameters not set");
     	} else {
+    		
+    		Submission submission;
 
 	    	// try to convert parameters into usable format
 	    	try{
@@ -67,7 +68,12 @@ public class StudentSubmissionsServlet extends HttpServlet {
 		    	Assignment assignment = new AssignmentImpl(assignmentID);
     	    	Student student = new StudentImpl(studentID);
 		    	
-		    	submission = new SubmissionImpl(student, assignment, rawSubmissionData.getBytes());
+		    	submission = new SubmissionImpl(student, assignment, rawSubmission.getBytes());
+	    		submissionStorage.storeSubmission(submission);
+
+	        	response.setContentType("text/Javascript");
+	        	response.setCharacterEncoding("UTF-8");
+	        	response.getWriter().write("Succesfully submitted submission for assignment "+assignmentID+".");
 		    	
 	    	} catch (NumberFormatException e){
 	            response.sendError(HttpServletResponse.SC_BAD_REQUEST,
@@ -76,12 +82,7 @@ public class StudentSubmissionsServlet extends HttpServlet {
 	    		response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
 	    				"submission upload failed");
 	    		e.printStackTrace();
-	    	}
-	    	try{
-	    		submissionStorage.storeSubmission(submission);
-	    	}catch (Exception e){
-	    		// ignore for now
-	    	} 	
+	    	}	
     	}
     }
 }

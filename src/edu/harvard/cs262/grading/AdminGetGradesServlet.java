@@ -37,7 +37,6 @@ public class AdminGetGradesServlet extends HttpServlet {
 
         try {
             // get reference to database service
-            // get reference to database service
         	Registry registry = LocateRegistry.getRegistry();
         	gradeStorage = (GradeStorageService) registry.lookup("GradeStorageService");
         } catch (RemoteException e) {

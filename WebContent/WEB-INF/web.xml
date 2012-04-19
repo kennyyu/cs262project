@@ -66,11 +66,19 @@
     <url-pattern>/studentgetgrades</url-pattern>
   </servlet-mapping>
   <servlet>
-    <servlet-name>StudentSubmissionsServlet</servlet-name>
-    <servlet-class>edu.harvard.cs262.grading.StudentSubmissionsServlet</servlet-class>
+    <servlet-name>StudentSubmitSubmissionServlet</servlet-name>
+    <servlet-class>edu.harvard.cs262.grading.StudentSubmitSubmissionServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>StudentSubmissionsServlet</servlet-name>
+    <servlet-name>StudentSubmitSubmissionServlet</servlet-name>
+    <url-pattern>/studentsubmitsubmission</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>StudentSubmitGradeServlet</servlet-name>
+    <servlet-class>edu.harvard.cs262.grading.StudentSubmitGradeServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>StudentSubmitGradeServlet</servlet-name>
     <url-pattern>/studentsubmitgrade</url-pattern>
   </servlet-mapping>
 </web-app>

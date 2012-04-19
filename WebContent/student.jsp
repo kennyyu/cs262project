@@ -29,22 +29,31 @@
 		</div>
 		<div id="main-nav">
 			<ul class="tabs">
-				<li class="active-tab">Manage Grading</li>
+				<li class="active-tab">Make Submission</li>
 				<li>View Grades</li>
 			</ul>
 		</div>
 		<div><a style="font-style:italic;float:right;font-size:11pt;" href="./logout.jsp">Log Out</a></div>
 		<article id="main-content" style="clear:both;">
-			<section class="active-tab" id="tab-manage-grading">
-				<h2 class="tab-header">Manage Grading</h2>
+			<section class="active-tab" id="tab-make-submission">
+				<h2 class="tab-header">Make Submission</h2>
 				<div class="tab-content">
 					<form>
-						<div class="form-section">
-							<div class="section-label">Submit Grade</div>
+						<div class="form-section first-section">
+							<div class="section-label">What do you want to submit?</div>
+							<select name="type">
+								<option selected="selected" value="">select one</option>
+								<option value="completed">Completed Assignment</option>
+								<option value="graded">Graded Assignment</option>
+							</select>
+						</div>
+						<div class="form-section second-section">
+							<div class="section-label">Please, specify...</div>
 							<input type="text" name="student" placeholder="enter gradee id" />
 							<input type="text" name="assignment" placeholder="enter assignment id" />
+							<input type="text" name="score" placeholder="enter score (grade)" />
+							<input type="file" name="submission" placeholder="upload assignment" />
 							<input type="hidden" name="uid" value="<%=session.getAttribute("uid") %>" />
-							<input type="file" name="grade" placeholder="upload graded assignment" />
 						</div>
 						<div class="form-error-box"></div>
 						<input name="submit" type="submit" value="submit grade" />
