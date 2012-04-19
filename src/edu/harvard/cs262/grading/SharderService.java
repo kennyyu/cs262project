@@ -31,4 +31,6 @@ public interface SharderService extends Remote {
 	 * @throws RemoteException
 	 */
 	public Shard getShard(int shardID) throws RemoteException;
+	
+	public int getShardID(Assignment assignment) throws RemoteException;
 }
