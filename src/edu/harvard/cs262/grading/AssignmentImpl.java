@@ -21,7 +21,7 @@ public class AssignmentImpl implements Assignment {
 	}
 	
 	@Override
-	public int assignmentID() {
+	public long assignmentID() {
 		return this.assignmentID;
 	}
 
