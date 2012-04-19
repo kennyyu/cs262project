@@ -6,14 +6,14 @@ public class AssignmentImpl implements Assignment {
 	 * 
 	 */
 	private static final long serialVersionUID = -6532018502443527393L;
-	private int assignmentID;
+	private long assignmentID;
 	
 	public AssignmentImpl() {
 		this.assignmentID = 0;
 	}
 	
-	public AssignmentImpl(int assignmentID) {
-		this.assignmentID = assignmentID;
+	public AssignmentImpl(long long1) {
+		this.assignmentID = long1;
 	}
 	
 	@Override
@@ -25,7 +25,8 @@ public class AssignmentImpl implements Assignment {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + assignmentID;
+		// XXX added cast to int as a hack...
+		result = (int) (prime * result + assignmentID);
 		return result;
 	}
 

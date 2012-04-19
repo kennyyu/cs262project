@@ -42,8 +42,8 @@ public class MongoSubmissionStorageServiceTests {
 		
 		Random r = new Random();
 		
-		Student student = new StudentImpl(r.nextInt(100));
-		Assignment assn = new AssignmentImpl(r.nextInt(100));
+		Student student = new StudentImpl(50);
+		Assignment assn = new AssignmentImpl(50);
 		
 		String contents = "Hello World, " + r.nextInt(100) + " times.";
 		
@@ -52,6 +52,6 @@ public class MongoSubmissionStorageServiceTests {
 		
 		service.storeSubmission(sub);
 		
-		assert(service.getSubmission(student, assn).getContents().equals(contents.getBytes()));
+		assert(service.getLatestSubmission(student, assn).getContents().equals(contents.getBytes()));
 	}
 }

@@ -3,9 +3,11 @@ package edu.harvard.cs262.grading;
 import java.net.UnknownHostException;
 import java.rmi.RemoteException;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.sql.Timestamp;
 import java.util.Set;
 
 import com.mongodb.DBCursor;
@@ -44,19 +46,59 @@ public class MongoSubmissionStorageService implements SubmissionStorageService {
 		coll.insert(doc);
 	}
 
-	@Override
-	public Submission getSubmission(Student student, Assignment assignment)
-			throws RemoteException {
-
+	public Submission getSubmission(Student student, Assignment assignment, Timestamp timestamp) {
 		BasicDBObject query = new BasicDBObject();
 		query.put("studentID", student.studentID());
 		query.put("assignmentID", assignment.assignmentID());
+		query.put("timestamp", timestamp);
 		
 		DBObject info = coll.findOne(query);
 		
 		Submission submission = new SubmissionImpl(student, assignment, (byte[]) info.get("contents"));
 		
 		return submission;
+	}
+	
+	public Submission getLatestSubmission(Student student, Assignment assignment) {
+		BasicDBObject query = new BasicDBObject();
+		query.put("studentID", student.studentID());
+		query.put("assignmentID", assignment.assignmentID());
+		
+		DBCursor results = coll.find(query);
+		DBObject toSortBy = new BasicDBObject();
+		
+		// XXX: is this right?
+		toSortBy.put("timestamp", null);
+		results.sort(toSortBy);
+		
+		List<DBObject> objs = results.toArray();
+		DBObject latest = objs.get(objs.size() - 1);
+		
+		Submission submission =
+			new SubmissionImpl(student, assignment,
+								(byte[]) latest.get("contents"), (Timestamp) latest.get("timestamp"));
+		
+		return submission;
+	}
+	
+	public Set<Submission> getSubmissions(Student student, Assignment assignment) {
+		BasicDBObject query = new BasicDBObject();
+		query.put("studentID", student.studentID());
+		query.put("assignmentID", assignment.assignmentID());
+		
+		DBCursor results = coll.find(query);
+		
+		Set<Submission> submissions = new LinkedHashSet<Submission>();
+		for (DBObject result : results) {
+			Submission submission = new SubmissionImpl(student, 
+					new AssignmentImpl((Long)(result.get("assignmentID"))), 
+					(byte[]) result.get("contents"),
+					(Timestamp) result.get("timestamp"));
+			submissions.add(submission);		
+		}
+		
+		
+		return submissions;		
 	}
 
 	@Override
@@ -72,8 +114,9 @@ public class MongoSubmissionStorageService implements SubmissionStorageService {
 		
 		for (DBObject result : results) {
 			Submission submission = new SubmissionImpl(student, 
-					(Assignment) result.get("assignmentID"), 
-					(byte[]) result.get("contents"));
+					new AssignmentImpl((Long)(result.get("assignmentID"))), 
+					(byte[]) result.get("contents"),
+					(Timestamp) result.get("timestamp"));
 			submissions.add(submission);
 		}
 		
@@ -95,7 +138,8 @@ public class MongoSubmissionStorageService implements SubmissionStorageService {
 			Submission submission = new SubmissionImpl(
 					new StudentImpl((Long) result.get("studentID")),
 					assignment, 
-					(byte[]) result.get("contents"));
+					(byte[]) result.get("contents"),
+					(Timestamp) result.get("timestamp"));
 			submissions.add(submission);
 		}
 		

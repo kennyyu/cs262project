@@ -14,11 +14,17 @@ public class SubmissionImpl implements Submission {
 	private final byte[] contents;
 	private final Timestamp timestamp;
 
-	public SubmissionImpl(Student student, Assignment assignment, byte[] contents) {
+	// Take a timestamp
+	public SubmissionImpl(Student student, Assignment assignment, byte[] contents, Timestamp timestamp) {
 		this.student = student;
 		this.assignment = assignment;
 		this.contents = contents;
-		this.timestamp = new Timestamp((new Date()).getTime());
+		this.timestamp = timestamp;
+	}
+	
+	// Auto-generate a timestamp
+	public SubmissionImpl(Student student, Assignment assignment, byte[] contents) {
+		this(student, assignment, contents, new Timestamp((new Date()).getTime()));
 	}
 
 	@Override
