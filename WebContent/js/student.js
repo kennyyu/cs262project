@@ -49,12 +49,12 @@ $(document).ready(function(){
 		
 		if(!isNaN(student) && !isNaN(assignment) && !isNaN(uid)) {
 			
-			request.data.student = student;
+			request.data.id = student;
 			request.data.assignment = assignment;
 			request.data.uid = uid;
 			
 			if(this.elements["grade"].value != "") {
-				request.data.file = this.elements["grade"].value;
+				request.data.submission = this.elements["grade"].value;
 				$.ajax(request);
 			} else {
 				errorBox.prepend(buildFormError("Please, choose a file to upload.")
@@ -101,7 +101,7 @@ $(document).ready(function(){
 		if(!isNaN(uid)) {
 			
 			if(!isNaN(assignment)) {
-				request.data.assignment = assignment;
+				request.data.student = uid;
 			}
 			request.data.uid = uid;
 			
