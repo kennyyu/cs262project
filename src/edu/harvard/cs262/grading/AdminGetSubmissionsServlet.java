@@ -2,6 +2,7 @@ package edu.harvard.cs262.grading;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -21,7 +22,7 @@ import java.util.Set;
  * talk to the server, and http is the is used between this
  * servlet and the web app.
  */
-public class AdminGetSubmissionsServlet extends AdminFrontEndServlet {
+public class AdminGetSubmissionsServlet extends HttpServlet {
 
     /**
 	 * 
@@ -47,6 +48,10 @@ public class AdminGetSubmissionsServlet extends AdminFrontEndServlet {
         } catch (NotBoundException e) {
             System.err.println("AdminGetSubmissionsServlet: Could not find SubmissionStorageService in registry.");
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+        if(submissionStorage == null) {
+        	System.err.println("Could not fine SubmissionStorageService");
+        	System.exit(-1);
         }
     	
     }

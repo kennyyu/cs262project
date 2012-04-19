@@ -56,7 +56,7 @@
 					</div>
 				</div>
 			</section>
-			<section id="tab-manage-assignments" class="hidden">
+			<section id="tab-manage-assignments">
 				<h2 class="tab-header">Manage Assignments</h2>
 			</section>
 		</article>

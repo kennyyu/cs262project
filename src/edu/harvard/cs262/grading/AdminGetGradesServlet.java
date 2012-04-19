@@ -10,6 +10,7 @@ import java.util.ListIterator;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -19,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
  * talk to the server, and http is the is used between this
  * servlet and the web app.
  */
-public class AdminGetGradesServlet extends AdminFrontEndServlet {
+public class AdminGetGradesServlet extends HttpServlet {
 
 	/**
 	 * 
@@ -46,6 +47,10 @@ public class AdminGetGradesServlet extends AdminFrontEndServlet {
             System.err.println("AdminGetGradesServlet: Could not find GradeStorageService in registry.");
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
+        if(gradeStorage == null) {
+        	System.err.println("Could not fine GradeStorageService");
+        	System.exit(-1);
+        }
 
         try {
             // get reference to database service
@@ -58,12 +63,16 @@ public class AdminGetGradesServlet extends AdminFrontEndServlet {
             System.err.println("AdminGetSubmissionsServlet: Could not find SubmissionStorageService in registry.");
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
+        if(submissionStorage == null) {
+        	System.err.println("Could not fine SubmissionStorageService");
+        	System.exit(-1);
+        }
     	
     }
 
     public void init(ServletConfig config) throws ServletException {
-
-        super.init(config);
+    	
+    	super.init(config);
         
         lookupServices();
 
