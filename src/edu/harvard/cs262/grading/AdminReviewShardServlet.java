@@ -5,8 +5,6 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -17,6 +15,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class AdminReviewShardServlet extends HttpServlet {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -952195365293520107L;
 	SharderServiceServer sharderService;
 
 	public void lookupServices() {
@@ -55,7 +57,6 @@ public class AdminReviewShardServlet extends HttpServlet {
 		String rawAssignmentID = request.getParameter("assignmentID");
 
 		// attempt to get corresponding grade
-		List<Grade> grades = null;
 		if (rawAssignmentID == null) {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST,
 					"parameters not set");

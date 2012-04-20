@@ -14,7 +14,11 @@ import javax.servlet.http.HttpServletResponse;
 
 public class StudentSubmitGradeServlet extends HttpServlet {
 
-    private GradeStorageService gradeStorage;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2228843269260363252L;
+	private GradeStorageService gradeStorage;
     private SubmissionStorageService submissionStorage;
     
     public void lookupServices() {

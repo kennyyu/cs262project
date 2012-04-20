@@ -1,8 +1,6 @@
 package edu.harvard.cs262.grading;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.ListIterator;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -11,7 +9,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class AdminAddAssignmentServlet extends HttpServlet {
-	
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2895803517594443809L;
+
 	public void lookupServices() {
 		
 	}
