@@ -50,7 +50,7 @@ public class ConfigReaderImpl implements ConfigReader {
 	}
 
 	@Override
-	public List<String> getService(String service) {
+	public List<String> getRegistryLocations(String service) {
 		if(Service2IP.containsKey(service)) {
 			return Service2IP.get(service);
 		}

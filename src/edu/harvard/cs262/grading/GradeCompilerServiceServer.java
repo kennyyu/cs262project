@@ -35,7 +35,7 @@ public class GradeCompilerServiceServer implements GradeCompilerService {
 	public Grade storeGrade(Student grader, Submission submission, Score score)
 			throws RemoteException {
 		Grade grade = new GradeImpl(score, grader);
-		List<String> registryNames = config.getService("GradeStorageService");
+		List<String> registryNames = config.getRegistryLocations("GradeStorageService");
 		for (int j = 0; j < registryNames.size(); j++) {
 			try {
 				Registry registry = LocateRegistry.getRegistry(registryNames.get(j));
@@ -60,7 +60,7 @@ public class GradeCompilerServiceServer implements GradeCompilerService {
 			throws RemoteException {
 		// get the list of grades for this submission
 		List<Grade> grades = new ArrayList<Grade>();
-		List<String> gradeStorageServiceNames = config.getService("GradeStorageService");
+		List<String> gradeStorageServiceNames = config.getRegistryLocations("GradeStorageService");
 		for (int j = 0; j < gradeStorageServiceNames.size(); j++) {
 			try {
 				Registry registry = LocateRegistry.getRegistry(gradeStorageServiceNames.get(j));
@@ -89,7 +89,7 @@ public class GradeCompilerServiceServer implements GradeCompilerService {
 			throws RemoteException {
 		// get the list of submissions for this assignment
 		Set<Submission> submissions = new HashSet<Submission>();
-		List<String> submissionStorageServiceNames = config.getService("SubmissionStorageService");
+		List<String> submissionStorageServiceNames = config.getRegistryLocations("SubmissionStorageService");
 		for (int j = 0; j < submissionStorageServiceNames.size(); j++) {
 			try {
 				Registry registry = LocateRegistry.getRegistry(submissionStorageServiceNames.get(j));
@@ -108,7 +108,7 @@ public class GradeCompilerServiceServer implements GradeCompilerService {
 		
 		// for each submission, retrieve the list of grades for that submission
 		Map<Submission, List<Grade>> grades = new HashMap<Submission, List<Grade>>();
-		List<String> gradeStorageServiceNames = config.getService("GradeStorageService");
+		List<String> gradeStorageServiceNames = config.getRegistryLocations("GradeStorageService");
 		for (int j = 0; j < gradeStorageServiceNames.size(); j++) {
 			try {
 				Registry registry = LocateRegistry.getRegistry(gradeStorageServiceNames.get(j));
@@ -132,8 +132,8 @@ public class GradeCompilerServiceServer implements GradeCompilerService {
 	public static void main(String[] args) {
 		try {
 			GradeCompilerServiceServer obj = new GradeCompilerServiceServer();
-			GradeCompilerService stub = (GradeCompilerService) UnicastRemoteObject.exportObject(obj, 0);
 			obj.init();
+			GradeCompilerService stub = (GradeCompilerService) UnicastRemoteObject.exportObject(obj, 0);
 			
 			// bind the remote object's stub in the registry
 			Registry registry = LocateRegistry.getRegistry();

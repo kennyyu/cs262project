@@ -71,7 +71,7 @@ public class SubmissionReceiverServiceServer implements
 	public Submission submit(Student student, Assignment assignment,
 			byte[] contents) throws RemoteException {
 		Submission submission = new SubmissionImpl(student, assignment, contents);
-		List<String> submissionStorageServiceNames = config.getService("SubmissionStorageService");
+		List<String> submissionStorageServiceNames = config.getRegistryLocations("SubmissionStorageService");
 		for (int j = 0; j < submissionStorageServiceNames.size(); j++) {
 			try {
 				Registry registry = LocateRegistry.getRegistry(submissionStorageServiceNames.get(j));
@@ -104,12 +104,12 @@ public class SubmissionReceiverServiceServer implements
 	public static void main(String[] args) {
 		try {
 			SubmissionReceiverServiceServer obj = new SubmissionReceiverServiceServer();
+			obj.init();
 			SubmissionReceiverService stub = (SubmissionReceiverService) UnicastRemoteObject
 					.exportObject(obj, 0);
 
 			// Bind the remote object's stub in the registry
 			Registry registry = LocateRegistry.getRegistry();
-			obj.init();
 
 			registry.bind("SubmissionReceiverService", stub);
 			

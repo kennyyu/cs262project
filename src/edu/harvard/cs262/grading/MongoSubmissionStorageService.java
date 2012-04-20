@@ -24,11 +24,13 @@ public class MongoSubmissionStorageService implements SubmissionStorageService {
 	private Mongo m;
 	private DB db;
 	private DBCollection coll;
+	private ConfigReader config;
 
 	public void init() throws UnknownHostException, MongoException {
 		m = new Mongo();
 		db = m.getDB("dgs");
 		coll = db.getCollection("submissions");
+		config = new ConfigReaderImpl();
 	}
 
 	@Override

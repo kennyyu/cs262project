@@ -41,7 +41,7 @@ public class SharderServiceServer implements SharderService {
 	
 	private SubmissionStorageService getStorage() throws RemoteException{
 		ConfigReader cfg = new ConfigReaderImpl();
-		List<String> registryNames = cfg.getService("SubmissionStorageService");
+		List<String> registryNames = cfg.getRegistryLocations("SubmissionStorageService");
 		for (int j = 0; j < registryNames.size(); j++) {
 			try {
 				Registry registry = LocateRegistry.getRegistry(registryNames.get(j));

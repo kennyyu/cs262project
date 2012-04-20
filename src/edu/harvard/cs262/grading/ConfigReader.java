@@ -8,6 +8,6 @@ public interface ConfigReader {
 	 * @param service
 	 * @return the list of registries containing this service
 	 */
-	public List<String> getService(String service);
+	public List<String> getRegistryLocations(String service);
 	
 }
