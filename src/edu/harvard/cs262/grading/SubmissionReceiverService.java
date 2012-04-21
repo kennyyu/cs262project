@@ -6,14 +6,7 @@ import java.rmi.RemoteException;
 /**
  * Service for receiving student submissions.
  */
-public interface SubmissionReceiverService extends Remote {
-
-	/**
-	 * Start the service.
-	 * 
-	 * @throws Exception
-	 */
-	public void init() throws Exception;
+public interface SubmissionReceiverService extends Remote, Service {
 
 	/**
 	 * Submits the contents for the specified student and assignment number.

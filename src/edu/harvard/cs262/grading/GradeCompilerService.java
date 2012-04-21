@@ -9,14 +9,7 @@ import java.util.Set;
 /**
  * Service for compiling student generated grades.
  */
-public interface GradeCompilerService extends Remote {
-
-	/**
-	 * Starts the service.
-	 * 
-	 * @throws Exception
-	 */
-	public void init() throws Exception;
+public interface GradeCompilerService extends Remote, Service {
 
 	/**
 	 * Submit a score for grading

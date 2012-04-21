@@ -24,13 +24,11 @@ public class MongoSubmissionStorageService implements SubmissionStorageService {
 	private Mongo m;
 	private DB db;
 	private DBCollection coll;
-	private ConfigReader config;
 
 	public void init() throws UnknownHostException, MongoException {
 		m = new Mongo();
 		db = m.getDB("dgs");
 		coll = db.getCollection("submissions");
-		config = new ConfigReaderImpl();
 	}
 
 	@Override
@@ -162,7 +160,6 @@ public class MongoSubmissionStorageService implements SubmissionStorageService {
 
 			// Bind the remote object's stub in the registry
 			Registry registry = LocateRegistry.getRegistry();
-			obj.init();
 			registry.bind("SubmissionStorageService", stub);
 			
 			System.err.println("MongoSubmissionStorageService running");

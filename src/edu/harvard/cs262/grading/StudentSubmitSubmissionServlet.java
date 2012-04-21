@@ -23,16 +23,17 @@ public class StudentSubmitSubmissionServlet extends HttpServlet {
 	public void lookupServices() {
 		
 		try {
-			// get reference to database service
-			Registry registry = LocateRegistry.getRegistry();
-			submissionStorage = (SubmissionStorageService) registry.lookup("SubmissionStorageService");
-			System.err.println("Successfully located submission storage service.");
+			submissionStorage = (SubmissionStorageService) ServiceLookupUtility.lookupService(new ConfigReaderImpl(), "SubmissionStorageService");
 		} catch (RemoteException e) {
-			System.err.println("AdminGetSubmissionsServlet: Could not contact registry.");
-			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-		} catch (NotBoundException e) {
-			System.err.println("AdminGetSubmissionsServlet: Could not find SubmissionStorageService in registry.");
-			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NullPointerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if(submissionStorage == null) {
+			System.err.println("StudentSubmissionServlet exiting: Looking up SubmissionStorageService failed.");
+			System.exit(-1);
 		}
 	    	
 	}

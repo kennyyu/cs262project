@@ -70,25 +70,17 @@ public class SubmissionReceiverServiceServer implements
 	@Override
 	public Submission submit(Student student, Assignment assignment,
 			byte[] contents) throws RemoteException {
+		
 		Submission submission = new SubmissionImpl(student, assignment, contents);
-		List<String> submissionStorageServiceNames = config.getRegistryLocations("SubmissionStorageService");
-		for (int j = 0; j < submissionStorageServiceNames.size(); j++) {
-			try {
-				Registry registry = LocateRegistry.getRegistry(submissionStorageServiceNames.get(j));
-				SubmissionStorageService storage = (SubmissionStorageService) registry.lookup("SubmissionStorageService");
-				storage.storeSubmission(submission);
-				return submission;
-			} catch (RemoteException e) {
-				if (j + 1 == submissionStorageServiceNames.size())
-					throw e;
-			} catch (NotBoundException e) {
-				if (j + 1 == submissionStorageServiceNames.size()) {
-					System.err.println("Looking up SubmissionStorageService failed");
-					System.exit(-1);
-				}
-			}
+		SubmissionStorageService storage = (SubmissionStorageService) ServiceLookupUtility.lookupService(config, "SubmissionStorageService");
+		if(storage == null) {
+			System.err.println("Looking up SubmissionStorageService failed.");
+			System.exit(-1);
+			return null;
+		} else {
+			storage.storeSubmission(submission);
+			return submission;
 		}
-		return submission;
 		
 		/*
 		try {

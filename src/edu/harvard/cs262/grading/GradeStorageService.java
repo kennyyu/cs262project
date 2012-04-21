@@ -7,14 +7,7 @@ import java.util.List;
 /**
  * Service for persistent storage of student generated grades.
  */
-public interface GradeStorageService extends Remote {
-
-	/**
-	 * Starts the service.
-	 * 
-	 * @throws Exception
-	 */
-	public void init() throws Exception;
+public interface GradeStorageService extends Remote, Service {
 
 	/**
 	 * Submit a score for grading
