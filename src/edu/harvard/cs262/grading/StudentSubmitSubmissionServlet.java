@@ -23,7 +23,7 @@ public class StudentSubmitSubmissionServlet extends HttpServlet {
 	public void lookupServices() {
 		
 		try {
-			submissionStorage = (SubmissionStorageService) ServiceLookupUtility.lookupService(new ConfigReaderImpl(), "SubmissionStorageService");
+			submissionStorage = (SubmissionStorageService) ServiceLookupUtility.lookupService(new ServletConfigReader(this.getServletContext()), "SubmissionStorageService");
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -32,8 +32,7 @@ public class StudentSubmitSubmissionServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 		if(submissionStorage == null) {
-			System.err.println("StudentSubmissionServlet exiting: Looking up SubmissionStorageService failed.");
-			System.exit(-1);
+			System.err.println("StudentSubmissionServlet: Looking up SubmissionStorageService failed.");
 		}
 	    	
 	}

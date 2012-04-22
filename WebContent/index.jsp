@@ -21,7 +21,7 @@
     <script type="text/javascript" src="./js/Sugared_DOM.js"></script>
 	
 	
-	<title>Administration - Distributed Grading (CS 262 Final Project)</title>
+	<title>Home - Distributed Grading (CS 262 Final Project)</title>
 
 </head>
 <body>

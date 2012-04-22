@@ -8,14 +8,7 @@ import java.util.Set;
 /**
  * Service for persistent storage of student work submission.
  */
-public interface SubmissionStorageService extends Remote {
-
-	/**
-	 * Start the service.
-	 * 
-	 * @throws Exception
-	 */
-	public void init() throws Exception;
+public interface SubmissionStorageService extends Remote, Service {
 
 	/**
 	 * Places the submission into persistent storage.
