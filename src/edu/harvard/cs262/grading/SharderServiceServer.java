@@ -30,10 +30,8 @@ public class SharderServiceServer implements SharderService {
 	private SubmissionStorageService storage;
 
 	public void init(boolean sandbox) throws Exception {
-		m = new Mongo();
-		db = m.getDB("dgs");
-		coll = db.getCollection("shards");
 		
+		this.init();		
 
 		storage = sandbox ? new MongoSubmissionStorageService() : getStorage();
 		if (sandbox) storage.init();
@@ -203,6 +201,15 @@ public class SharderServiceServer implements SharderService {
 			System.err.println("Server exception: " + e.toString());
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public void init() throws Exception {
+		
+		m = new Mongo();
+		db = m.getDB("dgs");
+		coll = db.getCollection("shards");
+		
 	}
 
 }

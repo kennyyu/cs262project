@@ -6,7 +6,7 @@ import java.rmi.RemoteException;
 /**
  * Service for sharding work out to students.
  */
-public interface SharderService extends Remote {
+public interface SharderService extends Remote, Service {
 
 	/**
 	 * Starts the service.
