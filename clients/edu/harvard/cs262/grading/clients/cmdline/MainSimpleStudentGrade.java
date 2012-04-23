@@ -20,7 +20,7 @@ import edu.harvard.cs262.grading.service.SubmissionImpl;
 public class MainSimpleStudentGrade {
 
 	public static void main(String[] args) throws Exception {
-		if (args.length != 5) {
+		if (args.length != 6) {
 			System.err.println("usage: graderID submitterID assignmentID string score string");
 			System.exit(-1);
 		}
