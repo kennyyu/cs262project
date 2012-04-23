@@ -6,16 +6,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import edu.harvard.cs262.grading.Assignment;
-import edu.harvard.cs262.grading.AssignmentImpl;
-import edu.harvard.cs262.grading.Grade;
-import edu.harvard.cs262.grading.GradeCompilerService;
-import edu.harvard.cs262.grading.Score;
-import edu.harvard.cs262.grading.ScoreImpl;
-import edu.harvard.cs262.grading.Student;
-import edu.harvard.cs262.grading.StudentImpl;
-import edu.harvard.cs262.grading.Submission;
-import edu.harvard.cs262.grading.SubmissionImpl;
+import edu.harvard.cs262.grading.service.Assignment;
+import edu.harvard.cs262.grading.service.AssignmentImpl;
+import edu.harvard.cs262.grading.service.Grade;
+import edu.harvard.cs262.grading.service.GradeCompilerService;
+import edu.harvard.cs262.grading.service.Score;
+import edu.harvard.cs262.grading.service.ScoreImpl;
+import edu.harvard.cs262.grading.service.Student;
+import edu.harvard.cs262.grading.service.StudentImpl;
+import edu.harvard.cs262.grading.service.Submission;
+import edu.harvard.cs262.grading.service.SubmissionImpl;
 
 public class MainSimpleStudentGrade {
 

@@ -3,6 +3,15 @@ package edu.harvard.cs262.grading;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
+import edu.harvard.cs262.grading.service.Assignment;
+import edu.harvard.cs262.grading.service.AssignmentImpl;
+import edu.harvard.cs262.grading.service.MongoSubmissionStorageService;
+import edu.harvard.cs262.grading.service.Shard;
+import edu.harvard.cs262.grading.service.SharderServiceServer;
+import edu.harvard.cs262.grading.service.StudentImpl;
+import edu.harvard.cs262.grading.service.Submission;
+import edu.harvard.cs262.grading.service.SubmissionImpl;
+
 public class SharderServiceTestCase {
 
 	@Test

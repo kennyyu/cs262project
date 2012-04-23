@@ -3,12 +3,12 @@ package edu.harvard.cs262.grading.clients.cmdline;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
-import edu.harvard.cs262.grading.Assignment;
-import edu.harvard.cs262.grading.AssignmentImpl;
-import edu.harvard.cs262.grading.Student;
-import edu.harvard.cs262.grading.StudentImpl;
-import edu.harvard.cs262.grading.Submission;
-import edu.harvard.cs262.grading.SubmissionReceiverService;
+import edu.harvard.cs262.grading.service.Assignment;
+import edu.harvard.cs262.grading.service.AssignmentImpl;
+import edu.harvard.cs262.grading.service.Student;
+import edu.harvard.cs262.grading.service.StudentImpl;
+import edu.harvard.cs262.grading.service.Submission;
+import edu.harvard.cs262.grading.service.SubmissionReceiverService;
 
 public class MainSimpleStudentSubmission {
 

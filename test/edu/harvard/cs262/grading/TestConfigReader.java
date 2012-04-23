@@ -6,6 +6,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import edu.harvard.cs262.grading.service.ConfigReaderImpl;
+
 public class TestConfigReader {
 
 	ConfigReaderImpl cr;

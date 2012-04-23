@@ -15,6 +15,14 @@ import org.junit.Test;
 
 import com.mongodb.MongoException;
 
+import edu.harvard.cs262.grading.service.Assignment;
+import edu.harvard.cs262.grading.service.AssignmentImpl;
+import edu.harvard.cs262.grading.service.MongoSubmissionStorageService;
+import edu.harvard.cs262.grading.service.Student;
+import edu.harvard.cs262.grading.service.StudentImpl;
+import edu.harvard.cs262.grading.service.Submission;
+import edu.harvard.cs262.grading.service.SubmissionImpl;
+
 import static org.junit.Assert.*;
 
 @SuppressWarnings("unused")
