@@ -75,6 +75,7 @@ public class StudentSubmitGradeServlet extends HttpServlet {
     	String rawGrader = request.getParameter("uid");
     	String rawStudent = request.getParameter("student");
     	String rawAssignment = request.getParameter("assignment");
+    	String comments = request.getParameter("comments");
     	
     	if(rawScore == null || rawGrader == null || rawStudent == null || rawAssignment == null) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST,
@@ -97,7 +98,7 @@ public class StudentSubmitGradeServlet extends HttpServlet {
 		    		response.sendError(HttpServletResponse.SC_BAD_REQUEST,
 	                    "Student "+studentID+" does not have a submission for assignment "+assignmentID);
 		    	} else {
-		    		submissionServer.storeGrade(grader, submission, score);
+		    		submissionServer.storeGrade(grader, submission, score, comments);
 	
 		        	response.setContentType("text/Javascript");
 		        	response.setCharacterEncoding("UTF-8");

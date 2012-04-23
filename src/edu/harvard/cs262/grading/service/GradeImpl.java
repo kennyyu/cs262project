@@ -11,17 +11,20 @@ public class GradeImpl implements Grade {
 	private static final long serialVersionUID = -1144414253427338461L;
 	private final Score score;
 	private final Student grader;
+	private final String comments;
 	private final Timestamp timestamp;
 	
-	public GradeImpl(Score score, Student grader) {
+	public GradeImpl(Score score, Student grader, String comments) {
 		this.score = score;
 		this.grader = grader;
+		this.comments = comments;
 		this.timestamp = new Timestamp((new Date()).getTime());
 	}
 	
-	public GradeImpl(Score score, Student grader, Timestamp timestamp) {
+	public GradeImpl(Score score, Student grader, String comments, Timestamp timestamp) {
 		this.score = score;
 		this.grader = grader;
+		this.comments = comments;
 		this.timestamp = timestamp; 
 	}
 	
@@ -33,6 +36,11 @@ public class GradeImpl implements Grade {
 	@Override
 	public Student getGrader() {
 		return grader;
+	}
+
+	@Override
+	public String getComments() {
+		return comments;
 	}
 
 	@Override

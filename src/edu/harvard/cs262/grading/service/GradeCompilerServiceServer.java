@@ -24,9 +24,9 @@ public class GradeCompilerServiceServer implements GradeCompilerService {
 	}
 
 	@Override
-	public Grade storeGrade(Student grader, Submission submission, Score score)
+	public Grade storeGrade(Student grader, Submission submission, Score score, String comments)
 			throws RemoteException {
-		Grade grade = new GradeImpl(score, grader);
+		Grade grade = new GradeImpl(score, grader, comments);
 		
 		// get GradeStorageService from rmiregistry
 		GradeStorageService storage = (GradeStorageService) ServiceLookupUtility.lookupService(config, "GradeStorageService");

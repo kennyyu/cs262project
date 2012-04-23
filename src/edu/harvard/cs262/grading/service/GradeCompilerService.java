@@ -23,7 +23,7 @@ public interface GradeCompilerService extends Remote, Service {
 	 * @param return the Grade object
 	 * @throws RemoteException
 	 */
-	public Grade storeGrade(Student grader, Submission submission, Score score)
+	public Grade storeGrade(Student grader, Submission submission, Score score, String comments)
 			throws RemoteException;
 
 	/**

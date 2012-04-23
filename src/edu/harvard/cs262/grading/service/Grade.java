@@ -19,6 +19,11 @@ public interface Grade extends Serializable {
 	public Student getGrader();
 
 	/**
+	 * @return the comments associated with this grade
+	 */
+	public String getComments();
+
+	/**
 	 * @return the time this grade was submitted
 	 */
 	public Timestamp getTimeStamp();
