@@ -1,5 +1,4 @@
 package edu.harvard.cs262.grading.service;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -10,13 +9,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import edu.harvard.cs262.grading.service.Assignment;
-import edu.harvard.cs262.grading.service.Grade;
-import edu.harvard.cs262.grading.service.GradeCompilerService;
-import edu.harvard.cs262.grading.service.Score;
-import edu.harvard.cs262.grading.service.Student;
-import edu.harvard.cs262.grading.service.Submission;
 
 
 public class GradeCompilerServiceServer implements GradeCompilerService {
