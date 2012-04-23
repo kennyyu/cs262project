@@ -1,6 +1,5 @@
 package edu.harvard.cs262.grading.service;
 
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -38,26 +37,14 @@ public class SharderServiceServer implements SharderService {
 	}
 	
 	private SubmissionStorageService getStorage() throws RemoteException{
-		ConfigReader cfg = new ConfigReaderImpl();
-		List<String> registryNames = cfg.getRegistryLocations("SubmissionStorageService");
-		for (int j = 0; j < registryNames.size(); j++) {
-			try {
-				Registry registry = LocateRegistry.getRegistry(registryNames.get(j));
-				SubmissionStorageService storage = (SubmissionStorageService) registry.lookup("SubmissionStorageService");
-				return storage;
-			} catch (RemoteException e) {
-				if (j + 1 == registryNames.size())
-					throw e;
-			} catch (NotBoundException e) {
-				if (j + 1 == registryNames.size()) {
-					System.err.println("Looking up SubmissionStorageService failed");
-					System.exit(-1);
-				}
-			}
+		ConfigReader config = new ConfigReaderImpl();
+		SubmissionStorageService storage = (SubmissionStorageService) ServiceLookupUtility.lookupService(config, "SubmissionStorageService");
+		if(storage == null) {
+			System.err.println("Looking up SubmissionStorageService failed.");
+			return null;
+		} else {
+			return storage;
 		}
-		System.err.println("Looking up SubmissionStorageService failed");
-		System.exit(-1);
-		return null;
 	}
 	
 	@SuppressWarnings("unused")

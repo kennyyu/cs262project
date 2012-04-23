@@ -58,29 +58,25 @@ public class GradeCompilerServiceServer implements GradeCompilerService {
 	@Override
 	public Set<Student> getGraders(Submission submission)
 			throws RemoteException {
-		// get the list of grades for this submission
+		
+		// list of grades for this submission
 		List<Grade> grades = new ArrayList<Grade>();
-		List<String> gradeStorageServiceNames = config.getRegistryLocations("GradeStorageService");
-		for (int j = 0; j < gradeStorageServiceNames.size(); j++) {
-			try {
-				Registry registry = LocateRegistry.getRegistry(gradeStorageServiceNames.get(j));
-				GradeStorageService storage = (GradeStorageService) registry.lookup("GradeStorageService");
-				grades = storage.getGrade(submission);
-			} catch (RemoteException e) {
-				if (j + 1 == gradeStorageServiceNames.size())
-					throw e;
-			} catch (NotBoundException e) {
-				if (j + 1 == gradeStorageServiceNames.size()) {
-					System.err.println("Looking up SubmissionStorageService failed");
-					System.exit(-1);
-				}
-			}
+		
+		// set of graders from the grades
+		Set<Student> graders = new HashSet<Student>();
+		
+		// get GradeStorageService from rmiregistry
+		GradeStorageService storage = (GradeStorageService) ServiceLookupUtility.lookupService(config, "GradeStorageService");
+		if(storage == null) {
+			System.err.println("Looking up GradeStorageService failed.");
+		} else {
+			grades = storage.getGrade(submission);
 		}
 		
 		// get the graders from the grades
-		Set<Student> graders = new HashSet<Student>();
 		for (Grade g : grades)
-			graders.add(g.getGrader());
+			graders.add(g.getGrader());		
+		
 		return graders;
 	}
 
@@ -89,44 +85,25 @@ public class GradeCompilerServiceServer implements GradeCompilerService {
 			throws RemoteException {
 		// get the list of submissions for this assignment
 		Set<Submission> submissions = new HashSet<Submission>();
-		List<String> submissionStorageServiceNames = config.getRegistryLocations("SubmissionStorageService");
-		for (int j = 0; j < submissionStorageServiceNames.size(); j++) {
-			try {
-				Registry registry = LocateRegistry.getRegistry(submissionStorageServiceNames.get(j));
-				SubmissionStorageService storage = (SubmissionStorageService) registry.lookup("SubmissionStorageService");
-				submissions = storage.getAllSubmissions(assignment);
-			} catch (RemoteException e) {
-				if (j + 1 == submissionStorageServiceNames.size())
-					throw e;
-			} catch (NotBoundException e) {
-				if (j + 1 == submissionStorageServiceNames.size()) {
-					System.err.println("Looking up SubmissionStorageService failed");
-					System.exit(-1);
-				}
-			}
+		SubmissionStorageService storage = (SubmissionStorageService) ServiceLookupUtility.lookupService(config, "SubmissionStorageService");
+		if(storage == null) {
+			System.err.println("Looking up SubmissionStorageService failed.");
+		} else {
+			submissions = storage.getAllSubmissions(assignment);
 		}
 		
 		// for each submission, retrieve the list of grades for that submission
 		Map<Submission, List<Grade>> grades = new HashMap<Submission, List<Grade>>();
-		List<String> gradeStorageServiceNames = config.getRegistryLocations("GradeStorageService");
-		for (int j = 0; j < gradeStorageServiceNames.size(); j++) {
-			try {
-				Registry registry = LocateRegistry.getRegistry(gradeStorageServiceNames.get(j));
-				GradeStorageService storage = (GradeStorageService) registry.lookup("GradeStorageService");
-				for (Submission s : submissions)
-					grades.put(s, storage.getGrade(s));
-				return grades;
-			} catch (RemoteException e) {
-				if (j + 1 == gradeStorageServiceNames.size())
-					throw e;
-			} catch (NotBoundException e) {
-				if (j + 1 == gradeStorageServiceNames.size()) {
-					System.err.println("Looking up GradeStorageService failed");
-					System.exit(-1);
-				}
-			}
+		GradeStorageService gstorage = (GradeStorageService) ServiceLookupUtility.lookupService(config, "GradeStorageService");
+		if(gstorage == null) {
+			System.err.println("Looking up GradeStorageService failed.");
+		} else {
+			for (Submission s : submissions)
+				grades.put(s, gstorage.getGrade(s));
 		}
+		
 		return grades;
+
 	}
 	
 	public static void main(String[] args) {

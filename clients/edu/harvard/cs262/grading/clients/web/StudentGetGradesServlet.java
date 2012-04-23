@@ -1,4 +1,4 @@
-package edu.harvard.cs262.grading.service;
+package edu.harvard.cs262.grading.clients.web;
 
 import java.io.IOException;
 import java.rmi.NotBoundException;
@@ -14,6 +14,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import edu.harvard.cs262.grading.service.Assignment;
+import edu.harvard.cs262.grading.service.Grade;
+import edu.harvard.cs262.grading.service.GradeStorageService;
+import edu.harvard.cs262.grading.service.Student;
+import edu.harvard.cs262.grading.service.StudentImpl;
+import edu.harvard.cs262.grading.service.Submission;
+import edu.harvard.cs262.grading.service.SubmissionStorageService;
 
 import java.util.*;
 

@@ -1,11 +1,9 @@
 package edu.harvard.cs262.grading.service;
 
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.List;
 
 public class SubmissionReceiverServiceServer implements
 		SubmissionReceiverService {
@@ -75,7 +73,6 @@ public class SubmissionReceiverServiceServer implements
 		SubmissionStorageService storage = (SubmissionStorageService) ServiceLookupUtility.lookupService(config, "SubmissionStorageService");
 		if(storage == null) {
 			System.err.println("Looking up SubmissionStorageService failed.");
-			System.exit(-1);
 			return null;
 		} else {
 			storage.storeSubmission(submission);
