@@ -66,11 +66,11 @@ $(document).ready(function(){
 		};
 		
 		// retrieve and sanitize input values
-		var student = parseLong($.trim(this.elements["student"].value));
-		var assignment = parseLong($.trim(this.elements["assignment"].value));
+		var student = parseInt($.trim(this.elements["student"].value));
+		var assignment = parseInt($.trim(this.elements["assignment"].value));
 		var score = parseInt($.trim(this.elements["score"].value));
 		var submission = this.elements["submission"].value;
-		var uid = parseLong($.trim(this.elements["uid"].value));
+		var uid = parseInt($.trim(this.elements["uid"].value));
 		var type = this.elements["type"].value;
 		
 		if(type == "completed") {
@@ -146,7 +146,7 @@ $(document).ready(function(){
 		request.url = "./studentgetgrades";
 		
 		// retrieve and sanitize input values
-		var assignment = parseLong($.trim(this.elements["assignment"].value));
+		var assignment = parseInt($.trim(this.elements["assignment"].value));
 		var uid = parseInt($.trim(this.elements["uid"].value));
 		
 		if(!isNaN(uid)) {
