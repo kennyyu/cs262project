@@ -7,4 +7,4 @@
 *.gz
 bin
 classes
-.idea
+*.iml

@@ -1,4 +1,4 @@
-package edu.harvard.cs262.grading;
+package edu.harvard.cs262.grading.clients.http;
 
 /**
  * Created with IntelliJ IDEA.

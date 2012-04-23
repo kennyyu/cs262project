@@ -1,10 +1,21 @@
-package edu.harvard.cs262.grading;
+package edu.harvard.cs262.grading.clients.cmdline;
 
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import edu.harvard.cs262.grading.Assignment;
+import edu.harvard.cs262.grading.AssignmentImpl;
+import edu.harvard.cs262.grading.Grade;
+import edu.harvard.cs262.grading.GradeCompilerService;
+import edu.harvard.cs262.grading.Score;
+import edu.harvard.cs262.grading.ScoreImpl;
+import edu.harvard.cs262.grading.Student;
+import edu.harvard.cs262.grading.StudentImpl;
+import edu.harvard.cs262.grading.Submission;
+import edu.harvard.cs262.grading.SubmissionImpl;
 
 public class MainSimpleStudentGrade {
 

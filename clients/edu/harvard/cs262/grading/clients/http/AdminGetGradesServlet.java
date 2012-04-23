@@ -1,4 +1,4 @@
-package edu.harvard.cs262.grading;
+package edu.harvard.cs262.grading.clients.http;
 
 import java.io.IOException;
 import java.rmi.NotBoundException;
@@ -13,6 +13,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import edu.harvard.cs262.grading.Assignment;
+import edu.harvard.cs262.grading.AssignmentImpl;
+import edu.harvard.cs262.grading.Grade;
+import edu.harvard.cs262.grading.GradeStorageService;
+import edu.harvard.cs262.grading.Student;
+import edu.harvard.cs262.grading.StudentImpl;
+import edu.harvard.cs262.grading.SubmissionStorageService;
 
 /**
  * Servlet is the middle communication layer between Administrative
