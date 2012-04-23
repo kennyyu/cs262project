@@ -23,8 +23,8 @@ public class MainSimpleStudentSubmission {
 			registry.lookup("SubmissionReceiverService");
 		
 		// prepare data
-		Student student = new StudentImpl(Integer.parseInt(args[0]));
-		Assignment assignment = new AssignmentImpl(Integer.parseInt(args[1]));
+		Student student = new StudentImpl(Long.parseLong(args[0]));
+		Assignment assignment = new AssignmentImpl(Long.parseLong(args[1]));
 		byte contents[] = args[2].getBytes();
 		
 		// remote call

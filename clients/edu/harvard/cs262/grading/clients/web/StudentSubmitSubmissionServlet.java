@@ -70,8 +70,8 @@ public class StudentSubmitSubmissionServlet extends HttpServlet {
 
 	    	// try to convert parameters into usable format
 	    	try{
-		    	Integer studentID = Integer.parseInt(rawStudent);
-		    	Integer assignmentID = Integer.parseInt(rawAssignment);
+		    	Long studentID = Long.parseLong(rawStudent);
+		    	Long assignmentID = Long.parseLong(rawAssignment);
 		    	Assignment assignment = new AssignmentImpl(assignmentID);
     	    	Student student = new StudentImpl(studentID);
 		    	

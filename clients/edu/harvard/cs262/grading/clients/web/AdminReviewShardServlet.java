@@ -70,7 +70,7 @@ public class AdminReviewShardServlet extends HttpServlet {
 
 			// try to convert parameters into usable format
 			try {
-				Integer assignmentID = Integer.parseInt(rawAssignmentID);
+				Long assignmentID = Long.parseLong(rawAssignmentID);
 				Assignment assignment = new AssignmentImpl(assignmentID);
 
 				Shard shard = sharderService.getShard(sharderService

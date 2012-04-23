@@ -62,8 +62,8 @@ $(document).ready(function() {
 	$("#tab-review-student-work form").submit(function(){
 		
 		// retrieve and sanitize input values
-		var student = parseInt($.trim(this.elements["student"].value));
-		var assignment = parseInt($.trim(this.elements["assignment"].value));
+		var student = parseLong($.trim(this.elements["student"].value));
+		var assignment = parseLong($.trim(this.elements["assignment"].value));
 		
 		// grab reference to error box just in case
 		var errorBox = $(this).find("div.form-error-box");
@@ -203,7 +203,7 @@ $(document).ready(function() {
 		} // check submissions request
 		else if (this.elements["type"].value == "shard") {
 			request.url = "./adminshardassignment";
-			assignment = parseInt($.trim(this.elements["assignmentID"].value));
+			assignment = parseLong($.trim(this.elements["assignmentID"].value));
 			if(!isNaN(assignment)) {
 				request.data.assignmentID = assignment;
 				$.ajax(request);

@@ -35,9 +35,6 @@ public class AdminGetGradesServlet extends HttpServlet {
 	 */
 	private static final long serialVersionUID = 5522723969145795538L;
 
-	// operation codes
-    static final int GET_GRADES_FOR_SUBMISSION = 00;
-
     GradeStorageService gradeStorage;
     SubmissionStorageService submissionStorage;
     
@@ -101,8 +98,8 @@ public class AdminGetGradesServlet extends HttpServlet {
     	
 	    	// try to convert parameters into usable format
 	    	try{
-		    	Integer studentID = Integer.parseInt(rawStudent);
-		    	Integer assignmentID = Integer.parseInt(rawAssignment);
+		    	Long studentID = Long.parseLong(rawStudent);
+		    	Long assignmentID = Long.parseLong(rawAssignment);
 		    	Student student = new StudentImpl(studentID);
 		    	Assignment assignment = new AssignmentImpl(assignmentID);
 		    	
@@ -139,35 +136,6 @@ public class AdminGetGradesServlet extends HttpServlet {
 	    	}
 	    	
     	}
-    	
-    	/* ObjectStream version
-        // use ObjectStream to send objects between web front and servers
-        ObjectInputStream in = new ObjectInputStream(request.getInputStream());
-        ObjectOutputStream out = new ObjectOutputStream(response.getOutputStream());
-
-        // read in Objects from front end
-        Integer opcode;
-        try {
-            opcode = (Integer) in.readObject();
-            switch(opcode) {
-                case GET_GRADES_FOR_SUBMISSION:
-                    Submission submission = (Submission) in.readObject();
-                    out.writeObject(gradeStorage.getGrade(submission));
-                    response.sendError(HttpServletResponse.SC_BAD_REQUEST,
-                            "Unrecognized operation");
-                    break;
-                default:
-                    System.err.println("AdminGetGradesServlet: Unrecognized operation: "+opcode);
-            }
-        } catch (ClassNotFoundException e) {
-            System.err.println("AdminGetGradesServlet: Read Object was not of expected type.");
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (ClassCastException e) {
-            System.err.println("AdminGetGradesServlet: Read Object was not of expected type.");
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST,
-                    "Invalid arguments for operation.");
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }*/
 
     }
 }

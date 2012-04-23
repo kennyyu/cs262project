@@ -31,9 +31,9 @@ public class MainSimpleStudentGrade {
 			registry.lookup("GradeCompilerService");
 		
 		// prepare data
-		Student grader = new StudentImpl(Integer.parseInt(args[0]));
-		Student submitter = new StudentImpl(Integer.parseInt(args[1]));
-		Assignment assignment = new AssignmentImpl(Integer.parseInt(args[2]));
+		Student grader = new StudentImpl(Long.parseLong(args[0]));
+		Student submitter = new StudentImpl(Long.parseLong(args[1]));
+		Assignment assignment = new AssignmentImpl(Long.parseLong(args[2]));
 		byte contents[] = args[3].getBytes();
 		Submission submission = new SubmissionImpl(submitter, assignment, contents);
 		Score score = new ScoreImpl(Integer.parseInt(args[4]),100);

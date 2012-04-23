@@ -94,10 +94,10 @@ public class StudentSubmitGradeServlet extends HttpServlet {
 
 	    	// try to convert parameters into usable format
 	    	try{
-		    	Integer studentID = Integer.parseInt(rawStudent);
-		    	Integer graderID = Integer.parseInt(rawGrader);
+		    	Long studentID = Long.parseLong(rawStudent);
+		    	Long graderID = Long.parseLong(rawGrader);
 		    	Integer scoreValue = Integer.parseInt(rawScore);
-		    	Integer assignmentID = Integer.parseInt(rawAssignment);
+		    	Long assignmentID = Long.parseLong(rawAssignment);
 		    	Score score = new ScoreImpl(scoreValue,scoreValue);
     	    	Student grader = new StudentImpl(graderID);
     	    	Student student = new StudentImpl(studentID);

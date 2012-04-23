@@ -61,7 +61,7 @@ public class AdminGenerateShardServlet extends HttpServlet {
 
 	    	// invoke the system to shard the assignmentID
 	    	try{
-		    	Integer assignmentID = Integer.parseInt(rawAssignmentID);
+		    	Long assignmentID = Long.parseLong(rawAssignmentID);
 		    	Assignment assignment = new AssignmentImpl(assignmentID);
 		    	sharderService.generateShard(assignment);
 	    	} catch (NumberFormatException e){
