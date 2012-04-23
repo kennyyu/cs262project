@@ -1,5 +1,10 @@
 package edu.harvard.cs262.grading.clients.web;
 
+import java.io.IOException;
+import java.rmi.RemoteException;
+import java.util.Iterator;
+import java.util.Set;
+
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -8,20 +13,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import edu.harvard.cs262.grading.service.Assignment;
 import edu.harvard.cs262.grading.service.AssignmentImpl;
+import edu.harvard.cs262.grading.service.ServiceLookupUtility;
 import edu.harvard.cs262.grading.service.Student;
 import edu.harvard.cs262.grading.service.StudentImpl;
 import edu.harvard.cs262.grading.service.Submission;
 import edu.harvard.cs262.grading.service.SubmissionStorageService;
-
-import java.io.IOException;
-/*import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;*/
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
-import java.util.Iterator;
-import java.util.Set;
+import edu.harvard.cs262.grading.service.web.ServletConfigReader;
 
 
 /**
@@ -43,19 +40,14 @@ public class AdminGetSubmissionsServlet extends HttpServlet {
 
         try {
             // get reference to database service
-        	Registry registry = LocateRegistry.getRegistry();
-        	submissionStorage = (SubmissionStorageService) registry.lookup("SubmissionStorageService");
-        	System.err.println("Successfully located submission storage service.");
+        	submissionStorage = (SubmissionStorageService) ServiceLookupUtility.lookupService(new ServletConfigReader(this.getServletContext()), "SubmissionStorageService");
         } catch (RemoteException e) {
-            System.err.println("AdminGetSubmissionsServlet: Could not contact registry.");
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (NotBoundException e) {
-            System.err.println("AdminGetSubmissionsServlet: Could not find SubmissionStorageService in registry.");
+        } catch (NullPointerException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
         if(submissionStorage == null) {
-        	System.err.println("Could not fine SubmissionStorageService");
-        	System.exit(-1);
+        	System.err.println("Could not find SubmissionStorageService");
         }
     	
     }

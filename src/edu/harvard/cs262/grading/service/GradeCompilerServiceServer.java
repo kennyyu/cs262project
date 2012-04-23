@@ -35,24 +35,16 @@ public class GradeCompilerServiceServer implements GradeCompilerService {
 	public Grade storeGrade(Student grader, Submission submission, Score score)
 			throws RemoteException {
 		Grade grade = new GradeImpl(score, grader);
-		List<String> registryNames = config.getRegistryLocations("GradeStorageService");
-		for (int j = 0; j < registryNames.size(); j++) {
-			try {
-				Registry registry = LocateRegistry.getRegistry(registryNames.get(j));
-				GradeStorageService storage = (GradeStorageService) registry.lookup("GradeStorageService");
-				storage.submitGrade(submission, grade);
-				return grade;
-			} catch (RemoteException e) {
-				if (j + 1 == registryNames.size())
-					throw e;
-			} catch (NotBoundException e) {
-				if (j + 1 == registryNames.size()) {
-					System.err.println("Looking up GradeStorageService failed");
-					System.exit(-1);
-				}
-			}
+		
+		// get GradeStorageService from rmiregistry
+		GradeStorageService storage = (GradeStorageService) ServiceLookupUtility.lookupService(config, "GradeStorageService");
+		if(storage == null) {
+			System.err.println("Looking up GradeStorageService failed.");
+			return null;
+		} else {
+			storage.submitGrade(submission, grade);
+			return grade;
 		}
-		return grade;
 	}
 
 	@Override

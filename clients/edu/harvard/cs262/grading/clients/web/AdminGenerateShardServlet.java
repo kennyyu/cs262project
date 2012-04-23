@@ -1,10 +1,7 @@
 package edu.harvard.cs262.grading.clients.web;
 
 import java.io.IOException;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -14,7 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import edu.harvard.cs262.grading.service.Assignment;
 import edu.harvard.cs262.grading.service.AssignmentImpl;
+import edu.harvard.cs262.grading.service.ServiceLookupUtility;
 import edu.harvard.cs262.grading.service.SharderServiceServer;
+import edu.harvard.cs262.grading.service.web.ServletConfigReader;
 
 public class AdminGenerateShardServlet extends HttpServlet {
 
@@ -25,18 +24,20 @@ public class AdminGenerateShardServlet extends HttpServlet {
 	SharderServiceServer sharderService;
 
 	public void lookupServices() {
-		try {
-			// get reference to database service
-			Registry registry = LocateRegistry.getRegistry();
-			sharderService = (SharderServiceServer) registry.lookup("SharderServiceServer");
-			System.err.println("Successfully located submission storage service.");
-		} catch (RemoteException e) {
-			System.err.println("AdminGetSubmissionsServlet: Could not contact registry.");
-			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-		} catch (NotBoundException e) {
-			System.err.println("AdminGetSubmissionsServlet: Could not find SubmissionStorageService in registry.");
-			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-		}	    	
+
+        try {
+            // get reference to database service
+        	sharderService = (SharderServiceServer) ServiceLookupUtility.lookupService(new ServletConfigReader(this.getServletContext()), "SharderService");
+			System.err.println("Successfully located a sharder server.");
+        } catch (RemoteException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (NullPointerException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+        if(sharderService == null) {
+        	System.err.println("Looking up SharderService failed.");
+        }
+        
 	}
 
 	public void init(ServletConfig config) throws ServletException {

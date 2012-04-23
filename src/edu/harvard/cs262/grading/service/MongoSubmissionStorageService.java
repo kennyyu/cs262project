@@ -179,8 +179,6 @@ public class MongoSubmissionStorageService implements SubmissionStorageService {
 			e.printStackTrace();
 		}
 		
-		return;	// done
-		
 	}
 
 }

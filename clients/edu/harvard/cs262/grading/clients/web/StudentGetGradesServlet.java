@@ -1,10 +1,8 @@
 package edu.harvard.cs262.grading.clients.web;
 
 import java.io.IOException;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
+import java.util.HashSet;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Set;
@@ -18,12 +16,12 @@ import javax.servlet.http.HttpServletResponse;
 import edu.harvard.cs262.grading.service.Assignment;
 import edu.harvard.cs262.grading.service.Grade;
 import edu.harvard.cs262.grading.service.GradeStorageService;
+import edu.harvard.cs262.grading.service.ServiceLookupUtility;
 import edu.harvard.cs262.grading.service.Student;
 import edu.harvard.cs262.grading.service.StudentImpl;
 import edu.harvard.cs262.grading.service.Submission;
 import edu.harvard.cs262.grading.service.SubmissionStorageService;
-
-import java.util.*;
+import edu.harvard.cs262.grading.service.web.ServletConfigReader;
 
 // Will return grades for all the submissions from given student
 
@@ -42,27 +40,26 @@ public class StudentGetGradesServlet extends HttpServlet {
 
         try {
             // get reference to database service
-            // get reference to database service
-        	Registry registry = LocateRegistry.getRegistry();
-        	gradeStorage = (GradeStorageService) registry.lookup("GradeStorageService");
+        	gradeStorage = (GradeStorageService) ServiceLookupUtility.lookupService(new ServletConfigReader(this.getServletContext()), "GradeStorageService");
         } catch (RemoteException e) {
-            System.err.println("AdminGetGradesServlet: Could not contact registry.");
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (NotBoundException e) {
-            System.err.println("AdminGetGradesServlet: Could not find GradeStorageService in registry.");
+        } catch (NullPointerException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+        if(gradeStorage == null) {
+        	System.err.println("Looking up GradeStorageService failed.");
         }
 
         try {
             // get reference to database service
-        	Registry registry = LocateRegistry.getRegistry();
-        	submissionStorage = (SubmissionStorageService) registry.lookup("SubmissionStorageService");
+        	submissionStorage = (SubmissionStorageService) ServiceLookupUtility.lookupService(new ServletConfigReader(this.getServletContext()), "SubmissionStorageService");
         } catch (RemoteException e) {
-            System.err.println("AdminGetSubmissionsServlet: Could not contact registry.");
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (NotBoundException e) {
-            System.err.println("AdminGetSubmissionsServlet: Could not find SubmissionStorageService in registry.");
+        } catch (NullPointerException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+        if(submissionStorage == null) {
+        	System.err.println("Could not find SubmissionStorageService");
         }
     	
     }

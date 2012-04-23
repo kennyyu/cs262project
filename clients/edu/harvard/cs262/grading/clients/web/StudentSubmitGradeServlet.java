@@ -1,10 +1,7 @@
 package edu.harvard.cs262.grading.clients.web;
 
 import java.io.IOException;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -14,15 +11,15 @@ import javax.servlet.http.HttpServletResponse;
 
 import edu.harvard.cs262.grading.service.Assignment;
 import edu.harvard.cs262.grading.service.AssignmentImpl;
-import edu.harvard.cs262.grading.service.Grade;
-import edu.harvard.cs262.grading.service.GradeImpl;
-import edu.harvard.cs262.grading.service.GradeStorageService;
+import edu.harvard.cs262.grading.service.GradeCompilerService;
 import edu.harvard.cs262.grading.service.Score;
 import edu.harvard.cs262.grading.service.ScoreImpl;
+import edu.harvard.cs262.grading.service.ServiceLookupUtility;
 import edu.harvard.cs262.grading.service.Student;
 import edu.harvard.cs262.grading.service.StudentImpl;
 import edu.harvard.cs262.grading.service.Submission;
 import edu.harvard.cs262.grading.service.SubmissionStorageService;
+import edu.harvard.cs262.grading.service.web.ServletConfigReader;
 
 public class StudentSubmitGradeServlet extends HttpServlet {
 
@@ -30,42 +27,34 @@ public class StudentSubmitGradeServlet extends HttpServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = -2228843269260363252L;
-	private GradeStorageService gradeStorage;
     private SubmissionStorageService submissionStorage;
+	private GradeCompilerService submissionServer;
     
     public void lookupServices() {
 
         try {
             // get reference to database service
-        	Registry registry = LocateRegistry.getRegistry();
-        	gradeStorage = (GradeStorageService) registry.lookup("GradeStorageService");
+        	submissionStorage = (SubmissionStorageService) ServiceLookupUtility.lookupService(new ServletConfigReader(this.getServletContext()), "SubmissionStorageService");
         } catch (RemoteException e) {
-            System.err.println("AdminGetGradesServlet: Could not contact registry.");
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (NotBoundException e) {
-            System.err.println("AdminGetGradesServlet: Could not find GradeStorageService in registry.");
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
-        if(gradeStorage == null) {
-        	System.err.println("Could not fine GradeStorageService");
-        	System.exit(-1);
-        }
-
-        try {
-            // get reference to database service
-        	Registry registry = LocateRegistry.getRegistry();
-        	submissionStorage = (SubmissionStorageService) registry.lookup("SubmissionStorageService");
-        } catch (RemoteException e) {
-            System.err.println("AdminGetSubmissionsServlet: Could not contact registry.");
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (NotBoundException e) {
-            System.err.println("AdminGetSubmissionsServlet: Could not find SubmissionStorageService in registry.");
+        } catch (NullPointerException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
         if(submissionStorage == null) {
-        	System.err.println("Could not fine SubmissionStorageService");
-        	System.exit(-1);
+        	System.err.println("Looking up SubmissionStorageService failed.");
         }
+    
+        try {
+        	// get reference to database service
+        	submissionServer = (GradeCompilerService) ServiceLookupUtility.lookupService(new ServletConfigReader(this.getServletContext()), "GradeCompilerService");
+        } catch (RemoteException e) {
+        	e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (NullPointerException e) {
+        	e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+		if(submissionServer == null) {
+			System.err.println("StudentGetGradesServlet: Looking up submission service failed.");
+		}
     	
     }
 
@@ -103,13 +92,12 @@ public class StudentSubmitGradeServlet extends HttpServlet {
     	    	Student student = new StudentImpl(studentID);
     	    	Assignment assignment = new AssignmentImpl(assignmentID);
 		    	
-		    	Grade grade = new GradeImpl(score,grader);
 		    	Submission submission = submissionStorage.getLatestSubmission(student, assignment);
 		    	if(submission == null) {
 		    		response.sendError(HttpServletResponse.SC_BAD_REQUEST,
 	                    "Student "+studentID+" does not have a submission for assignment "+assignmentID);
 		    	} else {
-		    		gradeStorage.submitGrade(submission, grade);
+		    		submissionServer.storeGrade(grader, submission, score);
 	
 		        	response.setContentType("text/Javascript");
 		        	response.setCharacterEncoding("UTF-8");

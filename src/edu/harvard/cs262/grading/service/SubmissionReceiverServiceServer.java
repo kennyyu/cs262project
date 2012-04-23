@@ -119,8 +119,6 @@ public class SubmissionReceiverServiceServer implements
 			e.printStackTrace();
 		}
 		
-		return;	// done
-		
 	}
 
 }
