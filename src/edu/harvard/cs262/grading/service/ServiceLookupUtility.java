@@ -7,8 +7,25 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.List;
 
+/**
+ * Does messy lookup for RMI registries for
+ * RMI registering services.
+ * 
+ * @author Administrator
+ *
+ */
 public class ServiceLookupUtility {
 
+	/**
+	 * Returns service instance null if no instance of
+	 * the service could be found. 
+	 * 
+	 * @param reader
+	 * @param serviceName (unqualified) class name
+	 * @return Returns Service instance or null if no instance of the service could be found. 
+	 * @throws RemoteException Thrown if could not contact registry at some location or if there was a RemoteException with an embedded access error
+	 * @throws NullPointerException if {@code serviceName} is null
+	 */
 	public static Service lookupService(ConfigReader reader, String serviceName) throws RemoteException, NullPointerException {
 
 		Service service = null;
@@ -21,7 +38,7 @@ public class ServiceLookupUtility {
 
 			try {
 				Registry registry = LocateRegistry.getRegistry(location);
-				service = (Service) registry.lookup("SubmissionStorageService");
+				service = (Service) registry.lookup(serviceName);
 				break;
 
 			} catch (AccessException e) {

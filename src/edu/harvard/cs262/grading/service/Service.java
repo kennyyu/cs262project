@@ -1,9 +1,16 @@
 package edu.harvard.cs262.grading.service;
 
+/**
+ * Umbrella interface for services
+ * 
+ * @author lpearson05
+ *
+ */
 public interface Service {
 	
 	/**
-	 * Starts the service.
+	 * Sets up the service (i.e., initializes private fields).
+	 * Should be called before any other methods.
 	 * 
 	 * @throws Exception
 	 */
