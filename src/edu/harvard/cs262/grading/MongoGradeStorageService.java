@@ -78,15 +78,25 @@ public class MongoGradeStorageService implements GradeStorageService {
 	public static void main(String[] args) {
 		try {
 			MongoGradeStorageService obj = new MongoGradeStorageService();
+			obj.init();
 			GradeStorageService stub = (GradeStorageService) UnicastRemoteObject
 					.exportObject(obj, 0);
-			obj.init();
 
 			// Bind the remote object's stub in the registry
 			Registry registry = LocateRegistry.getRegistry();
-			registry.bind("GradeStorageService", stub);
 			
-			System.err.println("MongoGradeStorageService running");
+			// check for registry update command
+			boolean forceUpdate = false;
+			for(int i = 0, len = args.length; i < len; i++)
+				if(args[i].equals("--update")) forceUpdate = true;
+
+			if(forceUpdate) {
+				registry.rebind("GradeStorageService", stub);
+			} else {
+				registry.bind("GradeStorageService", stub);
+			}
+			
+			System.err.println("GradeStorageService running");
 			
 		} catch (Exception e) {
 			System.err.println("Server exception: " + e.toString());

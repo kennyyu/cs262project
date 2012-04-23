@@ -186,21 +186,34 @@ public class SharderServiceServer implements SharderService {
 	}
 	
 	public static void main(String[] args) {
+		
 		try {
 			SharderServiceServer obj = new SharderServiceServer();
+			obj.init();
 			SharderService stub = (SharderService) UnicastRemoteObject
 					.exportObject(obj, 0);
-			obj.init(false);
 
 			// Bind the remote object's stub in the registry
 			Registry registry = LocateRegistry.getRegistry();
-			registry.bind("SharderService", stub);
 			
-			System.out.println("SharderService running");
+			// check for registry update command
+			boolean forceUpdate = false;
+			for(int i = 0, len = args.length; i < len; i++)
+				if(args[i].equals("--update")) forceUpdate = true;
+
+			if(forceUpdate) {
+				registry.rebind("SharderService", stub);
+			} else {
+				registry.bind("SharderService", stub);
+			}
+			
+			System.err.println("SharderService running");
+
 		} catch (Exception e) {
 			System.err.println("Server exception: " + e.toString());
 			e.printStackTrace();
 		}
+		
 	}
 
 	@Override

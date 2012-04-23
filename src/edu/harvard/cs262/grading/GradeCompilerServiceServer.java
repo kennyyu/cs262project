@@ -137,9 +137,20 @@ public class GradeCompilerServiceServer implements GradeCompilerService {
 			
 			// bind the remote object's stub in the registry
 			Registry registry = LocateRegistry.getRegistry();
-			registry.bind("GradeCompilerService", stub);
+			
+			// check for registry update command
+			boolean forceUpdate = false;
+			for(int i = 0, len = args.length; i < len; i++)
+				if(args[i].equals("--update")) forceUpdate = true;
 
-			System.out.println("GradeCompilerService running");
+			if(forceUpdate) {
+				registry.rebind("GradeCompilerService", stub);
+			} else {
+				registry.bind("GradeCompilerService", stub);
+			}
+
+			System.err.println("GradeCompilerService running");
+			
 		} catch (Exception e) {
 			System.err.println("Server exception: " + e.toString());
 			e.printStackTrace();

@@ -150,8 +150,8 @@ public class MongoSubmissionStorageService implements SubmissionStorageService {
 		return submissions;
 	}
 
-	// TODO (kennyu): Is this right?  How would we know?
 	public static void main(String[] args) {
+		
 		try {
 			MongoSubmissionStorageService obj = new MongoSubmissionStorageService();
 			obj.init();
@@ -160,7 +160,17 @@ public class MongoSubmissionStorageService implements SubmissionStorageService {
 
 			// Bind the remote object's stub in the registry
 			Registry registry = LocateRegistry.getRegistry();
-			registry.bind("SubmissionStorageService", stub);
+			
+			// check for registry update command
+			boolean forceUpdate = false;
+			for(int i = 0, len = args.length; i < len; i++)
+				if(args[i].equals("--update")) forceUpdate = true;
+
+			if(forceUpdate) {
+				registry.rebind("SubmissionStorageService", stub);
+			} else {
+				registry.bind("SubmissionStorageService", stub);
+			}
 			
 			System.err.println("MongoSubmissionStorageService running");
 			
@@ -168,6 +178,9 @@ public class MongoSubmissionStorageService implements SubmissionStorageService {
 			System.err.println("Server exception: " + e.toString());
 			e.printStackTrace();
 		}
+		
+		return;	// done
+		
 	}
 
 }
