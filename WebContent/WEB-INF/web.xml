@@ -81,4 +81,12 @@
     <servlet-name>StudentSubmitGradeServlet</servlet-name>
     <url-pattern>/studentsubmitgrade</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <servlet-name>PublicGetGradesServlet</servlet-name>
+    <servlet-class>edu.harvard.cs262.grading.clients.web.PublicGetGradesServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PublicGetGradesServlet</servlet-name>
+    <url-pattern>/publicgetgrades</url-pattern>
+  </servlet-mapping>
 </web-app>

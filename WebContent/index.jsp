@@ -14,9 +14,9 @@
 	<meta content="charset=UTF-8">
 	
 	<link href="./css/styles.css" type="text/css" rel="stylesheet" />
-        <link href='http://fonts.googleapis.com/css?family=Sirin+Stencil' rel='stylesheet' type='text/css'>
-	
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<link href='http://fonts.googleapis.com/css?family=Sirin+Stencil' rel='stylesheet' type='text/css'>
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 	<script type="text/javascript" src="./js/index.js"></script>
     <script type="text/javascript" src="./js/Sugared_DOM.js"></script>
 	
@@ -43,8 +43,25 @@
 						<input type="submit" name="submit" value="get grades" />
 					</form>
 					<div class="results-wrapper">
-						<div class="results-header" class="header-text">Request Results</div>
 						<div class="results-content">
+							<table class="grades-table" dir="ltr" 
+									summary="purpose/structure for speech output">
+								<caption class="results-header" class="header-text">
+									Grades for <span class="results-for-span"></span>
+								</caption>
+								<colgroup class="index-colgroup" />
+								<colgroup class="grades-colgroup" align="center" 
+										valign="middle" title="grades" width="1*" 
+										span="1" style="background:#ddd;" />
+								<thead>
+									<tr>
+										<th scope="col">#</th>
+										<th scope="col">Scores (out of <span class="score-max"></span>)</th>
+									</tr>
+								</thead>
+								<tbody>
+								</tbody>
+							</table>
 						</div>
 					</div>
 				</div>

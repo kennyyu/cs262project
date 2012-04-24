@@ -122,6 +122,7 @@ public class StudentGetGradesServlet extends HttpServlet {
 		    		response.setCharacterEncoding("UTF-8");
 		    		response.getWriter().write(responseBuilder.toString());
 		   		}
+		    	
 	    	} catch (NumberFormatException e){
 	            response.sendError(HttpServletResponse.SC_BAD_REQUEST,
 	                    "invalid values given");

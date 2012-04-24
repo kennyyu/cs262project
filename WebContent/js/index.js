@@ -3,7 +3,7 @@ $(document).ready(function(){
 	$('#tab-view-grades form').submit(function(){
 		
 		$.ajax({
-			url: './studentgetgrades',
+			url: './publicgetgrades',
 			type: 'post',
 			success: function(data) {
 				console.log(data);
