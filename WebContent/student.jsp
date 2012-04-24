@@ -52,6 +52,7 @@
 							<input disabled="disabled" type="text" name="student" placeholder="enter gradee id" />
 							<input disabled="disabled" type="text" name="assignment" placeholder="enter assignment id" />
 							<input disabled="disabled" type="text" name="score" placeholder="enter score (grade)" />
+              <input disabled="disabled" type="text" name="comments" placeholder="enter comments" />
 							<input disabled="disabled" type="file" name="submission" placeholder="upload assignment" />
 							<input disabled="disabled" type="hidden" name="uid" value="<%=session.getAttribute("uid") %>" />
 						</div>

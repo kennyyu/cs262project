@@ -20,8 +20,8 @@ import edu.harvard.cs262.grading.service.SubmissionImpl;
 public class MainSimpleStudentGrade {
 
 	public static void main(String[] args) throws Exception {
-		if (args.length != 5) {
-			System.err.println("usage: graderID submitterID assignmentID string score");
+		if (args.length != 6) {
+			System.err.println("usage: graderID submitterID assignmentID string score string");
 			System.exit(-1);
 		}
 		
@@ -37,11 +37,13 @@ public class MainSimpleStudentGrade {
 		byte contents[] = args[3].getBytes();
 		Submission submission = new SubmissionImpl(submitter, assignment, contents);
 		Score score = new ScoreImpl(Integer.parseInt(args[4]),100);
+		String comments = args[5];
 		
 		// remote calls
-		Grade grade = s.storeGrade(grader, submission, score);		
+		Grade grade = s.storeGrade(grader, submission, score, comments);
 		System.out.println(grade.getGrader());
 		System.out.println(grade.getScore());
+		System.out.println(grade.getComments());
 		System.out.println(grade.getTimeStamp());
 		
 		// get all grades
