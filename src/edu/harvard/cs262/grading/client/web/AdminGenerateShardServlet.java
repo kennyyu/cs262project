@@ -25,56 +25,61 @@ public class AdminGenerateShardServlet extends HttpServlet {
 
 	public void lookupServices() {
 
-        try {
-            // get reference to database service
-        	sharderService = (SharderServiceServer) ServiceLookupUtility.lookupService(new ServletConfigReader(this.getServletContext()), "SharderService");
+		try {
+			// get reference to database service
+			sharderService = (SharderServiceServer) ServiceLookupUtility
+					.lookupService(
+							new ServletConfigReader(this.getServletContext()),
+							"SharderService");
 			System.err.println("Successfully located a sharder server.");
-        } catch (RemoteException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (NullPointerException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
-        if(sharderService == null) {
-        	System.err.println("Looking up SharderService failed.");
-        }
-        
+		} catch (RemoteException e) {
+			e.printStackTrace(); // To change body of catch statement use File |
+									// Settings | File Templates.
+		} catch (NullPointerException e) {
+			e.printStackTrace(); // To change body of catch statement use File |
+									// Settings | File Templates.
+		}
+		if (sharderService == null) {
+			System.err.println("Looking up SharderService failed.");
+		}
+
 	}
 
 	public void init(ServletConfig config) throws ServletException {
 
 		super.init(config);
-	        
+
 		lookupServices();
 
 	}
-	
+
 	// passed assignment id for sharding
-    public void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+	public void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
-    	// get posted parameters (may have to update parameter names)
-    	String rawAssignmentID = request.getParameter("assignmentID");
-    	
-    	if(rawAssignmentID == null) {
-    		response.sendError(HttpServletResponse.SC_BAD_REQUEST,
-                    "parameters not set");
-    	} else {
+		// get posted parameters (may have to update parameter names)
+		String rawAssignmentID = request.getParameter("assignmentID");
 
-	    	// invoke the system to shard the assignmentID
-	    	try{
-		    	Long assignmentID = Long.parseLong(rawAssignmentID);
-		    	Assignment assignment = new AssignmentImpl(assignmentID);
-		    	sharderService.generateShard(assignment);
-	    	} catch (NumberFormatException e){
-	            response.sendError(HttpServletResponse.SC_BAD_REQUEST,
-	                    "invalid values given");
-	    	} catch (NullPointerException e) {
-	    		response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-	    				"submission upload failed");
-	    		e.printStackTrace();
-	    	}
-    	}
-    }
+		if (rawAssignmentID == null) {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST,
+					"parameters not set");
+		} else {
 
-	
+			// invoke the system to shard the assignmentID
+			try {
+				Long assignmentID = Long.parseLong(rawAssignmentID);
+				Assignment assignment = new AssignmentImpl(assignmentID);
+				sharderService.generateShard(assignment);
+			} catch (NumberFormatException e) {
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST,
+						"invalid values given");
+			} catch (NullPointerException e) {
+				response.sendError(
+						HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+						"submission upload failed");
+				e.printStackTrace();
+			}
+		}
+	}
+
 }

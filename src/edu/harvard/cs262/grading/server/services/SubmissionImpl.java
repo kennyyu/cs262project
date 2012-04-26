@@ -15,16 +15,19 @@ public class SubmissionImpl implements Submission {
 	private final Timestamp timestamp;
 
 	// Take a timestamp
-	public SubmissionImpl(Student student, Assignment assignment, byte[] contents, Timestamp timestamp) {
+	public SubmissionImpl(Student student, Assignment assignment,
+			byte[] contents, Timestamp timestamp) {
 		this.student = student;
 		this.assignment = assignment;
 		this.contents = contents;
 		this.timestamp = timestamp;
 	}
-	
+
 	// Auto-generate a timestamp
-	public SubmissionImpl(Student student, Assignment assignment, byte[] contents) {
-		this(student, assignment, contents, new Timestamp((new Date()).getTime()));
+	public SubmissionImpl(Student student, Assignment assignment,
+			byte[] contents) {
+		this(student, assignment, contents, new Timestamp(
+				(new Date()).getTime()));
 	}
 
 	@Override
@@ -49,7 +52,8 @@ public class SubmissionImpl implements Submission {
 
 	@Override
 	public int hashCode() {
-		return student.hashCode() + assignment.hashCode() + contents.hashCode() + timestamp.hashCode();
+		return student.hashCode() + assignment.hashCode() + contents.hashCode()
+				+ timestamp.hashCode();
 	}
 
 	@Override
@@ -61,14 +65,14 @@ public class SubmissionImpl implements Submission {
 		if (getClass() != obj.getClass())
 			return false;
 		SubmissionImpl other = (SubmissionImpl) obj;
-		if (student.equals(other.student) &&
-			assignment.equals(other.assignment) &&
-			timestamp.equals(other.timestamp) &&
-			contents.equals(other.contents))
+		if (student.equals(other.student)
+				&& assignment.equals(other.assignment)
+				&& timestamp.equals(other.timestamp)
+				&& contents.equals(other.contents))
 			return true;
 		return false;
 	}
-	
+
 	@Override
 	public String toString() {
 		return student + ", " + assignment + ", " + timestamp + ", " + contents;

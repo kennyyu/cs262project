@@ -8,25 +8,30 @@ import java.rmi.registry.Registry;
 import java.util.List;
 
 /**
- * Does messy lookup for RMI registries for
- * RMI registering services.
+ * Does messy lookup for RMI registries for RMI registering services.
  * 
  * @author Administrator
- *
+ * 
  */
 public class ServiceLookupUtility {
 
 	/**
-	 * Returns service instance null if no instance of
-	 * the service could be found. 
+	 * Returns service instance null if no instance of the service could be
+	 * found.
 	 * 
 	 * @param reader
-	 * @param serviceName (unqualified) class name
-	 * @return Returns Service instance or null if no instance of the service could be found. 
-	 * @throws RemoteException Thrown if could not contact registry at some location or if there was a RemoteException with an embedded access error
-	 * @throws NullPointerException if {@code serviceName} is null
+	 * @param serviceName
+	 *            (unqualified) class name
+	 * @return Returns Service instance or null if no instance of the service
+	 *         could be found.
+	 * @throws RemoteException
+	 *             Thrown if could not contact registry at some location or if
+	 *             there was a RemoteException with an embedded access error
+	 * @throws NullPointerException
+	 *             if {@code serviceName} is null
 	 */
-	public static Service lookupService(ConfigReader reader, String serviceName) throws RemoteException, NullPointerException {
+	public static Service lookupService(ConfigReader reader, String serviceName)
+			throws RemoteException, NullPointerException {
 
 		Service service = null;
 
@@ -48,14 +53,17 @@ public class ServiceLookupUtility {
 
 			} catch (RemoteException e) {
 
-				System.err.println("Could not contact registry at "+ location +".");
+				System.err.println("Could not contact registry at " + location
+						+ ".");
 				e.printStackTrace();
 
-				if (j + 1 == total) throw e;
+				if (j + 1 == total)
+					throw e;
 
 			} catch (NotBoundException e) {
 
-				System.err.println("Service "+ serviceName +" not found in registry at "+location +".");
+				System.err.println("Service " + serviceName
+						+ " not found in registry at " + location + ".");
 				e.printStackTrace();
 
 			}

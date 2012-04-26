@@ -22,8 +22,8 @@ public interface Shard extends Serializable {
 	/**
 	 * Get the graders for a particular student
 	 * 
-	 * @param submission
-	 * @return the set of graders
+	 * @param student
+	 * @return the set of graders for a particular student
 	 */
 	public Set<Student> getGraders(Student student);
 

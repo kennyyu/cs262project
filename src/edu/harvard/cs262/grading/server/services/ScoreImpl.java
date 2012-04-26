@@ -1,19 +1,19 @@
 package edu.harvard.cs262.grading.server.services;
 
 public class ScoreImpl implements Score {
-	
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -8497228136055930585L;
 	private int score;
 	private int maxScore;
-	
+
 	public ScoreImpl(int score, int maxScore) {
 		this.score = score;
 		this.maxScore = maxScore;
 	}
-	
+
 	/**
 	 * @return the score as an integer
 	 */
@@ -27,14 +27,13 @@ public class ScoreImpl implements Score {
 	public int maxScore() {
 		return maxScore;
 	}
-	
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + (int) (score ^ (score >>> 32)) 
-			+ (int) (maxScore ^ (maxScore) >>> 32);
+		result = prime * result + (int) (score ^ (score >>> 32))
+				+ (int) (maxScore ^ (maxScore) >>> 32);
 		return result;
 	}
 
@@ -53,10 +52,10 @@ public class ScoreImpl implements Score {
 			return false;
 		return true;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Score: " + score + "/" + maxScore;
 	}
-	
+
 }

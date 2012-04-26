@@ -13,21 +13,22 @@ public class GradeImpl implements Grade {
 	private final Student grader;
 	private final String comments;
 	private final Timestamp timestamp;
-	
+
 	public GradeImpl(Score score, Student grader, String comments) {
 		this.score = score;
 		this.grader = grader;
 		this.comments = comments;
 		this.timestamp = new Timestamp((new Date()).getTime());
 	}
-	
-	public GradeImpl(Score score, Student grader, String comments, Timestamp timestamp) {
+
+	public GradeImpl(Score score, Student grader, String comments,
+			Timestamp timestamp) {
 		this.score = score;
 		this.grader = grader;
 		this.comments = comments;
-		this.timestamp = timestamp; 
+		this.timestamp = timestamp;
 	}
-	
+
 	@Override
 	public Score getScore() {
 		return score;
@@ -85,7 +86,7 @@ public class GradeImpl implements Grade {
 			return false;
 		return true;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Grade. " + score + ", " + grader + ", " + timestamp;

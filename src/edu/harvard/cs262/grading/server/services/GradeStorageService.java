@@ -13,10 +13,9 @@ public interface GradeStorageService extends Remote, Service {
 	 * Submit a score for grading
 	 * 
 	 * @param grade
-	 * 			the grade for this assignment
+	 *            the grade for this assignment
 	 * @param submission
 	 *            the submission being graded
-	 * @param return the Grade object
 	 * @throws RemoteException
 	 */
 	public void submitGrade(Submission submission, Grade grade)
@@ -26,7 +25,7 @@ public interface GradeStorageService extends Remote, Service {
 	 * Retrieve all the grades for a given submission.
 	 * 
 	 * @param submission
-	 * @return
+	 * @return the list of grades for the submission
 	 * @throws RemoteException
 	 */
 	public List<Grade> getGrade(Submission submission) throws RemoteException;

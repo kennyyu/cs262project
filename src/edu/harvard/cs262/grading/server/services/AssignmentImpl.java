@@ -7,15 +7,15 @@ public class AssignmentImpl implements Assignment {
 	 */
 	private static final long serialVersionUID = -6532018502443527393L;
 	private long assignmentID;
-	
+
 	public AssignmentImpl() {
 		this.assignmentID = 0;
 	}
-	
+
 	public AssignmentImpl(long long1) {
 		this.assignmentID = long1;
 	}
-	
+
 	@Override
 	public long assignmentID() {
 		return this.assignmentID;
@@ -43,7 +43,7 @@ public class AssignmentImpl implements Assignment {
 			return false;
 		return true;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Assignment: " + assignmentID;

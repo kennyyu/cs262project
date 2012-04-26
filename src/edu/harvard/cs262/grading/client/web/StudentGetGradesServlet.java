@@ -29,109 +29,123 @@ import edu.harvard.cs262.grading.server.web.ServletConfigReader;
 
 public class StudentGetGradesServlet extends HttpServlet {
 
-    /**
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 8258290257175670745L;
 	GradeStorageService gradeStorage;
-    SubmissionStorageService submissionStorage;
-    
-    public void lookupServices() {
+	SubmissionStorageService submissionStorage;
 
-        try {
-            // get reference to database service
-        	gradeStorage = (GradeStorageService) ServiceLookupUtility.lookupService(new ServletConfigReader(this.getServletContext()), "GradeStorageService");
-        } catch (RemoteException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (NullPointerException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
-        if(gradeStorage == null) {
-        	System.err.println("Looking up GradeStorageService failed.");
-        }
+	public void lookupServices() {
 
-        try {
-            // get reference to database service
-        	submissionStorage = (SubmissionStorageService) ServiceLookupUtility.lookupService(new ServletConfigReader(this.getServletContext()), "SubmissionStorageService");
-        } catch (RemoteException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (NullPointerException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
-        if(submissionStorage == null) {
-        	System.err.println("Could not find SubmissionStorageService");
-        }
-    	
-    }
+		try {
+			// get reference to database service
+			gradeStorage = (GradeStorageService) ServiceLookupUtility
+					.lookupService(
+							new ServletConfigReader(this.getServletContext()),
+							"GradeStorageService");
+		} catch (RemoteException e) {
+			e.printStackTrace(); // To change body of catch statement use File |
+									// Settings | File Templates.
+		} catch (NullPointerException e) {
+			e.printStackTrace(); // To change body of catch statement use File |
+									// Settings | File Templates.
+		}
+		if (gradeStorage == null) {
+			System.err.println("Looking up GradeStorageService failed.");
+		}
 
-    public void init(ServletConfig config) throws ServletException {
+		try {
+			// get reference to database service
+			submissionStorage = (SubmissionStorageService) ServiceLookupUtility
+					.lookupService(
+							new ServletConfigReader(this.getServletContext()),
+							"SubmissionStorageService");
+		} catch (RemoteException e) {
+			e.printStackTrace(); // To change body of catch statement use File |
+									// Settings | File Templates.
+		} catch (NullPointerException e) {
+			e.printStackTrace(); // To change body of catch statement use File |
+									// Settings | File Templates.
+		}
+		if (submissionStorage == null) {
+			System.err.println("Could not find SubmissionStorageService");
+		}
 
-        super.init(config);
-        
-        lookupServices();
+	}
 
-    }
+	public void init(ServletConfig config) throws ServletException {
 
-    public void doPost(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
-    	
-    	// get posted parameters
-    	String rawStudent = request.getParameter("uid");
-    	
-    	// attempt to get corresponding grade
-    	if(rawStudent == null) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST,
-                    "parameters not set");
-    	} else {
-    	
-	    	// try to convert parameters into usable format
-	    	try{
-		    	Integer studentID = Integer.parseInt(rawStudent);
-		    	Student student = new StudentImpl(studentID);
-		    	
-		    	Set<Submission> allSubmissions = submissionStorage.getStudentWork(student);
-		    	Set<Assignment> allAssignments = new HashSet<Assignment>();
-		    	
-		    	for(Submission s : allSubmissions){
-		    		allAssignments.add(s.getAssignment());
-		    	}		    	
-		    	
-		    	// get all grades
-		    	Set<List<Grade>> allGradeLists = new HashSet<List<Grade>>();
-		    	
-		    	for(Assignment assignment : allAssignments){
-		    		allGradeLists.add(gradeStorage.getGrade(submissionStorage.getLatestSubmission(student, assignment)));
-		    	}
-		    	
-		    	for(List<Grade> grades : allGradeLists){
-		    	
-		    		StringBuilder responseBuilder = new StringBuilder();
-		    		responseBuilder.append("{grades:[");
-		    		if(grades != null) {
-		    			ListIterator<Grade> gradeIter = grades.listIterator();
-		    			while(gradeIter.hasNext()) {
-		    				Grade grade = gradeIter.next();
-		    				responseBuilder.append("score:");
-		    				responseBuilder.append(grade.getScore().getScore()+"/"+grade.getScore().maxScore());
-		    				responseBuilder.append("}");
-		    			}
-		    		}
-		    		responseBuilder.append("]}");
-	
-		    		response.setContentType("text/Javascript");
-		    		response.setCharacterEncoding("UTF-8");
-		    		response.getWriter().write(responseBuilder.toString());
-		   		}
-		    	
-	    	} catch (NumberFormatException e){
-	            response.sendError(HttpServletResponse.SC_BAD_REQUEST,
-	                    "invalid values given");
-	    	} catch (NullPointerException e) {
-	    		response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-	    				"grade retrieval failed");
-	    		e.printStackTrace();
-	    	}
-	    
-    	}
-    }
+		super.init(config);
+
+		lookupServices();
+
+	}
+
+	public void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		// get posted parameters
+		String rawStudent = request.getParameter("uid");
+
+		// attempt to get corresponding grade
+		if (rawStudent == null) {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST,
+					"parameters not set");
+		} else {
+
+			// try to convert parameters into usable format
+			try {
+				Integer studentID = Integer.parseInt(rawStudent);
+				Student student = new StudentImpl(studentID);
+
+				Set<Submission> allSubmissions = submissionStorage
+						.getStudentWork(student);
+				Set<Assignment> allAssignments = new HashSet<Assignment>();
+
+				for (Submission s : allSubmissions) {
+					allAssignments.add(s.getAssignment());
+				}
+
+				// get all grades
+				Set<List<Grade>> allGradeLists = new HashSet<List<Grade>>();
+
+				for (Assignment assignment : allAssignments) {
+					allGradeLists.add(gradeStorage.getGrade(submissionStorage
+							.getLatestSubmission(student, assignment)));
+				}
+
+				for (List<Grade> grades : allGradeLists) {
+
+					StringBuilder responseBuilder = new StringBuilder();
+					responseBuilder.append("{grades:[");
+					if (grades != null) {
+						ListIterator<Grade> gradeIter = grades.listIterator();
+						while (gradeIter.hasNext()) {
+							Grade grade = gradeIter.next();
+							responseBuilder.append("score:");
+							responseBuilder.append(grade.getScore().getScore()
+									+ "/" + grade.getScore().maxScore());
+							responseBuilder.append("}");
+						}
+					}
+					responseBuilder.append("]}");
+
+					response.setContentType("text/Javascript");
+					response.setCharacterEncoding("UTF-8");
+					response.getWriter().write(responseBuilder.toString());
+				}
+
+			} catch (NumberFormatException e) {
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST,
+						"invalid values given");
+			} catch (NullPointerException e) {
+				response.sendError(
+						HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+						"grade retrieval failed");
+				e.printStackTrace();
+			}
+
+		}
+	}
 }

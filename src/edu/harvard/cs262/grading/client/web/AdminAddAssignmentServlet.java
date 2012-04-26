@@ -16,22 +16,22 @@ public class AdminAddAssignmentServlet extends HttpServlet {
 	private static final long serialVersionUID = 2895803517594443809L;
 
 	public void lookupServices() {
-		
+
 	}
-	
+
 	public void init(ServletConfig config) throws ServletException {
-		
+
 		super.init(config);
-		
+
 		lookupServices();
-		
+
 	}
 
-    public void doPost(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
-    	
-    	// TODO: implement
+	public void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
-    }
+		// TODO: implement
+
+	}
 
 }

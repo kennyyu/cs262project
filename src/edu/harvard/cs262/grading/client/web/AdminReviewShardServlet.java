@@ -28,19 +28,24 @@ public class AdminReviewShardServlet extends HttpServlet {
 
 	public void lookupServices() {
 
-        try {
-            // get reference to database service
-        	sharderService = (SharderServiceServer) ServiceLookupUtility.lookupService(new ServletConfigReader(this.getServletContext()), "SharderService");
+		try {
+			// get reference to database service
+			sharderService = (SharderServiceServer) ServiceLookupUtility
+					.lookupService(
+							new ServletConfigReader(this.getServletContext()),
+							"SharderService");
 			System.err.println("Successfully located a sharder server.");
-        } catch (RemoteException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (NullPointerException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
-        if(sharderService == null) {
-        	System.err.println("Looking up SharderService failed.");
-        }
-        
+		} catch (RemoteException e) {
+			e.printStackTrace(); // To change body of catch statement use File |
+									// Settings | File Templates.
+		} catch (NullPointerException e) {
+			e.printStackTrace(); // To change body of catch statement use File |
+									// Settings | File Templates.
+		}
+		if (sharderService == null) {
+			System.err.println("Looking up SharderService failed.");
+		}
+
 	}
 
 	public void init(ServletConfig config) throws ServletException {

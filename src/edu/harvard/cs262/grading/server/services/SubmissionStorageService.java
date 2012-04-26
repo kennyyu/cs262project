@@ -14,7 +14,6 @@ public interface SubmissionStorageService extends Remote, Service {
 	 * Places the submission into persistent storage.
 	 * 
 	 * @param submission
-	 * @return true on success
 	 * @throws RemoteException
 	 */
 	public void storeSubmission(Submission submission) throws RemoteException;
@@ -27,12 +26,12 @@ public interface SubmissionStorageService extends Remote, Service {
 	 * @return the requested submission
 	 * @throws RemoteException
 	 */
-	public Submission getSubmission(Student student, Assignment assignment, Timestamp timestamp)
-			throws RemoteException;
-	
+	public Submission getSubmission(Student student, Assignment assignment,
+			Timestamp timestamp) throws RemoteException;
+
 	public Submission getLatestSubmission(Student student, Assignment assignment)
 			throws RemoteException;
-	
+
 	public Set<Submission> getSubmissions(Student student, Assignment assignment)
 			throws RemoteException;
 
@@ -50,7 +49,7 @@ public interface SubmissionStorageService extends Remote, Service {
 	 * Return a set of all submitted assignments for the given assignment ID
 	 * 
 	 * @param assignment
-	 * @return
+	 * @return all submissions for the assignment
 	 * @throws RemoteException
 	 */
 	public Set<Submission> getAllSubmissions(Assignment assignment)

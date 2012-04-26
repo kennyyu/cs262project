@@ -20,17 +20,19 @@ public interface GradeCompilerService extends Remote, Service {
 	 *            the submission being graded
 	 * @param score
 	 *            the score for the submission
-	 * @param return the Grade object
+	 * @param comments
+	 *            the grader's comment for the submission
+	 * @return the Grade object
 	 * @throws RemoteException
 	 */
-	public Grade storeGrade(Student grader, Submission submission, Score score, String comments)
-			throws RemoteException;
+	public Grade storeGrade(Student grader, Submission submission, Score score,
+			String comments) throws RemoteException;
 
 	/**
 	 * Get the list of graders for a given submission.
 	 * 
 	 * @param submission
-	 * @return
+	 * @return the list of graders for the submission
 	 * @throws RemoteException
 	 */
 	public Set<Student> getGraders(Submission submission)
@@ -41,7 +43,7 @@ public interface GradeCompilerService extends Remote, Service {
 	 * given assignment
 	 * 
 	 * @param assignment
-	 * @return
+	 * @return the mapping of submissions to grades for that submission
 	 * @throws RemoteException
 	 */
 	public Map<Submission, List<Grade>> getCompiledGrades(Assignment assignment)

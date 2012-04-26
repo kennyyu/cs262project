@@ -44,22 +44,24 @@ public class MongoSubmissionStorageServiceTests {
 	}
 
 	@Test
-	public void testMongoInit() throws UnknownHostException, MongoException, SerialException, SQLException, RemoteException {
+	public void testMongoInit() throws UnknownHostException, MongoException,
+			SerialException, SQLException, RemoteException {
 		MongoSubmissionStorageService service = new MongoSubmissionStorageService();
 		service.init();
-		
+
 		Random r = new Random();
-		
+
 		Student student = new StudentImpl(50);
 		Assignment assn = new AssignmentImpl(50);
-		
+
 		String contents = "Hello World, " + r.nextInt(100) + " times.";
-		
+
 		byte[] b = contents.getBytes();
 		Submission sub = new SubmissionImpl(student, assn, b);
-		
+
 		service.storeSubmission(sub);
-		
-		assert(service.getLatestSubmission(student, assn).getContents().equals(contents.getBytes()));
+
+		assert (service.getLatestSubmission(student, assn).getContents()
+				.equals(contents.getBytes()));
 	}
 }

@@ -23,20 +23,20 @@ public class MongoGradeStorageService implements GradeStorageService {
 	private Mongo m;
 	private DB db;
 	private DBCollection coll;
-	
+
 	public void init() throws UnknownHostException, MongoException {
 		m = new Mongo();
 		db = m.getDB("dgs");
-		coll = db.getCollection("grades"); //change collection name?
+		coll = db.getCollection("grades"); // change collection name?
 	}
-	
+
 	@Override
 	public void submitGrade(Submission submission, Grade grade)
 			throws RemoteException {
 		// XXX: Active question: can Mongo's "put" method really accept /any/
 		// objects?
 		// How does that work? Surely they must be serializable?
-		
+
 		BasicDBObject info = new BasicDBObject();
 
 		info.put("studentID", submission.getStudent().studentID());
@@ -57,26 +57,27 @@ public class MongoGradeStorageService implements GradeStorageService {
 		BasicDBObject query = new BasicDBObject();
 		query.put("studentID", submission.getStudent().studentID());
 		query.put("assignmentID", submission.getAssignment().assignmentID());
-		
+
 		DBCursor cur = coll.find(query);
 		List<Grade> grades = new ArrayList<Grade>();
 
-		while(cur.hasNext())
-		{
+		while (cur.hasNext()) {
 			DBObject gradeObject = cur.next();
-			// I'm assuming that, if I put it in as an int, I can pull it out and cast it to Integer????
-			Score score = new ScoreImpl((Integer)gradeObject.get("score"), (Integer)gradeObject.get("maxScore"));
+			// I'm assuming that, if I put it in as an int, I can pull it out
+			// and cast it to Integer????
+			Score score = new ScoreImpl((Integer) gradeObject.get("score"),
+					(Integer) gradeObject.get("maxScore"));
 			Student grader = new StudentImpl((Long) (gradeObject.get("grader")));
 			String comments = (String) gradeObject.get("comments");
-			Timestamp tm = new Timestamp(((Date) gradeObject.get("timestamp")).getTime());
+			Timestamp tm = new Timestamp(
+					((Date) gradeObject.get("timestamp")).getTime());
 			Grade grade = new GradeImpl(score, grader, comments, tm);
 			grades.add(grade);
 		}
 		return grades;
 	}
-	
 
-	// TODO (kennyu): Is this right?  How would we know?
+	// TODO (kennyu): Is this right? How would we know?
 	public static void main(String[] args) {
 		try {
 			MongoGradeStorageService obj = new MongoGradeStorageService();
@@ -86,25 +87,25 @@ public class MongoGradeStorageService implements GradeStorageService {
 
 			// Bind the remote object's stub in the registry
 			Registry registry = LocateRegistry.getRegistry();
-			
+
 			// check for registry update command
 			boolean forceUpdate = false;
-			for(int i = 0, len = args.length; i < len; i++)
-				if(args[i].equals("--update")) forceUpdate = true;
+			for (int i = 0, len = args.length; i < len; i++)
+				if (args[i].equals("--update"))
+					forceUpdate = true;
 
-			if(forceUpdate) {
+			if (forceUpdate) {
 				registry.rebind("GradeStorageService", stub);
 			} else {
 				registry.bind("GradeStorageService", stub);
 			}
-			
+
 			System.err.println("GradeStorageService running");
-			
+
 		} catch (Exception e) {
 			System.err.println("Server exception: " + e.toString());
 			e.printStackTrace();
 		}
 	}
-
 
 }

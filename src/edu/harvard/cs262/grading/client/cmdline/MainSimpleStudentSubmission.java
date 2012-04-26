@@ -19,21 +19,21 @@ public class MainSimpleStudentSubmission {
 		}
 		// get an instance of a remote server
 		Registry registry = LocateRegistry.getRegistry();
-		SubmissionReceiverService s = (SubmissionReceiverService) 
-			registry.lookup("SubmissionReceiverService");
-		
+		SubmissionReceiverService s = (SubmissionReceiverService) registry
+				.lookup("SubmissionReceiverService");
+
 		// prepare data
 		Student student = new StudentImpl(Long.parseLong(args[0]));
 		Assignment assignment = new AssignmentImpl(Long.parseLong(args[1]));
 		byte contents[] = args[2].getBytes();
-		
+
 		// remote call
 		Submission submission = s.submit(student, assignment, contents);
-		
+
 		System.out.println(submission.getStudent());
 		System.out.println(submission.getAssignment());
 		System.out.println(submission.getContents());
 		System.out.println(submission.getTimeStamp());
 	}
-	
+
 }

@@ -12,18 +12,16 @@ public class ShardImpl implements Shard {
 	 */
 	private static final long serialVersionUID = -2985077449389912337L;
 	private Map<Student, Set<Student>> sharding;
-	
+
 	public ShardImpl() {
 		sharding = new LinkedHashMap<Student, Set<Student>>();
 	}
-	
+
 	/*
-	public ShardImpl(int shardID) {
-		this.shardID = shardID;
-		sharding = new LinkedHashMap<Student, Set<Student>>();
-	}
-	*/
-	
+	 * public ShardImpl(int shardID) { this.shardID = shardID; sharding = new
+	 * LinkedHashMap<Student, Set<Student>>(); }
+	 */
+
 	public void addGrader(Student grader, Student gradee) {
 		if (sharding.containsKey(grader)) {
 			sharding.get(grader).add(gradee);
@@ -37,7 +35,7 @@ public class ShardImpl implements Shard {
 	@Override
 	public Set<Student> getGraders(Student student) {
 		Set<Student> graderSet = new LinkedHashSet<Student>();
-		
+
 		for (Student grader : sharding.keySet()) {
 			if (sharding.get(grader).contains(student)) {
 				graderSet.add(grader);
@@ -81,7 +79,7 @@ public class ShardImpl implements Shard {
 			return false;
 		return true;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "ShardID: " + shardID() + " Mapping:\n" + sharding;

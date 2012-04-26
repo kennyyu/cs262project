@@ -1,17 +1,17 @@
 package edu.harvard.cs262.grading.server.services;
 
 public class StudentImpl implements Student {
-	
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -3416718070943451888L;
 	private long studentID;
-	
+
 	public StudentImpl() {
 		this.studentID = 0;
 	}
-	
+
 	public StudentImpl(long studentID) {
 		this.studentID = studentID;
 	}
@@ -41,7 +41,7 @@ public class StudentImpl implements Student {
 			return false;
 		return true;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Student: " + studentID;
