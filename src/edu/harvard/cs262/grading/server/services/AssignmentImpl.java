@@ -8,12 +8,20 @@ public class AssignmentImpl implements Assignment {
 	private static final long serialVersionUID = -6532018502443527393L;
 	private long assignmentID;
 
+	private String description;
+
 	public AssignmentImpl() {
 		this.assignmentID = 0;
+		this.description = "";
 	}
 
-	public AssignmentImpl(long long1) {
+	public AssignmentImpl(long ID) {
+		new AssignmentImpl(ID, "");
+	}
+	
+	public AssignmentImpl(long long1, String desc) {
 		this.assignmentID = long1;
+		this.description = desc;
 	}
 
 	@Override
@@ -47,6 +55,11 @@ public class AssignmentImpl implements Assignment {
 	@Override
 	public String toString() {
 		return "Assignment: " + assignmentID;
+	}
+
+	@Override
+	public String description() {
+		return description;
 	}
 
 }

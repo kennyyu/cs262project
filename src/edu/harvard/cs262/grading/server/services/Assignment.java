@@ -11,4 +11,9 @@ public interface Assignment extends Serializable {
 	 * @return the unique ID identifying this assignment
 	 */
 	public long assignmentID();
+
+	/**
+	 * @return the description of this assignment
+	 */
+	public String description();
 }
