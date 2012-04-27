@@ -4,16 +4,15 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.Set;
 
-
 public interface AssignmentService extends Remote, Service {
+	
 	/**
 	 * Add a new assignment
 	 * 
 	 * @param ID
-	 * 			a unique identifier for the assignment
+	 *            a unique identifier for the assignment
 	 * @param desc
-	 * 			a string describing the assignment
-	 * @return the sharding
+	 *            a string describing the assignment
 	 * @throws RemoteException
 	 */
 	public void addNewAssignment(long ID, String desc) throws RemoteException;

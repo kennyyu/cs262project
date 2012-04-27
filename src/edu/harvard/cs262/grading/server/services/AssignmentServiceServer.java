@@ -14,13 +14,12 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.Mongo;
 
-
 public class AssignmentServiceServer implements AssignmentService {
 
 	private Mongo m;
 	private DB db;
 	private DBCollection coll;
-	
+
 	@Override
 	public void addNewAssignment(long ID, String desc) throws RemoteException {
 
@@ -37,13 +36,14 @@ public class AssignmentServiceServer implements AssignmentService {
 		BasicDBObject query = new BasicDBObject();
 
 		DBCursor results = coll.find(query);
-		
+
 		Set<Assignment> assignments = new LinkedHashSet<Assignment>();
 
 		for (DBObject result : results) {
-			assignments.add(new AssignmentImpl((Long)result.get("id"), (String)result.get("desc")));
+			assignments.add(new AssignmentImpl((Long) result.get("id"),
+					(String) result.get("desc")));
 		}
-		
+
 		return assignments;
 	}
 
@@ -53,9 +53,9 @@ public class AssignmentServiceServer implements AssignmentService {
 		db = m.getDB("dgs");
 		coll = db.getCollection("assignments");
 	}
-	
+
 	public static void main(String[] args) {
-		
+
 		try {
 			SharderServiceServer obj = new SharderServiceServer();
 			obj.init();
@@ -64,25 +64,26 @@ public class AssignmentServiceServer implements AssignmentService {
 
 			// Bind the remote object's stub in the registry
 			Registry registry = LocateRegistry.getRegistry();
-			
+
 			// check for registry update command
 			boolean forceUpdate = false;
-			for(int i = 0, len = args.length; i < len; i++)
-				if(args[i].equals("--update")) forceUpdate = true;
+			for (int i = 0, len = args.length; i < len; i++)
+				if (args[i].equals("--update"))
+					forceUpdate = true;
 
-			if(forceUpdate) {
+			if (forceUpdate) {
 				registry.rebind("AssignmentService", stub);
 			} else {
 				registry.bind("AssignmentService", stub);
 			}
-			
+
 			System.err.println("AssignmentService running");
 
 		} catch (Exception e) {
 			System.err.println("Server exception: " + e.toString());
 			e.printStackTrace();
 		}
-		
+
 	}
 
 }
