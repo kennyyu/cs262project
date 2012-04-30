@@ -43,7 +43,8 @@ Dependencies:
 
 To run the services:
 ===================
-0. Place the hostnames of all replicas into the config/services.config file.
+0. Place the hostnames of all replicas into the config/services.config file, and
+in WebContent/WEB-INF/lib/config/services.config. 
 
 1. Start the rmi registry:
 
