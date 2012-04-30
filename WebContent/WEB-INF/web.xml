@@ -19,7 +19,7 @@
        testPackage.TestServlet -->
   <servlet>
     <servlet-name>AdminGetGradesServlet</servlet-name>
-    <servlet-class>edu.harvard.cs262.grading.clients.web.AdminGetGradesServlet</servlet-class>
+    <servlet-class>edu.harvard.cs262.grading.client.web.AdminGetGradesServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>AdminGetGradesServlet</servlet-name>
@@ -27,7 +27,7 @@
   </servlet-mapping>
   <servlet>
     <servlet-name>AdminGetSubmissionsServlet</servlet-name>
-    <servlet-class>edu.harvard.cs262.grading.clients.web.AdminGetSubmissionsServlet</servlet-class>
+    <servlet-class>edu.harvard.cs262.grading.client.web.AdminGetSubmissionsServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>AdminGetSubmissionsServlet</servlet-name>
@@ -35,7 +35,7 @@
   </servlet-mapping>
   <servlet>
     <servlet-name>AdminGenerateShardServlet</servlet-name>
-    <servlet-class>edu.harvard.cs262.grading.clients.web.AdminGenerateShardServlet</servlet-class>
+    <servlet-class>edu.harvard.cs262.grading.client.web.AdminGenerateShardServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>AdminGenerateShardServlet</servlet-name>
@@ -43,7 +43,7 @@
   </servlet-mapping>
   <servlet>
     <servlet-name>AdminReviewShardServlet</servlet-name>
-    <servlet-class>edu.harvard.cs262.grading.clients.web.AdminReviewShardServlet</servlet-class>
+    <servlet-class>edu.harvard.cs262.grading.client.web.AdminReviewShardServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>AdminAddAssignmentServlet</servlet-name>
@@ -51,7 +51,7 @@
   </servlet-mapping>
   <servlet>
     <servlet-name>AdminAddAssignmentServlet</servlet-name>
-    <servlet-class>edu.harvard.cs262.grading.clients.web.AdminAddAssignmentServlet</servlet-class>
+    <servlet-class>edu.harvard.cs262.grading.client.web.AdminAddAssignmentServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>AdminReviewShardServlet</servlet-name>
@@ -59,7 +59,7 @@
   </servlet-mapping>
   <servlet>
     <servlet-name>StudentGetGradesServlet</servlet-name>
-    <servlet-class>edu.harvard.cs262.grading.clients.web.StudentGetGradesServlet</servlet-class>
+    <servlet-class>edu.harvard.cs262.grading.client.web.StudentGetGradesServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>StudentGetGradesServlet</servlet-name>
@@ -67,7 +67,7 @@
   </servlet-mapping>
   <servlet>
     <servlet-name>StudentSubmitSubmissionServlet</servlet-name>
-    <servlet-class>edu.harvard.cs262.grading.clients.web.StudentSubmitSubmissionServlet</servlet-class>
+    <servlet-class>edu.harvard.cs262.grading.client.web.StudentSubmitSubmissionServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>StudentSubmitSubmissionServlet</servlet-name>
@@ -75,7 +75,7 @@
   </servlet-mapping>
   <servlet>
     <servlet-name>StudentSubmitGradeServlet</servlet-name>
-    <servlet-class>edu.harvard.cs262.grading.clients.web.StudentSubmitGradeServlet</servlet-class>
+    <servlet-class>edu.harvard.cs262.grading.client.web.StudentSubmitGradeServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>StudentSubmitGradeServlet</servlet-name>
@@ -83,7 +83,7 @@
   </servlet-mapping>
   <servlet>
     <servlet-name>PublicGetGradesServlet</servlet-name>
-    <servlet-class>edu.harvard.cs262.grading.clients.web.PublicGetGradesServlet</servlet-class>
+    <servlet-class>edu.harvard.cs262.grading.client.web.PublicGetGradesServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>PublicGetGradesServlet</servlet-name>
