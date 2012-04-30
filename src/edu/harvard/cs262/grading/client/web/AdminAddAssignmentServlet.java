@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import edu.harvard.cs262.grading.server.services.AssignmentStorageServiceServer;
+import edu.harvard.cs262.grading.server.services.AssignmentStorageService;
 import edu.harvard.cs262.grading.server.services.ServiceLookupUtility;
 import edu.harvard.cs262.grading.server.web.ServletConfigReader;
 
@@ -20,13 +20,13 @@ public class AdminAddAssignmentServlet extends HttpServlet {
 	 */
 	private static final long serialVersionUID = 2895803517594443809L;
 
-	private AssignmentStorageServiceServer assignmentService;
+	private AssignmentStorageService assignmentService;
 
 	public void lookupServices() {
 
 		try {
 			// get reference to database service
-			assignmentService = (AssignmentStorageServiceServer) ServiceLookupUtility
+			assignmentService = (AssignmentStorageService) ServiceLookupUtility
 					.lookupService(
 							new ServletConfigReader(this.getServletContext()),
 							"AssignmentService");

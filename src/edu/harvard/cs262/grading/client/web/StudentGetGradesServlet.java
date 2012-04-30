@@ -33,8 +33,8 @@ public class StudentGetGradesServlet extends HttpServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = 8258290257175670745L;
-	GradeStorageService gradeStorage;
-	SubmissionStorageService submissionStorage;
+	private GradeStorageService gradeStorage;
+	private SubmissionStorageService submissionStorage;
 
 	public void lookupServices() {
 

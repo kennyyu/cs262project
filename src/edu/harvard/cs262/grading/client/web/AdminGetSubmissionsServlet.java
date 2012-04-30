@@ -32,7 +32,7 @@ public class AdminGetSubmissionsServlet extends HttpServlet {
 	 */
 	private static final long serialVersionUID = 11L;
 
-	SubmissionStorageService submissionStorage;
+	private SubmissionStorageService submissionStorage;
 
 	public void lookupServices() {
 

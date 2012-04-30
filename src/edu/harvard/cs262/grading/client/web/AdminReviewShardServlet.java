@@ -15,7 +15,7 @@ import edu.harvard.cs262.grading.server.services.Assignment;
 import edu.harvard.cs262.grading.server.services.AssignmentImpl;
 import edu.harvard.cs262.grading.server.services.ServiceLookupUtility;
 import edu.harvard.cs262.grading.server.services.Shard;
-import edu.harvard.cs262.grading.server.services.SharderServiceServer;
+import edu.harvard.cs262.grading.server.services.SharderService;
 import edu.harvard.cs262.grading.server.services.Student;
 import edu.harvard.cs262.grading.server.web.ServletConfigReader;
 
@@ -24,13 +24,13 @@ public class AdminReviewShardServlet extends HttpServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = -952195365293520107L;
-	SharderServiceServer sharderService;
+	private SharderService sharderService;
 
 	public void lookupServices() {
 
 		try {
 			// get reference to database service
-			sharderService = (SharderServiceServer) ServiceLookupUtility
+			sharderService = (SharderService) ServiceLookupUtility
 					.lookupService(
 							new ServletConfigReader(this.getServletContext()),
 							"SharderService");
