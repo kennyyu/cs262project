@@ -29,13 +29,33 @@ NOTE:
 To compile:
 ==========
 To compile, execute:
-      make
+    $ make
 
 To run tests:
 ============
 Tests require JUnit installed. To compile and run the JUnit tests, execute:
-      make test
+    $ make test
 
-To run:
-======
-      ?
+Dependencies:
+============
+* MongoDB (http://www.mongodb.org/)
+* Apache Tomcat (http://tomcat.apache.org/)
+
+To run the services:
+===================
+0. Place the hostnames of all replicas into the config/services.config file.
+
+1. Start the rmi registry:
+
+     $ rmiregistry &
+
+2. Launch the appropropriate service. The update flag forces the rmi registry to
+bind the name of the service to this current running instance.
+
+     $ ./GradeStorageService [--update]
+
+3. Copy the WebContent directory to the Apache Tomcat webapps/ directory.
+
+4. Copy the compiled project directory classes/ into webapps/WebContent/WEB-INF
+
+Note: For persistent storage services, also start the MongoDB instance.
