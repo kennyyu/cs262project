@@ -14,7 +14,7 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.Mongo;
 
-public class AssignmentServiceServer implements AssignmentService {
+public class AssignmentStorageServiceServer implements AssignmentStorageService {
 
 	private Mongo m;
 	private DB db;

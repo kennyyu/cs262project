@@ -77,7 +77,6 @@ public class MongoGradeStorageService implements GradeStorageService {
 		return grades;
 	}
 
-	// TODO (kennyu): Is this right? How would we know?
 	public static void main(String[] args) {
 		try {
 			MongoGradeStorageService obj = new MongoGradeStorageService();

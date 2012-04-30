@@ -4,7 +4,7 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.Set;
 
-public interface AssignmentService extends Remote, Service {
+public interface AssignmentStorageService extends Remote, Service {
 	
 	/**
 	 * Add a new assignment
