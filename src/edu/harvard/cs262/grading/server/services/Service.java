@@ -1,11 +1,12 @@
 package edu.harvard.cs262.grading.server.services;
 
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 /**
  * Umbrella interface for services
  */
-public interface Service {
+public interface Service extends Remote {
 
 	/**
 	 * Sets up the service (i.e., initializes private fields). Should be called

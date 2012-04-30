@@ -1,12 +1,11 @@
 package edu.harvard.cs262.grading.server.services;
 
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 /**
  * Service for receiving student submissions.
  */
-public interface SubmissionReceiverService extends Remote, Service {
+public interface SubmissionReceiverService extends Service {
 
 	/**
 	 * Submits the contents for the specified student and assignment number.

@@ -1,13 +1,12 @@
 package edu.harvard.cs262.grading.server.services;
 
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
 
 /**
  * Service for persistent storage of student generated grades.
  */
-public interface GradeStorageService extends Remote, Service {
+public interface GradeStorageService extends Service {
 
 	/**
 	 * Submit a score for grading

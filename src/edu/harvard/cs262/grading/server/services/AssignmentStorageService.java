@@ -1,10 +1,9 @@
 package edu.harvard.cs262.grading.server.services;
 
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.Set;
 
-public interface AssignmentStorageService extends Remote, Service {
+public interface AssignmentStorageService extends Service {
 	
 	/**
 	 * Add a new assignment

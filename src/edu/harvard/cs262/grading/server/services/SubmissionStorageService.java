@@ -1,6 +1,5 @@
 package edu.harvard.cs262.grading.server.services;
 
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.sql.Timestamp;
 import java.util.Set;
@@ -8,7 +7,7 @@ import java.util.Set;
 /**
  * Service for persistent storage of student work submission.
  */
-public interface SubmissionStorageService extends Service, Remote {
+public interface SubmissionStorageService extends Service {
 
 	/**
 	 * Places the submission into persistent storage.

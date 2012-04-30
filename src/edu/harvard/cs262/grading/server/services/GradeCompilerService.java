@@ -1,6 +1,5 @@
 package edu.harvard.cs262.grading.server.services;
 
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
 import java.util.Map;
@@ -9,7 +8,7 @@ import java.util.Set;
 /**
  * Service for compiling student generated grades.
  */
-public interface GradeCompilerService extends Remote, Service {
+public interface GradeCompilerService extends Service {
 
 	/**
 	 * Submit a score for grading

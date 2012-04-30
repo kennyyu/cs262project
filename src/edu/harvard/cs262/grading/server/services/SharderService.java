@@ -1,12 +1,11 @@
 package edu.harvard.cs262.grading.server.services;
 
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 /**
  * Service for sharding work out to students.
  */
-public interface SharderService extends Remote, Service {
+public interface SharderService extends Service {
 
 	/**
 	 * Starts the service.
