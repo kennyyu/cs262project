@@ -124,4 +124,10 @@ public class GradeCompilerServiceServer implements GradeCompilerService {
 		}
 	}
 
+	@Override
+	public void heartbeat() throws RemoteException {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

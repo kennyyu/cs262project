@@ -221,4 +221,10 @@ public class SharderServiceServer implements SharderService {
 
 	}
 
+	@Override
+	public void heartbeat() throws RemoteException {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

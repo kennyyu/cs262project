@@ -38,6 +38,7 @@ public class ServiceLookupUtility {
 			try {
 				Registry registry = LocateRegistry.getRegistry(location);
 				service = (Service) registry.lookup(serviceName);
+				service.heartbeat(); // test the connection
 				break;
 			} catch (AccessException e) {
 				System.err.println("Access denied to local registry.");

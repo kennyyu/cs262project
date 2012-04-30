@@ -86,4 +86,10 @@ public class AssignmentStorageServiceServer implements AssignmentStorageService 
 
 	}
 
+	@Override
+	public void heartbeat() throws RemoteException {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

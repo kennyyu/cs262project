@@ -182,4 +182,10 @@ public class MongoSubmissionStorageService implements SubmissionStorageService {
 
 	}
 
+	@Override
+	public void heartbeat() throws RemoteException {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

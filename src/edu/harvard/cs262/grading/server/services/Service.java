@@ -1,10 +1,9 @@
 package edu.harvard.cs262.grading.server.services;
 
+import java.rmi.RemoteException;
+
 /**
  * Umbrella interface for services
- * 
- * @author lpearson05
- * 
  */
 public interface Service {
 
@@ -15,5 +14,11 @@ public interface Service {
 	 * @throws Exception
 	 */
 	public void init() throws Exception;
+	
+	/**
+	 * Tests if the connection to the remote object is good.
+	 * @throws Exception
+	 */
+	public void heartbeat() throws RemoteException;
 
 }

@@ -8,7 +8,7 @@ import java.util.Set;
 /**
  * Service for persistent storage of student work submission.
  */
-public interface SubmissionStorageService extends Remote, Service {
+public interface SubmissionStorageService extends Service, Remote {
 
 	/**
 	 * Places the submission into persistent storage.
@@ -29,9 +29,23 @@ public interface SubmissionStorageService extends Remote, Service {
 	public Submission getSubmission(Student student, Assignment assignment,
 			Timestamp timestamp) throws RemoteException;
 
+	/**
+	 * Get the latest submission for the student and assignment
+	 * @param student
+	 * @param assignment
+	 * @return the submission
+	 * @throws RemoteException
+	 */
 	public Submission getLatestSubmission(Student student, Assignment assignment)
 			throws RemoteException;
 
+	/**
+	 * Return all submissions for a given assignment by a student
+	 * @param student
+	 * @param assignment
+	 * @return the set of submissions
+	 * @throws RemoteException
+	 */
 	public Set<Submission> getSubmissions(Student student, Assignment assignment)
 			throws RemoteException;
 

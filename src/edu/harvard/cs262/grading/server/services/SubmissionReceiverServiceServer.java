@@ -15,9 +15,9 @@ public class SubmissionReceiverServiceServer implements
 	}
 
 	@Override
-	public void init() throws Exception {
+	public void init() throws RemoteException {
 	}
-
+	
 	/**
 	 * Attempts to find the SubmissionStorageService, and dies after
 	 * NUM_LOOKUP_RETRIES.
@@ -69,6 +69,12 @@ public class SubmissionReceiverServiceServer implements
 			e.printStackTrace();
 		}
 
+	}
+
+	@Override
+	public void heartbeat() throws RemoteException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
