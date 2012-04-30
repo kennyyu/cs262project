@@ -57,9 +57,9 @@ public class AssignmentStorageServiceServer implements AssignmentStorageService 
 	public static void main(String[] args) {
 
 		try {
-			SharderServiceServer obj = new SharderServiceServer();
+			AssignmentStorageService obj = new AssignmentStorageServiceServer();
 			obj.init();
-			SharderService stub = (SharderService) UnicastRemoteObject
+			AssignmentStorageService stub = (AssignmentStorageService) UnicastRemoteObject
 					.exportObject(obj, 0);
 
 			// Bind the remote object's stub in the registry
@@ -72,9 +72,9 @@ public class AssignmentStorageServiceServer implements AssignmentStorageService 
 					forceUpdate = true;
 
 			if (forceUpdate) {
-				registry.rebind("AssignmentService", stub);
+				registry.rebind("AssignmentStorageService", stub);
 			} else {
-				registry.bind("AssignmentService", stub);
+				registry.bind("AssignmentStorageService", stub);
 			}
 
 			System.err.println("AssignmentService running");
