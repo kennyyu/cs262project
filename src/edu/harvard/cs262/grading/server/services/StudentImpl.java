@@ -7,13 +7,29 @@ public class StudentImpl implements Student {
 	 */
 	private static final long serialVersionUID = -3416718070943451888L;
 	private long studentID;
+	private String email;
+	private String firstName;
+	private String lastName;
 
 	public StudentImpl() {
 		this.studentID = 0;
+		this.firstName = "";
+		this.lastName = "";
+		this.email = "";
 	}
-
+	
 	public StudentImpl(long studentID) {
 		this.studentID = studentID;
+		this.firstName = "";
+		this.lastName = "";
+		this.email = "";
+	}
+
+	public StudentImpl(long studentID, String email, String firstName, String lastName) {
+		this.studentID = studentID;
+		this.email = email;
+		this.firstName = firstName;
+		this.lastName = lastName;
 	}
 
 	public long studentID() {
@@ -45,5 +61,20 @@ public class StudentImpl implements Student {
 	@Override
 	public String toString() {
 		return "Student: " + studentID;
+	}
+
+	@Override
+	public String email() {
+		return this.email;
+	}
+
+	@Override
+	public String firstName() {
+		return this.firstName;
+	}
+
+	@Override
+	public String lastName() {
+		return this.lastName;
 	}
 }
