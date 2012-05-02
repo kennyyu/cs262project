@@ -47,6 +47,18 @@
     <servlet-class>edu.harvard.cs262.grading.client.web.AdminReviewShardServlet</servlet-class>
   </servlet>
   <servlet-mapping>
+    <servlet-name>AdminReviewShardServlet</servlet-name>
+    <url-pattern>/adminreviewshards</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>AdminSendShardServlet</servlet-name>
+    <servlet-class>edu.harvard.cs262.grading.client.web.AdminSendShardServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AdminSendShardServlet</servlet-name>
+    <url-pattern>/adminsendshard</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
     <servlet-name>AdminAddAssignmentServlet</servlet-name>
     <url-pattern>/adminaddassignment</url-pattern>
   </servlet-mapping>
@@ -54,10 +66,6 @@
     <servlet-name>AdminAddAssignmentServlet</servlet-name>
     <servlet-class>edu.harvard.cs262.grading.client.web.AdminAddAssignmentServlet</servlet-class>
   </servlet>
-  <servlet-mapping>
-    <servlet-name>AdminReviewShardServlet</servlet-name>
-    <url-pattern>/adminreviewshards</url-pattern>
-  </servlet-mapping>
   <servlet>
     <servlet-name>StudentGetGradesServlet</servlet-name>
     <servlet-class>edu.harvard.cs262.grading.client.web.StudentGetGradesServlet</servlet-class>
