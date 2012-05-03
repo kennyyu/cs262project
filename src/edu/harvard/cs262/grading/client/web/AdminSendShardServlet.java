@@ -29,7 +29,7 @@ public class AdminSendShardServlet extends HttpServlet {
 	private static final long serialVersionUID = -952195365293520107L;
 	private SharderService sharderService;
 	private StudentService studentService;
-	private boolean sandbox = true;
+	private boolean sandbox = false;
 
 	public void lookupServices() {
 
