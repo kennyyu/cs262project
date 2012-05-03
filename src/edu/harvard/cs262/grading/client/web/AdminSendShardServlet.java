@@ -1,10 +1,8 @@
 package edu.harvard.cs262.grading.client.web;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.PrintStream;
 import java.rmi.RemoteException;
-import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
@@ -14,8 +12,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import edu.harvard.cs262.grading.server.services.Assignment;
-import edu.harvard.cs262.grading.server.services.AssignmentImpl;
 import edu.harvard.cs262.grading.server.services.ServiceLookupUtility;
 import edu.harvard.cs262.grading.server.services.Shard;
 import edu.harvard.cs262.grading.server.services.SharderService;
