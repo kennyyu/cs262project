@@ -12,7 +12,7 @@ import edu.harvard.cs262.grading.server.services.StudentImpl;
 import edu.harvard.cs262.grading.server.services.Submission;
 import edu.harvard.cs262.grading.server.services.SubmissionImpl;
 
-public class SharderServiceTestCase {
+public class TestSharderService {
 
 	@Test
 	public void testShard() throws Exception {

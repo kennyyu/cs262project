@@ -14,7 +14,7 @@ import edu.harvard.cs262.grading.server.services.AssignmentImpl;
 import edu.harvard.cs262.grading.server.services.AssignmentStorageService;
 import edu.harvard.cs262.grading.server.services.AssignmentStorageServiceServer;
 
-public class AssignmentStorageServiceTests {
+public class TestAssignmentStorageService {
 
 	@Before
 	public void setUp() throws Exception {

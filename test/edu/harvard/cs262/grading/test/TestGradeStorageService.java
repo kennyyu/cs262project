@@ -21,7 +21,7 @@ import edu.harvard.cs262.grading.server.services.StudentImpl;
 import edu.harvard.cs262.grading.server.services.Submission;
 import edu.harvard.cs262.grading.server.services.SubmissionImpl;
 
-public class GradeStorageServiceTests {
+public class TestGradeStorageService {
 
 	@Before
 	public void setUp() throws Exception {

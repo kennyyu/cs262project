@@ -4,10 +4,6 @@ CLASSPATH = classes
 # required libraries for compilation
 LIB = lib/mongo-2.7.3.jar:lib/javax.servlet-api-3.0.1.jar
 
-# location of database files
-DB = dbtemp
-MONGO = mongod --dbpath=$(DB)
-
 # package and project information
 PACKAGE = edu.harvard.cs262.grading
 PROJECTDIR = edu/harvard/cs262/grading
@@ -31,13 +27,17 @@ TESTPACKAGE = $(PACKAGE).test
 TESTCASES = \
 	$(TESTPACKAGE).TestDummy \
 	$(TESTPACKAGE).TestConfigReader \
-	$(TESTPACKAGE).SharderServiceTestCase \
-	$(TESTPACKAGE).StudentServiceServerTests \
-	$(TESTPACKAGE).MongoSubmissionStorageServiceTests \
-	$(TESTPACKAGE).GradeStorageServiceTests \
-	$(TESTPACKAGE).AssignmentStorageServiceTests \
-	$(TESTPACKAGE).SubmissionReceiverServiceTests \
-	$(TESTPACKAGE).GradeCompilerServiceTests
+	$(TESTPACKAGE).TestSharderService \
+	$(TESTPACKAGE).TestStudentServiceServer \
+	$(TESTPACKAGE).TestSubmissionStorageService \
+	$(TESTPACKAGE).TestGradeStorageService \
+	$(TESTPACKAGE).TestAssignmentStorageService \
+	$(TESTPACKAGE).TestSubmissionReceiverService \
+	$(TESTPACKAGE).TestGradeCompilerService
+
+# location of database files for tests
+DB = dbtest
+MONGO = mongod --dbpath=$(DB)
 
 
 ################################################################################
@@ -55,6 +55,8 @@ clean:
 	rm -rf $(CLASSPATH)
 	rm -rf $(DB)
 
+# tests will start mongod, sleep for 5 seconds while starting up, run unit
+# tests, then clean up the database
 test: all classes
 	mkdir $(DB)
 	eval $(MONGO) &

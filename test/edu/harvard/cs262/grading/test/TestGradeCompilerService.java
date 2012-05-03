@@ -28,7 +28,7 @@ import edu.harvard.cs262.grading.server.services.SubmissionReceiverServiceServer
 import edu.harvard.cs262.grading.server.services.SubmissionStorageService;
 import static org.junit.Assert.*;
 
-public class GradeCompilerServiceTests {
+public class TestGradeCompilerService {
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {

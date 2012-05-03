@@ -17,7 +17,7 @@ import edu.harvard.cs262.grading.server.services.SubmissionReceiverServiceServer
 import edu.harvard.cs262.grading.server.services.SubmissionStorageService;
 import static org.junit.Assert.*;
 
-public class SubmissionReceiverServiceTests {
+public class TestSubmissionReceiverService {
 
 	/**
 	 * @throws java.lang.Exception
