@@ -8,4 +8,6 @@ mkdir $4
 ./mongod --replSet $1 --port $3 --dbpath $3 &
 ./mongod --replSet $1 --port $4 --dbpath $4 &
 
-./mongo localhost:$2 --eval "config = {_id: 'graded', members: [{_id: 0, host: 'localhost:28005'},{_id: 1, host: 'localhost:28006'},{_id: 2, host: 'localhost:28007'}]}; rs.initiate(config);"
+sleep 3
+
+./mongo localhost:$2 --eval "rs.initiate({_id: 'grading', members: [{_id: 0, host: 'localhost:25005'},{_id: 1, host: 'localhost:25006'},{_id: 2, host: 'localhost:25007'}]});"
