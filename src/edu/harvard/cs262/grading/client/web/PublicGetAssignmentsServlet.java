@@ -11,16 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import edu.harvard.cs262.grading.server.services.Assignment;
-import edu.harvard.cs262.grading.server.services.AssignmentImpl;
 import edu.harvard.cs262.grading.server.services.AssignmentStorageService;
-import edu.harvard.cs262.grading.server.services.GradeCompilerService;
-import edu.harvard.cs262.grading.server.services.Score;
-import edu.harvard.cs262.grading.server.services.ScoreImpl;
 import edu.harvard.cs262.grading.server.services.ServiceLookupUtility;
-import edu.harvard.cs262.grading.server.services.Student;
-import edu.harvard.cs262.grading.server.services.StudentImpl;
-import edu.harvard.cs262.grading.server.services.Submission;
-import edu.harvard.cs262.grading.server.services.SubmissionStorageService;
 import edu.harvard.cs262.grading.server.web.ServletConfigReader;
 
 public class PublicGetAssignmentsServlet extends HttpServlet {
