@@ -17,9 +17,11 @@ import edu.harvard.cs262.grading.server.services.Grade;
 import edu.harvard.cs262.grading.server.services.GradeCompilerService;
 import edu.harvard.cs262.grading.server.services.GradeCompilerServiceServer;
 import edu.harvard.cs262.grading.server.services.GradeStorageService;
+import edu.harvard.cs262.grading.server.services.InvalidGraderForStudentException;
 import edu.harvard.cs262.grading.server.services.MongoGradeStorageService;
 import edu.harvard.cs262.grading.server.services.MongoSubmissionStorageService;
 import edu.harvard.cs262.grading.server.services.ScoreImpl;
+import edu.harvard.cs262.grading.server.services.SharderServiceServer;
 import edu.harvard.cs262.grading.server.services.Student;
 import edu.harvard.cs262.grading.server.services.StudentImpl;
 import edu.harvard.cs262.grading.server.services.Submission;
@@ -72,8 +74,12 @@ public class TestGradeCompilerService {
 		Submission submission1 = receiver.submit(students[0], assignment, (new String("cheese")).getBytes());
 		Submission submission2 = receiver.submit(students[1], assignment, (new String("cheddar")).getBytes());
 		
+		// instantiate a sandboxed sharder service
+		SharderServiceServer sharder = new SharderServiceServer();
+		sharder.init(true);
+		
 		// instantiate a sandboxed grade compiler service
-		GradeCompilerService service = new GradeCompilerServiceServer(gradeStorage, submissionStorage);
+		GradeCompilerService service = new GradeCompilerServiceServer(gradeStorage, submissionStorage, sharder);
 		
 		// Willie and Tony grade both Kenny and Jim
 		// Stefan grades Kenny
@@ -84,6 +90,13 @@ public class TestGradeCompilerService {
 		Grade grade4 = service.storeGrade(students[3], submission2, new ScoreImpl(80,100), "mediocre");
 		Grade grade5 = service.storeGrade(students[4], submission1, new ScoreImpl(90,100), "awesome");
 		Grade grade6 = service.storeGrade(students[0], submission2, new ScoreImpl(100,100), "perfect");
+		
+		try {
+			service.storeGrade(students[0], submission1, new ScoreImpl(100,100), "impossible");
+			fail("student should not be allowed to grade him/herself");
+		} catch (InvalidGraderForStudentException e) {
+			assertTrue(true);
+		}
 		
 		// assert the graders are correctly mapped
 		Set<Student> kennyGraders = service.getGraders(submission1);

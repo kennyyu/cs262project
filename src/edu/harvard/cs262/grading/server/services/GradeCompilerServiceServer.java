@@ -17,19 +17,22 @@ public class GradeCompilerServiceServer implements GradeCompilerService {
 	private boolean sandbox;
 	private GradeStorageService gradeStorage;
 	private SubmissionStorageService submissionStorage;
+	private SharderService sharder;
 
 	public GradeCompilerServiceServer() {
 		config = new ConfigReaderImpl();
 		sandbox = false;
 		gradeStorage = null;
 		submissionStorage = null;
+		sharder = null;
 	}
 	
-	public GradeCompilerServiceServer(GradeStorageService g, SubmissionStorageService s) {
+	public GradeCompilerServiceServer(GradeStorageService g, SubmissionStorageService s, SharderService sh) {
 		config = new ConfigReaderImpl();
 		sandbox = true;
 		gradeStorage = g;
 		submissionStorage = s;
+		sharder = sh;
 	}
 
 	@Override
@@ -38,13 +41,32 @@ public class GradeCompilerServiceServer implements GradeCompilerService {
 
 	@Override
 	public Grade storeGrade(Student grader, Submission submission, Score score,
-			String comments) throws RemoteException {
+			String comments) throws RemoteException, InvalidGraderForStudentException {
 		Grade grade = new GradeImpl(score, grader, comments);
 
 		if (sandbox) {
+			// check if this grader is allowed to grade this student
+			int shardID = sharder.getShardID(submission.getAssignment());
+			Shard shard = sharder.getShard(shardID);
+			if (!shard.getGraders(submission.getStudent()).contains(grader))
+				throw new InvalidGraderForStudentException(grader, submission.getStudent(), shard);			
 			gradeStorage.submitGrade(submission, grade);
 			return grade;
 		} else {
+			// get SharderService from rmiregistry
+			SharderService sharder = (SharderService) ServiceLookupUtility
+					.lookupService(config, "SharderService");
+			if (sharder == null) {
+				System.err.println("Looking up SharderService failed.");
+				return null;
+			} else {
+				// check if this grader is allowed to grade this student
+				int shardID = sharder.getShardID(submission.getAssignment());
+				Shard shard = sharder.getShard(shardID);
+				if (!shard.getGraders(submission.getStudent()).contains(grader))
+					throw new InvalidGraderForStudentException(grader, submission.getStudent(), shard);
+			}
+			
 			// get GradeStorageService from rmiregistry
 			GradeStorageService storage = (GradeStorageService) ServiceLookupUtility
 					.lookupService(config, "GradeStorageService");

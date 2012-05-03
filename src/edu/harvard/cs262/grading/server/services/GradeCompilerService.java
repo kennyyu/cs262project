@@ -22,10 +22,13 @@ public interface GradeCompilerService extends Service {
 	 * @param comments
 	 *            the grader's comment for the submission
 	 * @return the Grade object
+	 * @throws InvalidGraderForStudentException
+	 * 			this exception is thrown when the grader is not listed as one of the
+	 *          graders for the submission
 	 * @throws RemoteException
 	 */
 	public Grade storeGrade(Student grader, Submission submission, Score score,
-			String comments) throws RemoteException;
+			String comments) throws RemoteException, InvalidGraderForStudentException;
 
 	/**
 	 * Get the list of graders for a given submission.
