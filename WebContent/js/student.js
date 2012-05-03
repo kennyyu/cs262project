@@ -26,10 +26,45 @@ $(document).ready(function(){
 			}
 			
 		},
-		error: function(e,jqXHR,ajaxSettings,exception){
-			console.log(e.responseText);
+		error: function(e){
+			console.log($(e.responseText).children("b:contains('message')").next().text());
 		}
 	});
+	
+	function getGrades() {
+		
+		$.ajax({
+			type:"post",
+			url: "./studentgetgrades",
+			data: {uid:parseInt($.trim($('input[name="uid"]').val()))},
+			dataType: 'json',
+			success: function(data) {
+				console.log(data);
+				// populate table
+				var table = $("table#view-grades-table > tbody");
+				table.empty();
+				data.grades.forEach(function(submission) {
+					var grades = "";
+					submission.grades.forEach(function(grade){
+						grades += " &lt;"+grade.score+","+grade.grader+"&gt;";
+					});
+					if(grades == "" && submission.submissionTimestamp < 0) grades = " no submission for assignment";
+					else if(grades == "") grades = " no grades for submission";
+					table.append(
+						el('tr',[
+		    				el('td',[""+submission.assignmentDescription]),
+		    				el('td',[grades.substring(1)]),
+		    			])
+					);
+				});
+			},
+			error: function(e){
+				console.log($(e.responseText).children("b:contains('message')").next().text());
+			}
+		});
+		
+	}
+	getGrades();
 	
 	/*
 	 * Form stuff
@@ -69,6 +104,7 @@ $(document).ready(function(){
 			$(this.form.elements["assignment"]).removeAttr("disabled");
 			$(this.form.elements["student"]).removeAttr("disabled");
 			$(this.form.elements["score"]).removeAttr("disabled");
+			$(this.form.elements["comments"]).removeAttr("disabled");
 			
 		}
 	});
@@ -83,16 +119,14 @@ $(document).ready(function(){
 				type:"post",
 				data: {},
 				success: function(data) {
-					console.log(data);
-					var newResult = el('div.request-result',["- "+data]);
-					$(newResult).prependTo(
-						$("#tab-make-submission div.results-box"))
-						.hide()
-						.slideDown(1000);
+					errorBox.empty().append(buildFormError(data));
+					getGrades();
 				},
-				error: function(e,jqXHR,ajaxSettings,exception){
-					console.log(e.responseText);
-					errorBox.prepend(buildFormError('query to server failed'));
+				error: function(e){
+					var errMessage = $(e.responseText).children("b:contains('message')").next().text();
+					errorBox.prepend(buildFormError('query to server failed:'+
+							errMessage
+					));
 				}
 		};
 		
@@ -103,6 +137,7 @@ $(document).ready(function(){
 		var submission = this.elements["submission"].value;
 		var uid = parseInt($.trim(this.elements["uid"].value));
 		var type = this.elements["type"].value;
+		var comments = this.elements["comments"].value;
 		
 		if(type == "completed") {
 			
@@ -128,6 +163,7 @@ $(document).ready(function(){
 				request.data.assignment = assignment;
 				request.data.uid = uid;
 				request.data.score = score;
+				request.data.comments = comments;
 
 				$.ajax(request);
 				
@@ -147,60 +183,6 @@ $(document).ready(function(){
 		
 		return false;
 		
-	});
-	
-	$("#tab-view-grades form").submit(function(){
-		
-		// grab reference to error box just in case
-		var errorBox = $(this).find("div.form-error-box");
-		
-		// ajax request object
-		var request = {
-				type:"post",
-				data: {},
-				success: function(data) {
-					console.log(data);
-					var newResult = el('div.request-result',["- "+data]);
-					$(newResult).prependTo(
-						$("#tab-view-grades div.results-box"))
-						.hide()
-						.slideDown(1000);
-				},
-				error: function(e,jqXHR,ajaxSettings,exception){
-					console.log(e.responseText);
-					var newError = buildFormError('query to server failed');
-					$(newError).prependTo(errorBox).hide().fadeIn(1000);
-				}
-		};
-		
-		// check grades request
-		request.url = "./studentgetgrades";
-		
-		// retrieve and sanitize input values
-		var assignment = parseInt($.trim(this.elements["assignment"].value));
-		var uid = parseInt($.trim(this.elements["uid"].value));
-		
-		if(!isNaN(uid)) {
-			
-			if(!isNaN(assignment)) {
-				request.data.assignment = assignment;
-				request.data.student = uid;
-			}
-			request.data.uid = uid;
-			
-			$.ajax(request);
-			
-		}
-		
-		return false;
-		
-	});
-	
-	/*
-	 * result stuff
-	 */
-	$("div.results-box").live("button",'click',function(){
-		$(this).parent().remove();
 	});
 
 	

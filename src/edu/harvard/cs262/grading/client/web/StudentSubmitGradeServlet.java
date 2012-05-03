@@ -105,7 +105,7 @@ public class StudentSubmitGradeServlet extends HttpServlet {
 				Score score = new ScoreImpl(scoreValue, scoreValue);
 				Student grader = new StudentImpl(graderID);
 				Student student = new StudentImpl(studentID);
-				Assignment assignment = new AssignmentImpl(assignmentID);
+				Assignment assignment = new AssignmentImpl(assignmentID,"");
 
 				Submission submission = submissionStorage.getLatestSubmission(
 						student, assignment);
@@ -120,7 +120,7 @@ public class StudentSubmitGradeServlet extends HttpServlet {
 					submissionServer.storeGrade(grader, submission, score,
 							comments);
 
-					response.setContentType("text/Javascript");
+					response.setContentType("text/plain");
 					response.setCharacterEncoding("UTF-8");
 					response.getWriter().write(
 							"Succesfully submitted grade for student "

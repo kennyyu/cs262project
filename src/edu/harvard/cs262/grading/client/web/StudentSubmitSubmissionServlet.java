@@ -77,14 +77,14 @@ public class StudentSubmitSubmissionServlet extends HttpServlet {
 			try {
 				long studentID = Long.parseLong(rawStudent);
 				long assignmentID = Long.parseLong(rawAssignment);
-				Assignment assignment = new AssignmentImpl(assignmentID);
+				Assignment assignment = new AssignmentImpl(assignmentID,"");
 				Student student = new StudentImpl(studentID);
 
 				submission = new SubmissionImpl(student, assignment,
 						rawSubmission.getBytes());
 				submissionStorage.storeSubmission(submission);
 
-				response.setContentType("text/Javascript");
+				response.setContentType("text/plain");
 				response.setCharacterEncoding("UTF-8");
 				response.getWriter().write(
 						"Succesfully submitted submission for assignment "

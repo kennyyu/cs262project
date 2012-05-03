@@ -29,13 +29,33 @@
 		</div>
 		<div id="main-nav">
 			<ul class="tabs">
-				<li class="active-tab">Make Submission</li>
-				<li>View Grades</li>
+				<li class="active-tab">View Grades</li>
+				<li>Make Submission</li>
 			</ul>
 		</div>
 		<div><a style="font-style:italic;float:right;font-size:11pt;" href="./logout.jsp">Log Out</a></div>
 		<article id="main-content" style="clear:both;">
-			<section class="active-tab" id="tab-make-submission">
+			<section class="active-tab" id="tab-view-grades">
+				<h2 class="tab-header">View Grades</h2>
+				<div class="tab-content">
+					<div class="form-section">
+						<table id="view-grades-table">
+							<caption class="results-header">Grades for Assignment <span id="assignment-span"></span></caption>
+							<colgroup title="index" span="1" />
+							<colgroup title="grades" />		
+							<thead>
+								<tr>
+									<th scope="col">Assignment</th>
+									<th scope="colgroup">Grades &lt;grade,grader&gt;</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>			
+						</table>
+					</div>
+				</div>
+			</section>
+			<section id="tab-make-submission">
 				<h2 class="tab-header">Make Submission</h2>
 				<div class="tab-content">
 					<form>
@@ -61,27 +81,6 @@
 						<div class="form-error-box"></div>
 						<input name="submit" type="submit" value="submit" />
 					</form>
-				</div>
-			</section>
-			<section id="tab-view-grades">
-				<h2 class="tab-header">View Grades</h2>
-				<div class="tab-content">
-					<form>
-						<div class="form-section">
-							<div class="section-label">Do you want to specify the assignment?</div>
-							<select name="assignment">
-								<option value="-1">select one</option>
-							</select>
-						</div>
-						<div class="form-error-box"></div>
-						<input type="submit" name="submit" value="get grades" />
-						<input type="hidden" name="uid" value="<%=session.getAttribute("uid") %>" />
-					</form>
-					<div class="results-wrapper">
-						<div class="results-header" class="header-text">Request Results</div>
-						<div class="results-box">
-						</div>
-					</div>
 				</div>
 			</section>
 		</article>
