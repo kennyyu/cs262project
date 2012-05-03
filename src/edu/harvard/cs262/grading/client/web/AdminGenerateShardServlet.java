@@ -16,7 +16,6 @@ import edu.harvard.cs262.grading.server.services.AssignmentImpl;
 import edu.harvard.cs262.grading.server.services.ServiceLookupUtility;
 import edu.harvard.cs262.grading.server.services.Shard;
 import edu.harvard.cs262.grading.server.services.SharderService;
-import edu.harvard.cs262.grading.server.services.Student;
 import edu.harvard.cs262.grading.server.web.ServletConfigReader;
 
 public class AdminGenerateShardServlet extends HttpServlet {
@@ -63,9 +62,8 @@ public class AdminGenerateShardServlet extends HttpServlet {
 
 		// get posted parameters (may have to update parameter names)
 		String rawAssignmentID = request.getParameter("assignmentID");
-		String rawDescription = request.getParameter("description");
 
-		if (rawAssignmentID == null || rawDescription == null) {
+		if (rawAssignmentID == null) {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST,
 					"parameters not set");
 		} else {
@@ -73,7 +71,7 @@ public class AdminGenerateShardServlet extends HttpServlet {
 			// invoke the system to shard the assignmentID
 			try {
 				Long assignmentID = Long.parseLong(rawAssignmentID);
-				Assignment assignment = new AssignmentImpl(assignmentID,rawDescription);
+				Assignment assignment = new AssignmentImpl(assignmentID);
 				Shard shard = sharderService.generateShard(assignment);
 
 				StringBuilder responseBuilder = new StringBuilder();
@@ -109,7 +107,7 @@ public class AdminGenerateShardServlet extends HttpServlet {
 			} catch (NullPointerException e) {
 				response.sendError(
 						HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-						"submission upload failed");
+						"shard generation failed");
 				e.printStackTrace();
 			}
 		}

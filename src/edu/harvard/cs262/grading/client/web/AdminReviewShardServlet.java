@@ -76,20 +76,24 @@ public class AdminReviewShardServlet extends HttpServlet {
 				Shard shard = sharderService.getShard(sharderService
 						.getShardID(assignment));
 				StringBuilder responseBuilder = new StringBuilder();
-				responseBuilder.append("{shard:[");
+				responseBuilder.append("{\"id\":");
+				responseBuilder.append(shard.shardID());
+				responseBuilder.append(",\"shard\":[");
 				Map<Long, Set<Long>> sharding = shard.getShard();
 
 				for (Long grader : sharding.keySet()) {
-					responseBuilder.append("{grader:");
+					responseBuilder.append("{\"grader\":");
 					responseBuilder.append(grader);
-					responseBuilder.append(",gradees:[");
+					responseBuilder.append(",\"gradees\":[");
 					for (Long gradee : sharding.get(grader)) {
 						responseBuilder.append(gradee);
 						responseBuilder.append(",");
 					}
 					responseBuilder.deleteCharAt(responseBuilder.length() - 1);
 					responseBuilder.append("]}");
+					responseBuilder.append(",");
 				}
+				responseBuilder.deleteCharAt(responseBuilder.length() - 1);
 				responseBuilder.append("]}");
 
 				response.setContentType("text/Javascript");

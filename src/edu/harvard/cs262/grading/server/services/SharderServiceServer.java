@@ -28,16 +28,6 @@ public class SharderServiceServer implements SharderService {
 
 	private SubmissionStorageService storage;
 
-	public void init(boolean sandbox) throws Exception {
-
-		this.init();
-
-		if(sandbox) {
-			storage = new MongoSubmissionStorageService();
-			storage.init();
-		}
-	}
-
 	private SubmissionStorageService getStorage() throws RemoteException {
 		ConfigReader config = new ConfigReaderImpl();
 		SubmissionStorageService storage = (SubmissionStorageService) ServiceLookupUtility

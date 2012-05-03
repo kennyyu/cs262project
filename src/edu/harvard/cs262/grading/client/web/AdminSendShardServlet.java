@@ -103,7 +103,7 @@ public class AdminSendShardServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		// get posted parameters
-		String rawShardID = request.getParameter("id");
+		String rawShardID = request.getParameter("shardID");
 
 		// attempt to get corresponding grade
 		if (rawShardID == null) {

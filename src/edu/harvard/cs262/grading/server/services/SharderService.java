@@ -10,13 +10,6 @@ import java.util.Set;
 public interface SharderService extends Service {
 
 	/**
-	 * Starts the service.
-	 * 
-	 * @throws Exception
-	 */
-	public void init(boolean sandbox) throws Exception;
-
-	/**
 	 * Generate a new sharding for the given assignment
 	 * 
 	 * @param assignment

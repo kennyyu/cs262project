@@ -82,12 +82,34 @@
 								<option value="-1" selected="selected">select assignment</option>
 							</select>
 							<div class="form-error-box"></div>
-							<input name="submit" type="submit" value="get grader assignments" />
+							<input disabled="disabled" name="submit" type="submit" value="generate new grader assignments" />
 						</form>
+						<form id="review-assignments-form">
+							<input name="assignment" type="hidden" value="-1" />
+							<input disabled="disabled" name="submit" type="submit" value="get grader assignments" />
+						</form>
+						<div id="review-assignments-table-wrapper">
+							<table>
+								<caption class="results-header">Grader Assignments</caption>
+								<colgroup title="student" span="1" />
+								<colgroup title="graders" />		
+								<thead>
+									<tr>
+										<th scope="col">Grader</th>
+										<th scope="colgroup">Gradees</th>
+									</tr>
+								</thead>
+								<tbody>
+								</tbody>			
+							</table>
+						</div>
+					</div>
+					<div class="form-section">
 						<div class="section-label">Send Assignments</div>
 						<form id="send-assignments-form">
+							<input name="shard" type="hidden" value="-1" />
 							<div class="form-error-box"></div>
-							<input name="submit" type="submit" value="confirm and send assignments" />
+							<input disabled="disabled" name="submit" type="submit" value="confirm and send assignments" />
 						</form>
 					</div>
 				</div>

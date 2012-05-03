@@ -78,7 +78,7 @@ public class TestGradeCompilerService {
 		
 		// instantiate a sandboxed sharder service
 		SharderServiceServer sharder = new SharderServiceServer();
-		sharder.init(true);
+		sharder.init();
 		
 		// generate a sharding
 		Map<Long, Set<Long>> gradermap = new HashMap<Long, Set<Long>>();

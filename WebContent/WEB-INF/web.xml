@@ -47,7 +47,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>AdminReviewShardServlet</servlet-name>
-    <url-pattern>/adminreviewshards</url-pattern>
+    <url-pattern>/adminreviewshard</url-pattern>
   </servlet-mapping>
   <servlet>
     <servlet-name>AdminSendShardServlet</servlet-name>

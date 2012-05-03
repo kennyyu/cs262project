@@ -93,6 +93,41 @@ $(document).ready(function() {
 		
 	});
 	
+	// disabled submit buttons until proper fields have been filled
+	$("form#assign-graders-form select").change(function() {
+		$("form#review-assignments-form input[name='assignment']").val(this.value);
+		if(this.value == -1) {
+			$(this.form.elements["submit"]).attr('disabled','disabled');
+			$("form#review-assignments-form input[type='submit']").attr('disabled','disabled');
+		} else {
+			$("form#review-assignments-form input[type='submit']").removeAttr('disabled');
+			$(this.form.elements["submit"]).removeAttr('disabled');
+		}
+	});
+	
+	// show returned shard to user
+	function viewShard(shard) {
+		
+		// select shard in send assignments form
+		$("form#send-assignments-form input[name='shard']").val(shard.id);
+		// clear rows of shard review table
+		var table = $("div#review-assignments-table-wrapper > table > tbody");
+		table.empty();
+		shard.shard.forEach(function(assignment) {
+			var gradees = "";
+			assignment.gradees.forEach(function(gradee){
+				gradees += " "+gradee;
+			});
+			table.append(
+				el('tr',[
+    				el('td',[""+assignment.grader]),
+    				el('td',[gradees.substring(1)]),
+    			])
+			);
+		});
+		
+	}
+	
 	$("form#assign-graders-form").submit(function() {
 		
 		// grab reference to error box just in case
@@ -100,24 +135,17 @@ $(document).ready(function() {
 		
 		 // get inputs
 		var id = parseInt($.trim(this.elements["assignment"].value));
-		var description = $.trim(this.elements["assignment"].text);
 		
 		// validate inputs
-		if(!isNaN(id)) {
+		if(!isNaN(id) && id >= 0) {
 			
 			// send request
 			$.ajax({
 				url: './adminshardassignment',
 				type: 'post',
 				dataType: 'json',
-				data: {assignmentID:id,description:description},
-				success: function(data) {
-					
-					console.log(data);
-					
-					// show assignments
-					
-				},
+				data: {assignmentID:id},
+				success: viewShard,
 				error: function(e,jqXHR,ajaxSettings,exception){
 					var newError = buildFormError(
 								'Query to server failed.'
@@ -129,24 +157,84 @@ $(document).ready(function() {
 			
 		} else {
 			var newError = buildFormError(
-						'Select an assignment.'
+						'Please, select an assignment.'
 					);
-			errorBox.append(newError).hide().fadeIn(1500);
+			errorBox.empty().append(newError).hide().fadeIn(1500);
 		}
 		
 		return false;
 		
 	});
 	
+	$("form#review-assignments-form").submit(function(){
+		
+		// grab reference to error box just in case
+		var errorBox = $(this).find("div.form-error-box");
+		
+		 // get inputs
+		var id = parseInt($.trim(this.elements["assignment"].value));
+		
+		// validate inputs
+		if(!isNaN(id) && id >= 0) {
+			
+			// send request
+			$.ajax({
+				url: './adminreviewshard',
+				type: 'post',
+				dataType: 'json',
+				data: {assignmentID:id},
+				success: viewShard,
+				error: function(e,jqXHR,ajaxSettings,exception){
+					var newError = buildFormError(
+								'Query to server failed.'
+							);
+					errorBox.empty().append(newError);
+					console.log(e.responseText);
+				}
+			});
+			
+		} else {
+			var newError = buildFormError(
+						'Please, select an assignment.'
+					);
+			errorBox.append(newError).hide().fadeIn(1500);
+		}
+		
+		return false;	// prevent page refresh
+		
+	});
+	
 	$("form#send-assignments-form").submit(function() {
+		
+		// grab reference to error box just in case
+		var errorBox = $(this).find("div.form-error-box");
+		
+		 // get inputs
+		var id = parseInt($.trim(this.elements["shard"].value));
+		
+		var form = this;
 		
 		$.ajax({
 			url: './adminsendshard',
 			type: 'post',
 			dataType: 'text',
-			data:{id:33},
+			data:{shardID:id},
 			success: function(data) {
-				console.log(data);
+				var newError = buildFormError(
+						'Assignments sent.'
+					);
+				errorBox.empty().append(newError);
+				console.log(e.responseText);
+				$(form.elements["submit"]).attr('disabled','disabled');
+			}
+		});
+		
+		$("form#send-assignments-form").change(function(){
+			var submitButton = this.elements[submit];
+			if(submitButton.value >= 0) {
+				$(submitButton).removeAttr('disabled');
+			} else {
+				$(submitButton).attr('disabled','disabled');
 			}
 		});
 		
