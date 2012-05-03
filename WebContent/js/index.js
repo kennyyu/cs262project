@@ -26,7 +26,9 @@ $(document).ready(function(){
 	$('#tab-view-grades form').submit(function(){
 		
 		// get input (assignment ID)
-		var assignment = parseInt($.trim(this.elements["assignment"].value));
+		var assignmentSelect = this.elements["assignment"];
+		var assignment = parseInt($.trim(assignmentSelect.value));
+		var description = $.trim(assignmentSelect[assignmentSelect.selectedIndex].text);
 		
 		// grab reference to error box just in case
 		var errorBox = $(this).find("div.form-error-box");
@@ -44,6 +46,7 @@ $(document).ready(function(){
 					var table = $("table > tbody");
 					table.empty();
 					data.submissions.forEach(function(submission) {
+						$("span#assignment-span").text(description);
 						var grades = "";
 						submission.grades.forEach(function(grade){
 							grades += " <"+grade.score+">";

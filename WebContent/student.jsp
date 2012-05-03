@@ -40,7 +40,7 @@
 				<div class="tab-content">
 					<div class="form-section">
 						<table id="view-grades-table">
-							<caption class="results-header">Grades for Assignment <span id="assignment-span"></span></caption>
+							<caption class="results-header">Grades for Assignment "<span id="assignment-span"></span>"</caption>
 							<colgroup title="index" span="1" />
 							<colgroup title="grades" />		
 							<thead>

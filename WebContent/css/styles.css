@@ -187,35 +187,11 @@ div.form-field-wrapper * {
 }
 
 /**
- * results styling
- */
-div.results-wrapper {
-	margin-top: 16px;
-	background-color: #F0F2F2;
-	display:block;
-	vertical-align:text-top;
-	-webkit-border-radius: 16px;
-	-moz-border-radius: 16px;
-	border-radius: 16px;
-	width: 100%;7
-}
-div.results-box {
-	text-align: left;
-}
-div.request-result {
-	font-size: 10pt;
-	font-style: italic;
-}
-.results-header {
-	text-decoration: underline;
-}
-div.results-content {
-	padding: 16px;
-}
-
-/**
  * table styling
  */
 colgroup[title="id"] {
 	display:none;
+}
+caption {
+	text-align:left;
 }
