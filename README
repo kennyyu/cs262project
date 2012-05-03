@@ -36,6 +36,8 @@ To run tests:
 Tests require JUnit installed. To compile and run the JUnit tests, execute:
     $ make test
 
+Note: mongod must be in your PATH
+
 Dependencies:
 ============
 * MongoDB (http://www.mongodb.org/)

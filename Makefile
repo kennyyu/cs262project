@@ -5,7 +5,8 @@ CLASSPATH = classes
 LIB = lib/mongo-2.7.3.jar:lib/javax.servlet-api-3.0.1.jar
 
 # location of database files
-DB = /data/db
+DB = dbtemp
+MONGO = mongod --dbpath=$(DB)
 
 # package and project information
 PACKAGE = edu.harvard.cs262.grading
@@ -34,7 +35,8 @@ TESTCASES = \
 	$(TESTPACKAGE).StudentServiceServerTests \
 	$(TESTPACKAGE).MongoSubmissionStorageServiceTests \
 	$(TESTPACKAGE).GradeStorageServiceTests \
-	$(TESTPACKAGE).AssignmentStorageServiceTests
+	$(TESTPACKAGE).AssignmentStorageServiceTests \
+	$(TESTPACKAGE).SubmissionReceiverServiceTests
 
 
 ################################################################################
@@ -50,10 +52,17 @@ all:
 
 clean:
 	rm -rf $(CLASSPATH)
+	rm -rf $(DB)
 
 test: all classes
+	mkdir $(DB)
+	eval $(MONGO) &
+	sleep 5
+
 	$(JC) -cp /usr/share/java/junit.jar:$(LIB):$(CLASSPATH) \
 		-sourcepath $(TESTPATH) -d $(CLASSPATH) $(TEST)
 	java -cp /usr/share/java/junit.jar:$(LIB):$(CLASSPATH) \
 	org.junit.runner.JUnitCore $(TESTCASES)
-	sudo rm -rf $(DB)/*
+
+	kill -9 $$(ps ax | grep -e "${MONGO}" | grep -v grep | awk '{print $$1}')
+	rm -rf $(DB)

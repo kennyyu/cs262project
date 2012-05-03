@@ -9,13 +9,23 @@ public class SubmissionReceiverServiceServer implements
 		SubmissionReceiverService {
 
 	private ConfigReader config;
+	private SubmissionStorageService storage;
+	private boolean sandbox;
 
 	public SubmissionReceiverServiceServer() {
 		config = new ConfigReaderImpl();
+		sandbox = false;
+		storage = null;
 	}
-
+	
+	public SubmissionReceiverServiceServer(SubmissionStorageService storage) {
+		config = new ConfigReaderImpl();
+		sandbox = true;
+		this.storage = storage;
+	}
+	
 	@Override
-	public void init() throws RemoteException {
+	public void init() throws Exception {
 	}
 	
 	/**
@@ -29,14 +39,20 @@ public class SubmissionReceiverServiceServer implements
 
 		Submission submission = new SubmissionImpl(student, assignment,
 				contents);
-		SubmissionStorageService storage = (SubmissionStorageService) ServiceLookupUtility
-				.lookupService(config, "SubmissionStorageService");
-		if (storage == null) {
-			System.err.println("Looking up SubmissionStorageService failed.");
-			return null;
-		} else {
+		
+		if (sandbox) {
 			storage.storeSubmission(submission);
 			return submission;
+		} else {
+			SubmissionStorageService storage = (SubmissionStorageService) ServiceLookupUtility
+					.lookupService(config, "SubmissionStorageService");
+			if (storage == null) {
+				System.err.println("Looking up SubmissionStorageService failed.");
+				return null;
+			} else {
+				storage.storeSubmission(submission);
+				return submission;
+			}
 		}
 	}
 
