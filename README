@@ -36,6 +36,8 @@ To run tests:
 Tests require JUnit installed. To compile and run the JUnit tests, execute:
     $ make test
 
+Note: mongod must be in your PATH
+
 Dependencies:
 ============
 * MongoDB (http://www.mongodb.org/)
@@ -60,3 +62,44 @@ bind the name of the service to this current running instance.
 4. Copy the compiled project directory classes/ into webapps/WebContent/WEB-INF
 
 Note: For persistent storage services, also start the MongoDB instance.
+
+To congif MongoDB replica set:
+================
+
+1. Create data directory
+
+mkdir <PATH>/node1
+mkdir <PATH>/node2
+mkdir <PATH>/node3
+
+2. Starting Mongod 
+
+./mongod --replSet <same replSet Name> --port 27017 --dbpath <PATH>/node1
+./mongod --replSet <same replSet Name> --port 27018 --dbpath <PATH>/node2
+./mongod --replSet <same replSet Name> --port 27019 --dbpath <PATH>/node3
+
+3. Config the Replica Set
+
+./mongo localhost:27017
+
+Execute the following command to define the configuration members within your replica set:
+
+> config = {_id: '<replSet Name>', members: [
+               {_id: 0, host: 'localhost:27017'},
+               {_id: 1, host: 'localhost:27018'},
+               {_id: 2, host: 'localhost:27019'}]
+           };
+Once you have the configuration defined, you need to initial your configuration by executing: 
+
+> rs.initiate(config);
+
+To check everything is running as expected execute:
+
+> rs.status();
+
+More info here:
+http://www.littlelostmanuals.com/2011/11/quick-example-of-mongodb-replica-set.html
+http://www.mongodb.org/display/DOCS/Replica+Set+Configuration
+http://www.mongodb.org/download/attachments/9830402/mongodb+replica+sets+intro.pdf
+http://www.mongodb.org/display/DOCS/Replica+Sets#ReplicaSets-Gettingstarted
+

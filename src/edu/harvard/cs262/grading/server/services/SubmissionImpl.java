@@ -1,6 +1,7 @@
 package edu.harvard.cs262.grading.server.services;
 
 import java.sql.Timestamp;
+import java.util.Arrays;
 import java.util.Date;
 
 public class SubmissionImpl implements Submission {
@@ -68,7 +69,7 @@ public class SubmissionImpl implements Submission {
 		if (student.equals(other.student)
 				&& assignment.equals(other.assignment)
 				&& timestamp.equals(other.timestamp)
-				&& contents.equals(other.contents))
+				&& Arrays.equals(contents, other.contents))
 			return true;
 		return false;
 	}
