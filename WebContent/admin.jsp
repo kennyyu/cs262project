@@ -44,6 +44,7 @@
 							<select name="assignment">
 								<option value="-1" selected="selected">select assignment</option>
 							</select>
+							<div class="form-error-box"></div>
 							<input name="submit" type="submit" value="go" />
 						</form>
 					</div>
@@ -82,10 +83,12 @@
 								<option value="-1" selected="selected">select assignment</option>
 							</select>
 							<div class="form-error-box"></div>
+							<div class="form-error-box"></div>
 							<input disabled="disabled" name="submit" type="submit" value="generate new grader assignments" />
 						</form>
 						<form id="review-assignments-form">
 							<input name="assignment" type="hidden" value="-1" />
+							<div class="form-error-box"></div>
 							<input disabled="disabled" name="submit" type="submit" value="get grader assignments" />
 						</form>
 						<div id="review-assignments-table-wrapper">

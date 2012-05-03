@@ -69,7 +69,7 @@ public class PublicGetGradesServlet extends HttpServlet {
 	    		
 	    		// check parameters and convert into proper format
 		    	Long assignmentID = Long.parseLong(rawAssignment);
-		    	Assignment assignment = new AssignmentImpl(assignmentID);
+		    	Assignment assignment = new AssignmentImpl(assignmentID,"");
 		    	
 		    	// get submissions
 		    	Map<Submission, List<Grade>> allSubmissionsAndGrades = gradeServer.getCompiledGrades(assignment);
@@ -104,9 +104,10 @@ public class PublicGetGradesServlet extends HttpServlet {
 		    				addInnerComma = true;
 		    			}
 	    				Grade grade = gradeIter.next();
-	    				responseBuilder.append("{\"score\":");
-	    				responseBuilder.append(grade.getScore().getScore()+"/"+grade.getScore().maxScore());
-	    				responseBuilder.append("}");
+	    				responseBuilder.append("{\"score\":\"");
+						responseBuilder.append(grade.getScore().getScore()
+								+ "/" + grade.getScore().maxScore());
+						responseBuilder.append("\"}");
 	    			}
     				responseBuilder.append("]}");
     				

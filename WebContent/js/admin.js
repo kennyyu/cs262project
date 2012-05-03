@@ -73,12 +73,11 @@ $(document).ready(function() {
 					$("form#assign-graders-form select").trigger('change');
 					
 				},
-				error: function(e,jqXHR,ajaxSettings,exception){
-					var newError = buildFormError(
-								'Query to server failed.'
-							);
-					errorBox.empty().append(newError);
-					console.log(e.responseText);
+				error: function(e){
+					var errMessage = $(e.responseText).children("b:contains('message')").next().text();
+					errorBox.prepend(buildFormError('query to server failed:'+
+							errMessage
+					));
 				}
 			});
 			
@@ -114,18 +113,22 @@ $(document).ready(function() {
 		// clear rows of shard review table
 		var table = $("div#review-assignments-table-wrapper > table > tbody");
 		table.empty();
-		shard.shard.forEach(function(assignment) {
-			var gradees = "";
-			assignment.gradees.forEach(function(gradee){
-				gradees += " "+gradee;
+		if(shard && shard.shard) {
+			shard.shard.forEach(function(assignment) {
+				var gradees = "";
+				assignment.gradees.forEach(function(gradee){
+					gradees += " "+gradee;
+				});
+				table.append(
+					el('tr',[
+	    				el('td',[""+assignment.grader]),
+	    				el('td',[gradees.substring(1)]),
+	    			])
+				);
 			});
-			table.append(
-				el('tr',[
-    				el('td',[""+assignment.grader]),
-    				el('td',[gradees.substring(1)]),
-    			])
-			);
-		});
+		}
+		
+		$("form#send-assignments-form input[name='submit']").removeAttr('disabled');
 		
 	}
 	
@@ -147,12 +150,12 @@ $(document).ready(function() {
 				dataType: 'json',
 				data: {assignmentID:id},
 				success: viewShard,
-				error: function(e,jqXHR,ajaxSettings,exception){
-					var newError = buildFormError(
-								'Query to server failed.'
-							);
-					errorBox.empty().append(newError);
-					console.log(e.responseText);
+				error: function(e){
+					$("div#review-assignments-table-wrapper > table > tbody").empty();
+					var errMessage = $(e.responseText).children("b:contains('message')").next().text();
+					errorBox.prepend(buildFormError('query to server failed:'+
+							errMessage
+					));
 				}
 			});
 			
@@ -185,12 +188,12 @@ $(document).ready(function() {
 				dataType: 'json',
 				data: {assignmentID:id},
 				success: viewShard,
-				error: function(e,jqXHR,ajaxSettings,exception){
-					var newError = buildFormError(
-								'Query to server failed.'
-							);
-					errorBox.empty().append(newError);
-					console.log(e.responseText);
+				error: function(e){
+					$("div#review-assignments-table-wrapper > table > tbody").empty();
+					var errMessage = $(e.responseText).children("b:contains('message')").next().text();
+					errorBox.prepend(buildFormError('query to server failed:'+
+							errMessage
+					));
 				}
 			});
 			
@@ -225,17 +228,7 @@ $(document).ready(function() {
 						'Assignments sent.'
 					);
 				errorBox.empty().append(newError);
-				console.log(e.responseText);
 				$(form.elements["submit"]).attr('disabled','disabled');
-			}
-		});
-		
-		$("form#send-assignments-form").change(function(){
-			var submitButton = this.elements[submit];
-			if(submitButton.value >= 0) {
-				$(submitButton).removeAttr('disabled');
-			} else {
-				$(submitButton).attr('disabled','disabled');
 			}
 		});
 		
@@ -295,7 +288,7 @@ $(document).ready(function() {
 					data.submissions.forEach(function(submission) {
 						var grades = "";
 						submission.grades.forEach(function(grade){
-							grades += " &lt;"+grade.score+","+grade.grader+"&gt;";
+							grades += " <"+grade.score+","+grade.grader+">";
 						});
 						if(grades == "") grades = " no grades for submission";
 						table.append(
@@ -306,7 +299,12 @@ $(document).ready(function() {
 						);
 					});
 				},
-				error: function(e,jqXHR,ajaxSettings,exception){console.log(e.responseText);}
+				error: function(e){
+					var errMessage = $(e.responseText).children("b:contains('message')").next().text();
+					errorBox.prepend(buildFormError('query to server failed:'+
+							errMessage
+					));
+				}
 			});
 			
 		} else {
@@ -320,17 +318,6 @@ $(document).ready(function() {
 		
 		return false;
 		
-	});
-	
-	/*
-	 * result stuff
-	 */
-	function buildRequestResult(result) {
-		var newResult = el('div.request-result',[result]);
-		return newResult;
-	}
-	$("div.results-box").live("button",'click',function(){
-		$(this).parent().remove();
 	});
 	
 	

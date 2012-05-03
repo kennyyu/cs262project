@@ -46,7 +46,7 @@ $(document).ready(function(){
 					data.submissions.forEach(function(submission) {
 						var grades = "";
 						submission.grades.forEach(function(grade){
-							grades += " &lt;"+grade.score+","+grade.grader+"&gt;";
+							grades += " <"+grade.score+">";
 						});
 						if(grades == "") grades = " no grades for submission";
 						table.append(

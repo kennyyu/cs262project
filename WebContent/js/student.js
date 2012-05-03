@@ -46,7 +46,7 @@ $(document).ready(function(){
 				data.grades.forEach(function(submission) {
 					var grades = "";
 					submission.grades.forEach(function(grade){
-						grades += " &lt;"+grade.score+","+grade.grader+"&gt;";
+						grades += " <"+grade.score+","+grade.grader+">";
 					});
 					if(grades == "" && submission.submissionTimestamp < 0) grades = " no submission for assignment";
 					else if(grades == "") grades = " no grades for submission";

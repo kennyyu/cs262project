@@ -137,9 +137,10 @@ public class AdminGetGradesServlet extends HttpServlet {
 	    				Grade grade = gradeIter.next();
 	    				responseBuilder.append("{\"grader\":");
 	    				responseBuilder.append(grade.getGrader().studentID());
-	    				responseBuilder.append(",\"score\":");
-	    				responseBuilder.append(grade.getScore().getScore()+"/"+grade.getScore().maxScore());
-	    				responseBuilder.append("}");
+						responseBuilder.append(",\"score\":\"");
+						responseBuilder.append(grade.getScore().getScore()
+								+ "/" + grade.getScore().maxScore());
+						responseBuilder.append("\"}");
 	    			}
     				responseBuilder.append("]}");
     				
