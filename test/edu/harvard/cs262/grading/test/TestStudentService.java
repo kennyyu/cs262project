@@ -11,7 +11,7 @@ import edu.harvard.cs262.grading.server.services.Student;
 import edu.harvard.cs262.grading.server.services.StudentService;
 import edu.harvard.cs262.grading.server.services.StudentServiceServer;
 
-public class TestStudentServiceServer {
+public class TestStudentService {
 
 	@Before
 	public void setUp() throws Exception {

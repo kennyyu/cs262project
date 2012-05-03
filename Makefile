@@ -28,7 +28,7 @@ TESTCASES = \
 	$(TESTPACKAGE).TestDummy \
 	$(TESTPACKAGE).TestConfigReader \
 	$(TESTPACKAGE).TestSharderService \
-	$(TESTPACKAGE).TestStudentServiceServer \
+	$(TESTPACKAGE).TestStudentService \
 	$(TESTPACKAGE).TestSubmissionStorageService \
 	$(TESTPACKAGE).TestGradeStorageService \
 	$(TESTPACKAGE).TestAssignmentStorageService \
