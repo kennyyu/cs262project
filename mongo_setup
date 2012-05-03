@@ -10,4 +10,4 @@ mkdir $4
 
 sleep 3
 
-./mongo localhost:$2 --eval "rs.initiate({_id: '$1', members: [{_id: 0, host: 'localhost:24005'},{_id: 1, host: 'localhost:24006'},{_id: 2, host: 'localhost:24007'}]});"
+./mongo localhost:$2 --eval "rs.initiate({_id: '$1', members: [{_id: 0, host: 'localhost:$2'},{_id: 1, host: 'localhost:$3'},{_id: 2, host: 'localhost:$4'}]});"
