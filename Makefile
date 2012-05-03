@@ -36,7 +36,8 @@ TESTCASES = \
 	$(TESTPACKAGE).MongoSubmissionStorageServiceTests \
 	$(TESTPACKAGE).GradeStorageServiceTests \
 	$(TESTPACKAGE).AssignmentStorageServiceTests \
-	$(TESTPACKAGE).SubmissionReceiverServiceTests
+	$(TESTPACKAGE).SubmissionReceiverServiceTests \
+	$(TESTPACKAGE).GradeCompilerServiceTests
 
 
 ################################################################################

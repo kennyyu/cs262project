@@ -53,8 +53,7 @@ public class SubmissionImpl implements Submission {
 
 	@Override
 	public int hashCode() {
-		return student.hashCode() + assignment.hashCode() + contents.hashCode()
-				+ timestamp.hashCode();
+		return student.hashCode() + assignment.hashCode() + timestamp.hashCode();
 	}
 
 	@Override

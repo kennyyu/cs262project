@@ -1,7 +1,6 @@
 package edu.harvard.cs262.grading.test;
 
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Set;
@@ -14,9 +13,6 @@ import edu.harvard.cs262.grading.server.services.Assignment;
 import edu.harvard.cs262.grading.server.services.AssignmentImpl;
 import edu.harvard.cs262.grading.server.services.AssignmentStorageService;
 import edu.harvard.cs262.grading.server.services.AssignmentStorageServiceServer;
-import edu.harvard.cs262.grading.server.services.Student;
-import edu.harvard.cs262.grading.server.services.StudentService;
-import edu.harvard.cs262.grading.server.services.StudentServiceServer;
 
 public class AssignmentStorageServiceTests {
 
