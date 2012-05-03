@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import edu.harvard.cs262.grading.server.services.Assignment;
 import edu.harvard.cs262.grading.server.services.AssignmentImpl;
 import edu.harvard.cs262.grading.server.services.GradeCompilerService;
+import edu.harvard.cs262.grading.server.services.InvalidGraderForStudentException;
 import edu.harvard.cs262.grading.server.services.Score;
 import edu.harvard.cs262.grading.server.services.ScoreImpl;
 import edu.harvard.cs262.grading.server.services.ServiceLookupUtility;
@@ -134,6 +135,9 @@ public class StudentSubmitGradeServlet extends HttpServlet {
 						HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
 						"grade upload failed");
 				e.printStackTrace();
+			} catch (InvalidGraderForStudentException e) {
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST,
+				"grader not assigned to grade that student");
 			}
 		}
 	}
