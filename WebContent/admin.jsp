@@ -38,55 +38,57 @@
 			<section class="active-tab" id="tab-review-student-work">
 				<h2 class="tab-header">Review Student Work</h2>
 				<div class="tab-content">
-					<form>
-						<div class="form-section first-section">
-							<div class="section-label">What do you want?</div>
-							<select name="type">
-								<option selected="selected" value="">choose one</option>
-								<option>grades</option>
-								<option>submissions</option>
+					<div class="form-section">
+						<div class="section-label">Choose Assignment</div>
+						<form>
+							<select name="assignment">
+								<option value="-1" selected="selected">select assignment</option>
 							</select>
-						</div>
-						<div class="form-section second-section">
-							<div class="section-label">For what/whom?</div>
-							<input disabled="disabled" maxlength="32" name="student" type="text" placeholder="type student id here" />
-							<input disabled="disabled" maxlength="32" name="assignment" type="text" placeholder="type assignment id here" />
-						</div>
-						<div class="form-error-box"></div>
-						<input name="submit" type="submit" value="request data" />
-					</form>
-					<div class="results-wrapper">
-						<div class="results-header" class="header-text">Request Results</div>
-						<div class="results-box">
-						</div>
+							<input name="submit" type="submit" value="go" />
+						</form>
+					</div>
+					<div class="form-section">
+						<table>
+							<caption class="results-header">Grades for Assignment <span id="assignment-span"></span></caption>
+							<colgroup title="index" span="1" />
+							<colgroup title="grades" />		
+							<thead>
+								<tr>
+									<th scope="col">Student</th>
+									<th scope="colgroup">Grades</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>			
+						</table>
 					</div>
 				</div>
 			</section>
 			<section id="tab-manage-assignments">
 				<h2 class="tab-header">Manage Assignments</h2>
 				<div class="tab-content">
-					<form>
-						<div class="form-section first-section">
-							<div class="section-label">What do you want to do?</div>
-							<select name="type">
-								<option value="" selected="selected" value="">choose one</option>
-								<option value="add">add assignment</option>
-								<option value="shard">shard assignment</option>
+					<div class="form-section">
+						<div class="section-label">Add Assignment</div>
+						<form id="add-assignment-form">
+							<input type="text" maxlength="256" placeholder="type assignment name" />
+							<div class="form-error-box"></div>
+							<input name="submit" type="submit" value="add assignment" />
+						</form>
+					</div>
+					<div class="form-section">
+						<div class="section-label">Assign Graders</div>
+						<form id="assign-graders-form">
+							<select name="assignment">
+								<option value="-1" selected="selected">select assignment</option>
 							</select>
-						</div>
-						<div class="form-section second-section">
-							<div class="section-label">And...</div>
-							<input disabled="disabled" maxlength="32" name="assignmentID" type="text" placeholder="type assignment id here" />
-							<input disabled="disabled" maxlength="64" name="assignmentDescription" type="text" placeholder="type assignment description here" /> 
-						</div>
-						<div class="form-error-box"></div>
-						<input name="submit" type="submit" value="submit" />
-					</form>
-					<hr />
-					<div class="results-wrapper">
-						<div class="results-header" class="header-text">Request Results</div>
-						<div class="results-box">
-						</div>
+							<div class="form-error-box"></div>
+							<input name="submit" type="submit" value="get grader assignments" />
+						</form>
+						<div class="section-label">Send Assignments</div>
+						<form id="send-assignments-form">
+							<div class="form-error-box"></div>
+							<input name="submit" type="submit" value="confirm and send assignments" />
+						</form>
 					</div>
 				</div>
 			</section>

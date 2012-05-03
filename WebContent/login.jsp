@@ -2,16 +2,25 @@
     pageEncoding="UTF-8"%>
 <%
 	if(request.getMethod().equals("POST")) {
-		if(request.getParameter("type").equals("student") &&
-			request.getParameter("username").equals("student")) {
-			session.setAttribute("uid", "1");
-			session.setAttribute("utype", "student");
-			response.sendRedirect("./student.jsp");
-		} else if(request.getParameter("type").equals("admin") &&
-				request.getParameter("username").equals("admin")) {
-			session.setAttribute("uid", "0");
-			session.setAttribute("utype", "admin");
-			response.sendRedirect("./admin.jsp");
+		String type = request.getParameter("type");
+		String user = request.getParameter("username");
+		if(type != null && user != null) {
+			if(type.equals("student") &&
+				user.startsWith("student")) {
+				String id = user.substring("student".length());
+				session.setAttribute("utype", "student");
+				if(id.isEmpty() || Integer.valueOf(id) == 0) {
+					session.setAttribute("uid", "0");
+				} else {
+					session.setAttribute("uid", id);
+				}
+				response.sendRedirect("./student.jsp");
+			} else if(type.equals("admin") &&
+					user.equals("admin")) {
+				session.setAttribute("uid", "0");
+				session.setAttribute("utype", "admin");
+				response.sendRedirect("./admin.jsp");
+			}
 		}
 	}
 %>

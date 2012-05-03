@@ -112,10 +112,12 @@ ul.tabs > li.active-tab, ul.tabs > li:hover {
 /**
  * Form Styling
  **/
-form {
-	display:inline-block;
+select, input[type="text"] {
+	width:98%;
 	margin:auto;
-	text-align: center;
+}
+table {
+	width:100%;
 }
 div#form-error-box:empty {
 	display:none;
@@ -138,9 +140,6 @@ input[type="text"],select,input[type="password"]{
 	background-color:#1D2D2C;
 	color:#C2D3DB;
 }
-input[type="text"]{
-	width:20em;
-}
 input[disabled="disabled"] {
 	background-color:#ddd;
 }
@@ -159,13 +158,13 @@ input[type="submit"][disabled="disabled"] {
 }
 div.form-section{
 	background-color:#F0F2F2;
-	display:inline-block;
+	display:block;
 	vertical-align:text-top;
 	-webkit-border-radius: 16px;
 	-moz-border-radius: 16px;
 	border-radius: 16px;
 	padding: 16px;
-	min-height: 5.5em;
+	min-height: 3em;
 	margin-bottom: 1em;
 }
 div.first-section {
@@ -212,4 +211,11 @@ div.request-result {
 }
 div.results-content {
 	padding: 16px;
+}
+
+/**
+ * table styling
+ */
+colgroup[title="id"] {
+	display:none;
 }

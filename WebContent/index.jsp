@@ -39,30 +39,31 @@
 			<section class="active-tab" id="tab-view-grades">
 				<h2 class="tab-header">View Grades</h2>
 				<div class="tab-content">
-					<form>
-						<input type="submit" name="submit" value="get grades" />
-					</form>
-					<div class="results-wrapper">
-						<div class="results-content">
-							<table class="grades-table" dir="ltr" 
-									summary="purpose/structure for speech output">
-								<caption class="results-header" class="header-text">
-									Grades for <span class="results-for-span"></span>
-								</caption>
-								<colgroup class="index-colgroup" />
-								<colgroup class="grades-colgroup" align="center" 
-										valign="middle" title="grades" width="1*" 
-										span="1" style="background:#ddd;" />
-								<thead>
-									<tr>
-										<th scope="col">#</th>
-										<th scope="col">Scores (out of <span class="score-max"></span>)</th>
-									</tr>
-								</thead>
-								<tbody>
-								</tbody>
-							</table>
-						</div>
+					<div class="form-section">
+						<div class="section-label">Choose Assignment</div>
+						<form id="get-grades-form">
+							<select name="assignment">
+								<option value="-1" selected="selected">select assignment</option>
+							</select>
+							<input name="submit" type="submit" value="go" />
+						</form>
+					</div>
+					<div class="form-section">
+						<table>
+							<caption class="results-header">Grades for Assignment <span id="assignment-span"></span></caption>
+							<colgroup title="index" span="1" />
+							<colgroup title="id" span="1" />
+							<colgroup title="grades" />		
+							<thead>
+								<tr>
+									<th scope="col">Student</th>
+									<th scope="col">Student ID</th>
+									<th scope="colgroup">Grades</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>			
+						</table>
 					</div>
 				</div>
 			</section>
