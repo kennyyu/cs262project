@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
+import java.util.Map.Entry;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
@@ -80,7 +81,7 @@ public class SharderServiceServer implements SharderService {
 		return shard;
 	}
 
-	private void writeShard(Shard shard) {
+	private void writeShard(Shard shard, Assignment assignment) {
 		Map<Student, Set<Student>> sharding = shard.getShard();
 
 		for (Student grader : sharding.keySet()) {
@@ -89,6 +90,7 @@ public class SharderServiceServer implements SharderService {
 				BasicDBObject doc = new BasicDBObject();
 
 				doc.put("id", shard.shardID());
+				doc.put("assignmentID", assignment.assignmentID());
 				doc.put("grader", grader.studentID());
 				doc.put("gradee", gradee.studentID());
 
@@ -153,7 +155,7 @@ public class SharderServiceServer implements SharderService {
 		// Randomly assign graders. We could be smarter.
 		Shard shard = assign(students, latestSubmissions);
 
-		writeShard(shard);
+		writeShard(shard, assignment);
 		return shard;
 
 	}
@@ -225,6 +227,15 @@ public class SharderServiceServer implements SharderService {
 	public void heartbeat() throws RemoteException {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public long putShard(Assignment assignment,
+			Map<Student, Set<Student>> gradermap) throws RemoteException {
+		Shard shard = new ShardImpl(gradermap);
+		writeShard(shard, assignment);
+		
+		return shard.shardID();
 	}
 
 }
