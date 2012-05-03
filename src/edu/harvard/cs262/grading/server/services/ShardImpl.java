@@ -21,11 +21,7 @@ public class ShardImpl implements Shard {
 		this.sharding = sharding;
 	}
 
-	/*
-	 * public ShardImpl(int shardID) { this.shardID = shardID; sharding = new
-	 * LinkedHashMap<Student, Set<Student>>(); }
-	 */
-
+	@Override
 	public void addGrader(Long grader, Long gradee) {
 		if (sharding.containsKey(grader)) {
 			sharding.get(grader).add(gradee);
@@ -41,7 +37,7 @@ public class ShardImpl implements Shard {
 		Set<Long> graderSet = new LinkedHashSet<Long>();
 
 		for (Long grader : sharding.keySet()) {
-			if (sharding.get(grader).contains(student)) {
+			if (sharding.get(grader).contains(student.studentID())) {
 				graderSet.add(grader);
 			}
 		}

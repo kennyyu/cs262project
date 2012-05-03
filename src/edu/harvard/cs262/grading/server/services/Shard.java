@@ -26,5 +26,12 @@ public interface Shard extends Serializable {
 	 * @return the set of grader IDs for a particular student
 	 */
 	public Set<Long> getGraders(Student student);
+	
+	/**
+	 * Add a gradee for this grader
+	 * @param grader
+	 * @param gradee
+	 */
+	public void addGrader(Long grader, Long gradee);
 
 }
