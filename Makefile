@@ -32,7 +32,9 @@ TESTCASES = \
 	$(TESTPACKAGE).TestConfigReader \
 	$(TESTPACKAGE).SharderServiceTestCase \
 	$(TESTPACKAGE).StudentServiceServerTests \
-	$(TESTPACKAGE).MongoSubmissionStorageServiceTests
+	$(TESTPACKAGE).MongoSubmissionStorageServiceTests \
+	$(TESTPACKAGE).GradeStorageServiceTests \
+	$(TESTPACKAGE).AssignmentStorageServiceTests
 
 
 ################################################################################
