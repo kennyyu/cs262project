@@ -21,7 +21,8 @@ public class StudentServiceServer implements StudentService {
 	private DBCollection coll;
 
 	@Override
-	public void addNewStudent(long ID, String email, String firstName, String lastName) throws RemoteException {
+	public void addNewStudent(long ID, String email, String firstName,
+			String lastName) throws RemoteException {
 
 		BasicDBObject doc = new BasicDBObject();
 
@@ -42,24 +43,25 @@ public class StudentServiceServer implements StudentService {
 		Set<Student> students = new LinkedHashSet<Student>();
 
 		for (DBObject result : results) {
-			students.add(new StudentImpl((Long)result.get("id"), 
-					(String)result.get("email"), (String)result.get("firstName"),
-					(String)result.get("lastName")));
+			students.add(new StudentImpl((Long) result.get("id"),
+					(String) result.get("email"), (String) result
+							.get("firstName"), (String) result.get("lastName")));
 		}
 
 		return students;
 	}
-	
+
 	@Override
 	public Student getStudent(long ID) throws RemoteException {
 		BasicDBObject query = new BasicDBObject();
-		
+
 		query.put("id", ID);
 
 		DBObject result = coll.findOne(query);
 
-		return new StudentImpl(ID, (String)result.get("email"),
-				(String)result.get("firstName"), (String)result.get("lastName"));
+		return new StudentImpl(ID, (String) result.get("email"),
+				(String) result.get("firstName"),
+				(String) result.get("lastName"));
 	}
 
 	@Override
@@ -104,7 +106,7 @@ public class StudentServiceServer implements StudentService {
 	@Override
 	public void heartbeat() throws RemoteException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

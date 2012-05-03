@@ -17,7 +17,7 @@ public class StudentImpl implements Student {
 		this.lastName = "";
 		this.email = "";
 	}
-	
+
 	public StudentImpl(long studentID) {
 		this.studentID = studentID;
 		this.firstName = "";
@@ -25,7 +25,8 @@ public class StudentImpl implements Student {
 		this.email = "";
 	}
 
-	public StudentImpl(long studentID, String email, String firstName, String lastName) {
+	public StudentImpl(long studentID, String email, String firstName,
+			String lastName) {
 		this.studentID = studentID;
 		this.email = email;
 		this.firstName = firstName;

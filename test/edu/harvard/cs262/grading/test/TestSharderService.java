@@ -36,7 +36,6 @@ public class TestSharderService {
 		assertTrue(true);
 
 		assertTrue(shard.getShard().containsKey(0L));
-		assertTrue(shard.getShard().get(0L)
-				.contains(1L));
+		assertTrue(shard.getShard().get(0L).contains(1L));
 	}
 }

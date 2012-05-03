@@ -138,10 +138,10 @@ public class StudentSubmitGradeServlet extends HttpServlet {
 				e.printStackTrace();
 			} catch (InvalidGraderForStudentException e) {
 				response.sendError(HttpServletResponse.SC_BAD_REQUEST,
-				"grader not assigned to grade that student");
+						"grader not assigned to grade that student");
 			} catch (NoShardsForAssignmentException e) {
 				response.sendError(HttpServletResponse.SC_BAD_REQUEST,
-				"assignment has no shards");
+						"assignment has no shards");
 			}
 		}
 	}

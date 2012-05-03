@@ -106,7 +106,7 @@ public class AdminReviewShardServlet extends HttpServlet {
 				e.printStackTrace();
 			} catch (NoShardsForAssignmentException e) {
 				response.sendError(HttpServletResponse.SC_BAD_REQUEST,
-				"assignment has no shards");
+						"assignment has no shards");
 			}
 
 		}

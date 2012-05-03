@@ -110,7 +110,7 @@ public class MongoGradeStorageService implements GradeStorageService {
 	@Override
 	public void heartbeat() throws RemoteException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }
