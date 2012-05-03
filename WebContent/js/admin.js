@@ -70,6 +70,7 @@ $(document).ready(function() {
 					// select newly-added assignment in next form
 					var select = $("form#assign-graders-form select")[0];
 					select.options[select.options.length - 1].selected = true;
+					$("form#assign-graders-form select").trigger('change');
 					
 				},
 				error: function(e,jqXHR,ajaxSettings,exception){
@@ -271,70 +272,54 @@ $(document).ready(function() {
 	
 	// handle form submission
 	// validate inputs and then send AJAX request
-	$("#tab-review-student-work form").submit(function(){
+	$("form#review-student-work-form").submit(function(){
 		
-		// retrieve and sanitize input values
-		var student = parseInt($.trim(this.elements["student"].value));
+		// get input (assignment ID)
 		var assignment = parseInt($.trim(this.elements["assignment"].value));
 		
 		// grab reference to error box just in case
 		var errorBox = $(this).find("div.form-error-box");
 		
-		// ajax request object
-		var request = {
-				type:"post",
-				data: {},
-				success: function(data) {
-					console.log(data);
-					$("#tab-review-student-work div.results-box").append(buildRequestResult(data));
-				},
-				error: function(e,jqXHR,ajaxSettings,exception){
-					console.log(e.responseText);
-					errorBox.append(buildFormError('query to server failed'));
-				}
-		};
-		
 		// check grades request
-		if(this.elements["type"].value == "grades") {
-			request.url = "./admingetgrades";
-			if(!isNaN(student) && !isNaN(assignment)) {
-				request.data.student = student;
-				request.data.assignment = assignment;
-				$.ajax(request);
-			} else {
-				var newError = buildFormError(
-							'To request grades ' +
-							'you need to enter a number for ' +
-							'both the student ID and the ' +
-							'assignment ID');
-				errorBox.append(newError).hide().fadeIn(2000);
-			}
-		} // check submissions request
-		else if (this.elements["type"].value == "submissions") {
-			request.url = "./admingetsubmissions";
-			var isValidRequest = false;
-			if(!isNaN(student)) {
-				request.data.student = student;
-				isValidRequest = true;
-			}
-			if(!isNaN(assignment)) {
-				request.data.assignment = assignment;
-				isValidRequest = true;
-			}
-			if(isValidRequest)
-				$.ajax(request);
-			else {
-				var newError = buildFormError(
-						'To request submissions(s) ' +
+		if(!isNaN(assignment)) {
+			
+			$.ajax({
+				url: './admingetgrades',
+				type: 'post',
+				dataType: 'json',
+				data: {assignment:assignment},
+				success: function(data) {
+					// populate table
+					var table = $("table#review-student-work-table > tbody");
+					table.empty();
+					data.submissions.forEach(function(submission) {
+						var grades = "";
+						submission.grades.forEach(function(grade){
+							grades += " &lt;"+grade.score+","+grade.grader+"&gt;";
+						});
+						if(grades == "") grades = " no grades for submission";
+						table.append(
+							el('tr',[
+			    				el('td',[""+submission.student]),
+			    				el('td',[grades.substring(1)]),
+			    			])
+						);
+					});
+				},
+				error: function(e,jqXHR,ajaxSettings,exception){console.log(e.responseText);}
+			});
+			
+		} else {
+			var newError = buildFormError(
+						'To request grades ' +
 						'you need to enter a number for ' +
-						'the student ID and/or the ' +
-						'assignment ID'
-					);
-				errorBox.append(newError).hide().fadeIn(2000);
-			}
+						'both the student ID and the ' +
+						'assignment ID');
+			errorBox.append(newError).hide().fadeIn(2000);
 		}
 		
 		return false;
+		
 	});
 	
 	/*

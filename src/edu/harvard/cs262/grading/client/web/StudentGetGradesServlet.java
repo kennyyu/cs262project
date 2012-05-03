@@ -118,12 +118,12 @@ public class StudentGetGradesServlet extends HttpServlet {
 				for (List<Grade> grades : allGradeLists) {
 
 					StringBuilder responseBuilder = new StringBuilder();
-					responseBuilder.append("{grades:[");
+					responseBuilder.append("{\"grades\":[");
 					if (grades != null) {
 						ListIterator<Grade> gradeIter = grades.listIterator();
 						while (gradeIter.hasNext()) {
 							Grade grade = gradeIter.next();
-							responseBuilder.append("score:");
+							responseBuilder.append("\"score\":");
 							responseBuilder.append(grade.getScore().getScore()
 									+ "/" + grade.getScore().maxScore());
 							responseBuilder.append("}");

@@ -48,14 +48,14 @@
 						</form>
 					</div>
 					<div class="form-section">
-						<table>
-							<caption class="results-header">Grades for Assignment <span id="assignment-span"></span></caption>
+						<table id="review-student-work-table">
+							<caption class="results-header">Grades for Assignment <span id="review-student-work-assignment-span"></span></caption>
 							<colgroup title="index" span="1" />
 							<colgroup title="grades" />		
 							<thead>
 								<tr>
 									<th scope="col">Student</th>
-									<th scope="colgroup">Grades</th>
+									<th scope="colgroup">Grades &lt;grade,grader&gt;</th>
 								</tr>
 							</thead>
 							<tbody>

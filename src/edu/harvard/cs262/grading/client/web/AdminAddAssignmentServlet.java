@@ -69,7 +69,9 @@ public class AdminAddAssignmentServlet extends HttpServlet {
 			assignmentService.addNewAssignment(assignmentID, rawDescription);
 
 			// generate assignment ID
-			response.getWriter().write(assignmentID);
+			response.setContentType("text/plain");
+			response.setCharacterEncoding("UTF-8");
+			response.getWriter().write(String.valueOf(assignmentID));
 			
 		}
 

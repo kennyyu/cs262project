@@ -75,8 +75,8 @@ public class StudentSubmitSubmissionServlet extends HttpServlet {
 
 			// try to convert parameters into usable format
 			try {
-				Long studentID = Long.parseLong(rawStudent);
-				Long assignmentID = Long.parseLong(rawAssignment);
+				long studentID = Long.parseLong(rawStudent);
+				long assignmentID = Long.parseLong(rawAssignment);
 				Assignment assignment = new AssignmentImpl(assignmentID);
 				Student student = new StudentImpl(studentID);
 

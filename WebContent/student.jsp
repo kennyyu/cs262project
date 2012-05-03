@@ -50,20 +50,17 @@
 						<div class="form-section second-section">
 							<div class="section-label">Please, specify...</div>
 							<input disabled="disabled" type="text" name="student" placeholder="enter gradee id" />
-							<input disabled="disabled" type="text" name="assignment" placeholder="enter assignment id" />
+							<select disabled="disabled" name="assignment">
+								<option value="-1">select one</option>
+							</select>
 							<input disabled="disabled" type="text" name="score" placeholder="enter score (grade)" />
-              <input disabled="disabled" type="text" name="comments" placeholder="enter comments" />
+             				<input disabled="disabled" type="text" name="comments" placeholder="enter comments" />
 							<input disabled="disabled" type="file" name="submission" placeholder="upload assignment" />
 							<input disabled="disabled" type="hidden" name="uid" value="<%=session.getAttribute("uid") %>" />
 						</div>
 						<div class="form-error-box"></div>
 						<input name="submit" type="submit" value="submit" />
 					</form>
-					<div class="results-wrapper">
-						<div class="results-header" class="header-text">Request Results</div>
-						<div class="results-box">
-						</div>
-					</div>
 				</div>
 			</section>
 			<section id="tab-view-grades">
@@ -72,7 +69,9 @@
 					<form>
 						<div class="form-section">
 							<div class="section-label">Do you want to specify the assignment?</div>
-							<input type="text" name="assignment" placeholder="enter (optional) assignment id" />
+							<select name="assignment">
+								<option value="-1">select one</option>
+							</select>
 						</div>
 						<div class="form-error-box"></div>
 						<input type="submit" name="submit" value="get grades" />

@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -14,16 +16,17 @@ import javax.servlet.http.HttpServletResponse;
 import edu.harvard.cs262.grading.server.services.Assignment;
 import edu.harvard.cs262.grading.server.services.AssignmentImpl;
 import edu.harvard.cs262.grading.server.services.Grade;
-import edu.harvard.cs262.grading.server.services.GradeStorageService;
+import edu.harvard.cs262.grading.server.services.GradeCompilerService;
 import edu.harvard.cs262.grading.server.services.ServiceLookupUtility;
 import edu.harvard.cs262.grading.server.services.Student;
 import edu.harvard.cs262.grading.server.services.StudentImpl;
+import edu.harvard.cs262.grading.server.services.Submission;
 import edu.harvard.cs262.grading.server.services.SubmissionStorageService;
 import edu.harvard.cs262.grading.server.web.ServletConfigReader;
 
 /**
  * Servlet is the middle communication layer between Administrative front end
- * web app and the GradeStorageService. RMI is used to talk to the server, and
+ * web app and the GradeCompilerService. RMI is used to talk to the server, and
  * http is the is used between this servlet and the web app.
  */
 public class AdminGetGradesServlet extends HttpServlet {
@@ -33,17 +36,17 @@ public class AdminGetGradesServlet extends HttpServlet {
 	 */
 	private static final long serialVersionUID = 5522723969145795538L;
 
-	private GradeStorageService gradeStorage;
+	private GradeCompilerService gradeService;
 	private SubmissionStorageService submissionStorage;
 
 	public void lookupServices() {
 
 		try {
 			// get reference to database service
-			gradeStorage = (GradeStorageService) ServiceLookupUtility
+			gradeService = (GradeCompilerService) ServiceLookupUtility
 					.lookupService(
 							new ServletConfigReader(this.getServletContext()),
-							"GradeStorageService");
+							"GradeCompilerService");
 		} catch (RemoteException e) {
 			e.printStackTrace(); // To change body of catch statement use File |
 									// Settings | File Templates.
@@ -51,8 +54,8 @@ public class AdminGetGradesServlet extends HttpServlet {
 			e.printStackTrace(); // To change body of catch statement use File |
 									// Settings | File Templates.
 		}
-		if (gradeStorage == null) {
-			System.err.println("Looking up GradeStorageService failed.");
+		if (gradeService == null) {
+			System.err.println("Looking up GradeCompilerService failed.");
 		}
 
 		try {
@@ -86,44 +89,69 @@ public class AdminGetGradesServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		// get posted parameters
-		String rawStudent = request.getParameter("student");
 		String rawAssignment = request.getParameter("assignment");
 
 		// attempt to get corresponding grade
-		List<Grade> grades = null;
-		if (rawStudent == null || rawAssignment == null) {
+		if (rawAssignment == null) {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST,
 					"parameters not set");
 		} else {
 
 			// try to convert parameters into usable format
 			try {
-				Long studentID = Long.parseLong(rawStudent);
 				Long assignmentID = Long.parseLong(rawAssignment);
-				Student student = new StudentImpl(studentID);
 				Assignment assignment = new AssignmentImpl(assignmentID);
 
 				// XXX: This needs to be double-checked to sure that we get the
 				// grade pertaining to the latest
 				// submission
-				grades = gradeStorage.getGrade(submissionStorage
-						.getLatestSubmission(student, assignment));
+		    	
+		    	// get submissions
+		    	Map<Submission, List<Grade>> allSubmissionsAndGrades = gradeService.getCompiledGrades(assignment);
+		    	Set<Submission> submissions = allSubmissionsAndGrades.keySet();
 
-				StringBuilder responseBuilder = new StringBuilder();
-				responseBuilder.append("{grades:[");
-				if (grades != null) {
-					ListIterator<Grade> gradeIter = grades.listIterator();
-					while (gradeIter.hasNext()) {
-						Grade grade = gradeIter.next();
-						responseBuilder.append("{grader:");
-						responseBuilder.append(grade.getGrader().studentID());
-						responseBuilder.append(",score:");
-						responseBuilder.append(grade.getScore().getScore()
-								+ "/" + grade.getScore().maxScore());
-						responseBuilder.append("}");
-					}
-				}
-				responseBuilder.append("]}");
+	    		// start building response text
+	    		StringBuilder responseBuilder = new StringBuilder("{\"submissions\":[");
+		    	
+	    		// iterate over submissions
+	    		boolean addComma = false;
+	    		int gradedSubmissionsCount = 0;
+		    	for(Submission s : submissions){
+	    			List<Grade> grades = allSubmissionsAndGrades.get(s);
+	    			ListIterator<Grade> gradeIter = grades.listIterator();
+	    			if(addComma) {
+	    				responseBuilder.append(",");
+	    			} else {
+	    				addComma = true;
+	    			}
+    				responseBuilder.append("{\"student\":");
+    				responseBuilder.append(s.getStudent().studentID());
+    				responseBuilder.append(",\"grades\":[");
+    	    		boolean addInnerComma = false;
+	    			while(gradeIter.hasNext()) {
+		    			if(addInnerComma) {
+		    				responseBuilder.append(",");
+		    			} else {
+		    				addInnerComma = true;
+		    			}
+	    				Grade grade = gradeIter.next();
+	    				responseBuilder.append("{\"grader\":");
+	    				responseBuilder.append(grade.getGrader().studentID());
+	    				responseBuilder.append(",\"score\":");
+	    				responseBuilder.append(grade.getScore().getScore()+"/"+grade.getScore().maxScore());
+	    				responseBuilder.append("}");
+	    			}
+    				responseBuilder.append("]}");
+    				
+    				if(addInnerComma) gradedSubmissionsCount++;
+    				
+		   		}
+		    	
+		    	// finish response and send
+	    		responseBuilder.append("]");
+	    		responseBuilder.append(",\"submissions_count\":"+submissions.size());
+	    		responseBuilder.append(",\"submissions_graded_count\":"+gradedSubmissionsCount);
+	    		responseBuilder.append("}");
 
 				response.setContentType("text/Javascript");
 				response.setCharacterEncoding("UTF-8");

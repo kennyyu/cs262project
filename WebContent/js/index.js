@@ -25,23 +25,49 @@ $(document).ready(function(){
 	
 	$('#tab-view-grades form').submit(function(){
 		
-		$.ajax({
-			url: './publicgetgrades',
-			type: 'post',
-			success: function(data) {
-				console.log(data);
-				// populate table
-				var table = $('table')[0];
-				var row = table.insertRow(-1);
-				var cell = row.insertCell(0);
-				var textNode = document.createTextNode(assignment.description);
-				cell.appendChild(textNode);
-				cell = row.insertCell(1);
-				textNode = document.createTextNode(assignment.id);
-				cell.appendChild(textNode);
-			},
-			error: function(e,jqXHR,ajaxSettings,exception){console.log(e.responseText);}
-		});
+		// get input (assignment ID)
+		var assignment = parseInt($.trim(this.elements["assignment"].value));
+		
+		// grab reference to error box just in case
+		var errorBox = $(this).find("div.form-error-box");
+		
+		// check grades request
+		if(!isNaN(assignment)) {
+			
+			$.ajax({
+				url: './publicgetgrades',
+				type: 'post',
+				dataType: 'json',
+				data: {assignment:assignment},
+				success: function(data) {
+					// populate table
+					var table = $("table > tbody");
+					table.empty();
+					data.submissions.forEach(function(submission) {
+						var grades = "";
+						submission.grades.forEach(function(grade){
+							grades += " &lt;"+grade.score+","+grade.grader+"&gt;";
+						});
+						if(grades == "") grades = " no grades for submission";
+						table.append(
+							el('tr',[
+			    				el('td',[""+submission.student]),
+			    				el('td',[grades.substring(1)]),
+			    			])
+						);
+					});
+				},
+				error: function(e,jqXHR,ajaxSettings,exception){console.log(e.responseText);}
+			});
+			
+		} else {
+			var newError = buildFormError(
+						'To request grades ' +
+						'you need to enter a number for ' +
+						'both the student ID and the ' +
+						'assignment ID');
+			errorBox.append(newError).hide().fadeIn(2000);
+		}
 		
 		return false;
 		

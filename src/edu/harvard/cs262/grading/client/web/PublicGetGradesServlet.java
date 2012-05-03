@@ -80,7 +80,7 @@ public class PublicGetGradesServlet extends HttpServlet {
 	    		response.setCharacterEncoding("UTF-8");
 
 	    		// start building response text
-	    		StringBuilder responseBuilder = new StringBuilder("{submissions:[");
+	    		StringBuilder responseBuilder = new StringBuilder("{\"submissions\":[");
 		    	
 	    		// iterate over submissions
 	    		boolean addComma = false;
@@ -93,7 +93,9 @@ public class PublicGetGradesServlet extends HttpServlet {
 	    			} else {
 	    				addComma = true;
 	    			}
-    				responseBuilder.append("[");
+    				responseBuilder.append("{\"student\":");
+    				responseBuilder.append(s.getStudent().studentID());
+    				responseBuilder.append(",\"grades\":[");
     	    		boolean addInnerComma = false;
 	    			while(gradeIter.hasNext()) {
 		    			if(addInnerComma) {
@@ -102,11 +104,11 @@ public class PublicGetGradesServlet extends HttpServlet {
 		    				addInnerComma = true;
 		    			}
 	    				Grade grade = gradeIter.next();
-	    				responseBuilder.append("{score:");
+	    				responseBuilder.append("{\"score\":");
 	    				responseBuilder.append(grade.getScore().getScore()+"/"+grade.getScore().maxScore());
 	    				responseBuilder.append("}");
 	    			}
-    				responseBuilder.append("]");
+    				responseBuilder.append("]}");
     				
     				if(addInnerComma) gradedSubmissionsCount++;
     				
@@ -114,8 +116,8 @@ public class PublicGetGradesServlet extends HttpServlet {
 		    	
 		    	// finish response and send
 	    		responseBuilder.append("]");
-	    		responseBuilder.append(",submissions_count:"+submissions.size());
-	    		responseBuilder.append(",submissions_graded_count:"+gradedSubmissionsCount);
+	    		responseBuilder.append(",\"submissions_count\":"+submissions.size());
+	    		responseBuilder.append(",\"submissions_graded_count\":"+gradedSubmissionsCount);
 	    		responseBuilder.append("}");
 	    		response.getWriter().write(responseBuilder.toString());
 	    		

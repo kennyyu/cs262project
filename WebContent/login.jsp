@@ -2,11 +2,9 @@
     pageEncoding="UTF-8"%>
 <%
 	if(request.getMethod().equals("POST")) {
-		String type = request.getParameter("type");
 		String user = request.getParameter("username");
-		if(type != null && user != null) {
-			if(type.equals("student") &&
-				user.startsWith("student")) {
+		if(user != null) {
+			if(user.startsWith("student")) {
 				String id = user.substring("student".length());
 				session.setAttribute("utype", "student");
 				if(id.isEmpty() || Integer.valueOf(id) == 0) {
@@ -15,8 +13,7 @@
 					session.setAttribute("uid", id);
 				}
 				response.sendRedirect("./student.jsp");
-			} else if(type.equals("admin") &&
-					user.equals("admin")) {
+			} else if(user.equals("admin")) {
 				session.setAttribute("uid", "0");
 				session.setAttribute("utype", "admin");
 				response.sendRedirect("./admin.jsp");
@@ -49,12 +46,7 @@
 		<div id="main-content">
 			<form action="./login.jsp" method="post">
 				<div class="form-section">
-					<div class="form-field-wrapper centered">
-						student <input type="radio" name="type" checked="checked" value="student" />
-						admin <input type="radio" name="type" value="admin" />
-					</div>
-					<div class="form-field-wrapper">username: <input name="username" type="text" placeholder="enter userid" /></div>
-					<div class="form-field-wrapper">password: <input name="password" type="password" placeholder="enter password" /></div>
+					<div class="form-field-wrapper">username: <input name="username" type="text" placeholder="enter userid <user_type[id]>" /></div>
 				</div>
 				<input name="submit" type="submit" value="log in" />
 			</form>

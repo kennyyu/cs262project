@@ -1,5 +1,36 @@
 $(document).ready(function(){
 	
+	function addAssignment(desc, id) {
+
+		$("select[name='assignment']").each(function(){
+			var option = new Option(desc,id);
+			this.add(option);
+		});
+		
+	}
+	
+	// get list of assignments
+	$.ajax({
+		url: './publicgetassignments',
+		type: 'post',
+		dataType: 'json',
+		success: function(data) {
+			
+			// data is array of assignments
+			var assignments = data.assignments;
+			
+			// populate assignment select menu
+			for(var i in assignments) {
+				var assignment = assignments[i];
+				addAssignment(assignment.description, assignment.id);
+			}
+			
+		},
+		error: function(e,jqXHR,ajaxSettings,exception){
+			console.log(e.responseText);
+		}
+	});
+	
 	/*
 	 * Form stuff
 	 */
