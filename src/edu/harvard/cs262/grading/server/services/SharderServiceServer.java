@@ -73,8 +73,8 @@ public class SharderServiceServer implements SharderService {
 		DBCursor results = coll.find(query);
 
 		for (DBObject result : results) {
-			shard.addGrader((Student) result.get("grader"),
-					(Student) result.get("gradee"));
+			shard.addGrader((Long) result.get("grader"),
+					(Long) result.get("gradee"));
 		}
 
 		return shard;
@@ -120,7 +120,7 @@ public class SharderServiceServer implements SharderService {
 				while (grader.equals(s.getStudent()))
 					grader = (Student) canStillGrade.keySet().toArray()[rand
 							.nextInt(canStillGrade.size())];
-				shard.addGrader(grader, s.getStudent());
+				shard.addGrader(grader.studentID(), s.getStudent().studentID());
 				if (canStillGrade.get(grader) == 1) {
 					canStillGrade.remove(grader);
 				} else {
