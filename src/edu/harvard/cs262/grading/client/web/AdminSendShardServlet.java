@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import edu.harvard.cs262.grading.server.services.ServiceLookupUtility;
 import edu.harvard.cs262.grading.server.services.Shard;
 import edu.harvard.cs262.grading.server.services.SharderService;
-import edu.harvard.cs262.grading.server.services.Student;
+import edu.harvard.cs262.grading.server.services.StudentService;
 import edu.harvard.cs262.grading.server.web.ServletConfigReader;
 
 public class AdminSendShardServlet extends HttpServlet {
@@ -28,6 +28,7 @@ public class AdminSendShardServlet extends HttpServlet {
 	 */
 	private static final long serialVersionUID = -952195365293520107L;
 	private SharderService sharderService;
+	private StudentService studentService;
 	private boolean sandbox;
 	
 	public AdminSendShardServlet(boolean sandbox) {
@@ -43,6 +44,13 @@ public class AdminSendShardServlet extends HttpServlet {
 							new ServletConfigReader(this.getServletContext()),
 							"SharderService");
 			System.err.println("Successfully located a sharder server.");
+			
+			// get reference to student service
+			studentService = (StudentService) ServiceLookupUtility
+					.lookupService(
+							new ServletConfigReader(this.getServletContext()),
+							"StudentService");
+			System.err.println("Successfully located a student server.");
 		} catch (RemoteException e) {
 			e.printStackTrace(); // To change body of catch statement use File |
 									// Settings | File Templates.
@@ -65,7 +73,7 @@ public class AdminSendShardServlet extends HttpServlet {
 	}
 	
 	public void sendShard(Shard shard) throws IOException {
-		for (Entry<Student, Set<Student>> e : shard.getShard().entrySet()) {
+		for (Entry<Long, Set<Long>> e : shard.getShard().entrySet()) {
 			PrintStream stdin;
 			if (sandbox) {
 				//Send e-mails to stdout
@@ -77,13 +85,13 @@ public class AdminSendShardServlet extends HttpServlet {
 			
 			//Print headers
 			stdin.println("From: " + STAFF_EMAIL);
-			stdin.println("To: " + e.getKey().email());
+			stdin.println("To: " + studentService.getStudent(e.getKey()).email());
 			stdin.println("Subject: Your " + COURSE + " Grading Assignment");
 			stdin.println();
 			
 			stdin.println("You will be grading the assignments for the students with the IDs listed below:");
-			for (Student s : e.getValue()) {
-				stdin.println(s.studentID());
+			for (Long ID : e.getValue()) {
+				stdin.println(ID);
 			}
 			stdin.println();
 			

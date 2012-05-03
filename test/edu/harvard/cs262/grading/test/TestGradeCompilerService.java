@@ -81,21 +81,20 @@ public class TestGradeCompilerService {
 		sharder.init(true);
 		
 		// generate a sharding
-		Map<Student, Set<Student>> gradermap = new HashMap<Student, Set<Student>>();
-		Set<Student> kennyGradees = new HashSet<Student>();
-		kennyGradees.add(students[1]);
-		Set<Student> willieGradees = new HashSet<Student>();
-		willieGradees.add(students[0]);
-		willieGradees.add(students[1]);
-		gradermap.put(students[2], willieGradees);
-		Set<Student> tonyGradees = new HashSet<Student>();
-		tonyGradees.add(students[0]);
-		tonyGradees.add(students[1]);
-		gradermap.put(students[3], tonyGradees);
-		Set<Student> stefanGradees = new HashSet<Student>();
-		stefanGradees.add(students[0]);
-		gradermap.put(students[4], stefanGradees);
-		sharder.putShard(assignment, gradermap);
+		Map<Long, Set<Long>> gradermap = new HashMap<Long, Set<Long>>();
+		Set<Long> kennyGradees = new HashSet<Long>();
+		kennyGradees.add(1L);
+		Set<Long> willieGradees = new HashSet<Long>();
+		willieGradees.add(0L);
+		willieGradees.add(1L);
+		gradermap.put(2L, willieGradees);
+		Set<Long> tonyGradees = new HashSet<Long>();
+		tonyGradees.add(0L);
+		tonyGradees.add(1L);
+		gradermap.put(3L, tonyGradees);
+		Set<Long> stefanGradees = new HashSet<Long>();
+		stefanGradees.add(0L);
+		gradermap.put(4L, stefanGradees);
 		
 		// instantiate a sandboxed grade compiler service
 		GradeCompilerService service = new GradeCompilerServiceServer(gradeStorage, submissionStorage, sharder);

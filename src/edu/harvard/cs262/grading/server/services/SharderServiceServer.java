@@ -81,17 +81,17 @@ public class SharderServiceServer implements SharderService {
 	}
 
 	private void writeShard(Shard shard, Assignment assignment) {
-		Map<Student, Set<Student>> sharding = shard.getShard();
+		Map<Long, Set<Long>> sharding = shard.getShard();
 
-		for (Student grader : sharding.keySet()) {
-			for (Student gradee : sharding.get(grader)) {
+		for (Long grader : sharding.keySet()) {
+			for (Long gradee : sharding.get(grader)) {
 
 				BasicDBObject doc = new BasicDBObject();
 
 				doc.put("id", shard.shardID());
 				doc.put("assignmentID", assignment.assignmentID());
-				doc.put("grader", grader.studentID());
-				doc.put("gradee", gradee.studentID());
+				doc.put("grader", grader);
+				doc.put("gradee", gradee);
 
 				coll.insert(doc);
 			}
@@ -230,7 +230,7 @@ public class SharderServiceServer implements SharderService {
 
 	@Override
 	public long putShard(Assignment assignment,
-			Map<Student, Set<Student>> gradermap) throws RemoteException {
+			Map<Long, Set<Long>> gradermap) throws RemoteException {
 		Shard shard = new ShardImpl(gradermap);
 		writeShard(shard, assignment);
 		
