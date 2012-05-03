@@ -4,7 +4,7 @@ import java.rmi.RemoteException;
 import java.util.Set;
 
 public interface StudentService extends Service {
-	
+
 	/**
 	 * Add a new student
 	 * 
@@ -15,7 +15,8 @@ public interface StudentService extends Service {
 	 * @param lastName
 	 * @throws RemoteException
 	 */
-	public void addNewStudent(long ID, String email, String firstName, String lastName) throws RemoteException;
+	public void addNewStudent(long ID, String email, String firstName,
+			String lastName) throws RemoteException;
 
 	/**
 	 * Retrieve the existing students
@@ -29,7 +30,7 @@ public interface StudentService extends Service {
 	 * Retrieve a student by ID
 	 * 
 	 * @param ID
-	 * 				the ID of the student to retrieve
+	 *            the ID of the student to retrieve
 	 * @return a set of assignments
 	 * @throws RemoteException
 	 */

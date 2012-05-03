@@ -1,6 +1,5 @@
 package edu.harvard.cs262.grading.test;
 
-
 import static org.junit.Assert.assertTrue;
 
 import java.util.Set;
@@ -19,20 +18,20 @@ public class TestAssignmentStorageService {
 	@Before
 	public void setUp() throws Exception {
 	}
-	
+
 	@Test
 	public void testAssignment() throws Exception {
 		AssignmentStorageService service = new AssignmentStorageServiceServer();
 		service.init();
-		
+
 		service.addNewAssignment(0, "Description1");
 		service.addNewAssignment(1, "Description2");
-		
+
 		Assignment assn0 = new AssignmentImpl(0, "Description1");
 		Assignment assn1 = new AssignmentImpl(1, "Description2");
-		
+
 		Set<Assignment> assignments = service.getAssignments();
-		
+
 		assertTrue(assignments.size() == 2);
 		assertTrue(assignments.contains(assn0));
 		assertTrue(assignments.contains(assn1));

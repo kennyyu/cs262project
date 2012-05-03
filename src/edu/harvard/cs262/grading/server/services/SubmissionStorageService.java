@@ -30,6 +30,7 @@ public interface SubmissionStorageService extends Service {
 
 	/**
 	 * Get the latest submission for the student and assignment
+	 * 
 	 * @param student
 	 * @param assignment
 	 * @return the submission
@@ -40,6 +41,7 @@ public interface SubmissionStorageService extends Service {
 
 	/**
 	 * Return all submissions for a given assignment by a student
+	 * 
 	 * @param student
 	 * @param assignment
 	 * @return the set of submissions

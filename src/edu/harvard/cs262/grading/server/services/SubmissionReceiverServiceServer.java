@@ -17,29 +17,29 @@ public class SubmissionReceiverServiceServer implements
 		sandbox = false;
 		storage = null;
 	}
-	
+
 	public SubmissionReceiverServiceServer(SubmissionStorageService storage) {
 		config = new ConfigReaderImpl();
 		sandbox = true;
 		this.storage = storage;
 	}
-	
+
 	@Override
 	public void init() throws Exception {
 	}
-	
+
 	/**
 	 * Attempts to find the SubmissionStorageService, and dies after
 	 * NUM_LOOKUP_RETRIES.
 	 */
-	
+
 	@Override
 	public Submission submit(Student student, Assignment assignment,
 			byte[] contents) throws RemoteException {
 
 		Submission submission = new SubmissionImpl(student, assignment,
 				contents);
-		
+
 		if (sandbox) {
 			storage.storeSubmission(submission);
 			return submission;
@@ -47,7 +47,8 @@ public class SubmissionReceiverServiceServer implements
 			SubmissionStorageService storage = (SubmissionStorageService) ServiceLookupUtility
 					.lookupService(config, "SubmissionStorageService");
 			if (storage == null) {
-				System.err.println("Looking up SubmissionStorageService failed.");
+				System.err
+						.println("Looking up SubmissionStorageService failed.");
 				return null;
 			} else {
 				storage.storeSubmission(submission);
@@ -90,7 +91,7 @@ public class SubmissionReceiverServiceServer implements
 	@Override
 	public void heartbeat() throws RemoteException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

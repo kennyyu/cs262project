@@ -15,9 +15,10 @@ public interface Service extends Remote {
 	 * @throws Exception
 	 */
 	public void init() throws Exception;
-	
+
 	/**
 	 * Tests if the connection to the remote object is good.
+	 * 
 	 * @throws Exception
 	 */
 	public void heartbeat() throws RemoteException;

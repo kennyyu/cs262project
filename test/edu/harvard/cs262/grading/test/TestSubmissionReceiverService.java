@@ -46,25 +46,28 @@ public class TestSubmissionReceiverService {
 	@After
 	public void tearDown() throws Exception {
 	}
-	
+
 	@Test
 	public void testSubmit() throws Exception {
 		SubmissionStorageService storage = new MongoSubmissionStorageService();
 		storage.init();
-		
+
 		// generate a test submission
-		Student student = new StudentImpl(5L, "waldo@eecs.harvard.edu", "Jim", "Waldo");
+		Student student = new StudentImpl(5L, "waldo@eecs.harvard.edu", "Jim",
+				"Waldo");
 		Assignment assignment = new AssignmentImpl(1L, "first assignment");
 		byte[] contents = (new String("my homework")).getBytes();
-		
+
 		// generate a sandboxed SubmissionReceiverService
-		SubmissionReceiverService service = new SubmissionReceiverServiceServer(storage);
-		
+		SubmissionReceiverService service = new SubmissionReceiverServiceServer(
+				storage);
+
 		// submit the submission to the receiver service
 		Submission submission = service.submit(student, assignment, contents);
-		
+
 		// assert that the SubmissionStorageService received the storage
-		assertEquals(submission, storage.getLatestSubmission(student, assignment));
+		assertEquals(submission,
+				storage.getLatestSubmission(student, assignment));
 	}
 
 }

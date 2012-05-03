@@ -1,6 +1,5 @@
 package edu.harvard.cs262.grading.test;
 
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -49,7 +48,7 @@ public class TestGradeCompilerService {
 	@After
 	public void tearDown() throws Exception {
 	}
-	
+
 	@Test
 	public void testGradeStorage() throws Exception {
 		// instantiate the storage services locally
@@ -59,27 +58,30 @@ public class TestGradeCompilerService {
 		submissionStorage.init();
 
 		// create students
-		Student[] students = 
-			{new StudentImpl(100,"a@harvard.edu","Kenny","Yu"),
-			 new StudentImpl(101,"b@harvard.edu","Jim","Danz"),
-			 new StudentImpl(102,"c@harvard.edu","Willie","Yao"),
-			 new StudentImpl(103,"d@harvard.edu","Tony","Ho"),
-			 new StudentImpl(104,"e@harvard.edu","Stefan","Muller")};
-		
+		Student[] students = {
+				new StudentImpl(100, "a@harvard.edu", "Kenny", "Yu"),
+				new StudentImpl(101, "b@harvard.edu", "Jim", "Danz"),
+				new StudentImpl(102, "c@harvard.edu", "Willie", "Yao"),
+				new StudentImpl(103, "d@harvard.edu", "Tony", "Ho"),
+				new StudentImpl(104, "e@harvard.edu", "Stefan", "Muller") };
+
 		// create assignments
-		Assignment assignment = new AssignmentImpl(66,"hw");
-		
+		Assignment assignment = new AssignmentImpl(66, "hw");
+
 		// instantiate a sandboxed submission receiver service
-		SubmissionReceiverService receiver = new SubmissionReceiverServiceServer(submissionStorage);
-		
+		SubmissionReceiverService receiver = new SubmissionReceiverServiceServer(
+				submissionStorage);
+
 		// Kenny and Jim submit
-		Submission submission1 = receiver.submit(students[0], assignment, (new String("cheese")).getBytes());
-		Submission submission2 = receiver.submit(students[1], assignment, (new String("cheddar")).getBytes());
-		
+		Submission submission1 = receiver.submit(students[0], assignment,
+				(new String("cheese")).getBytes());
+		Submission submission2 = receiver.submit(students[1], assignment,
+				(new String("cheddar")).getBytes());
+
 		// instantiate a sandboxed sharder service
 		SharderServiceServer sharder = new SharderServiceServer();
-		sharder.init();
-		
+		sharder.init(true);
+
 		// generate a sharding
 		Map<Long, Set<Long>> gradermap = new HashMap<Long, Set<Long>>();
 		Set<Long> kennyGradees = new HashSet<Long>();
@@ -97,53 +99,62 @@ public class TestGradeCompilerService {
 		stefanGradees.add(100L);
 		gradermap.put(104L, stefanGradees);
 		sharder.putShard(assignment, gradermap);
-		
+
 		// instantiate a sandboxed grade compiler service
-		GradeCompilerService service = new GradeCompilerServiceServer(gradeStorage, submissionStorage, sharder);
-		
+		GradeCompilerService service = new GradeCompilerServiceServer(
+				gradeStorage, submissionStorage, sharder);
+
 		// Willie and Tony grade both Kenny and Jim
 		// Stefan grades Kenny
 		// Kenny grades Jim
-		Grade grade1 = service.storeGrade(students[2], submission1, new ScoreImpl(50,100), "good");
-		Grade grade2 = service.storeGrade(students[2], submission2, new ScoreImpl(60,100), "better");
-		Grade grade3 = service.storeGrade(students[3], submission1, new ScoreImpl(70,100), "okay");
-		Grade grade4 = service.storeGrade(students[3], submission2, new ScoreImpl(80,100), "mediocre");
-		Grade grade5 = service.storeGrade(students[4], submission1, new ScoreImpl(90,100), "awesome");
-		Grade grade6 = service.storeGrade(students[0], submission2, new ScoreImpl(100,100), "perfect");
-		
+		Grade grade1 = service.storeGrade(students[2], submission1,
+				new ScoreImpl(50, 100), "good");
+		Grade grade2 = service.storeGrade(students[2], submission2,
+				new ScoreImpl(60, 100), "better");
+		Grade grade3 = service.storeGrade(students[3], submission1,
+				new ScoreImpl(70, 100), "okay");
+		Grade grade4 = service.storeGrade(students[3], submission2,
+				new ScoreImpl(80, 100), "mediocre");
+		Grade grade5 = service.storeGrade(students[4], submission1,
+				new ScoreImpl(90, 100), "awesome");
+		Grade grade6 = service.storeGrade(students[0], submission2,
+				new ScoreImpl(100, 100), "perfect");
+
 		try {
-			service.storeGrade(students[0], submission1, new ScoreImpl(100,100), "impossible");
+			service.storeGrade(students[0], submission1,
+					new ScoreImpl(100, 100), "impossible");
 			fail("student should not be allowed to grade him/herself");
 		} catch (InvalidGraderForStudentException e) {
 			assertTrue(true);
 		}
-		
+
 		// assert the graders are correctly mapped
 		Set<Student> kennyGraders = service.getGraders(submission1);
-		assertEquals(3,kennyGraders.size());
+		assertEquals(3, kennyGraders.size());
 		assertTrue(kennyGraders.contains(students[2]));
 		assertTrue(kennyGraders.contains(students[3]));
 		assertTrue(kennyGraders.contains(students[4]));
-		
+
 		Set<Student> jimGraders = service.getGraders(submission2);
-		assertEquals(3,jimGraders.size());
+		assertEquals(3, jimGraders.size());
 		assertTrue(jimGraders.contains(students[0]));
 		assertTrue(jimGraders.contains(students[2]));
 		assertTrue(jimGraders.contains(students[3]));
-		
+
 		// assert the grades were successfully submitted
-		Map<Submission, List<Grade>> grades = service.getCompiledGrades(assignment);
+		Map<Submission, List<Grade>> grades = service
+				.getCompiledGrades(assignment);
 		List<Grade> kennyGrades = grades.get(submission1);
-		assertEquals(3,kennyGrades.size());
+		assertEquals(3, kennyGrades.size());
 		assertTrue(kennyGrades.contains(grade1));
 		assertTrue(kennyGrades.contains(grade3));
 		assertTrue(kennyGrades.contains(grade5));
-		
+
 		List<Grade> jimGrades = grades.get(submission2);
-		assertEquals(3,jimGrades.size());
+		assertEquals(3, jimGrades.size());
 		assertTrue(jimGrades.contains(grade2));
 		assertTrue(jimGrades.contains(grade4));
-		assertTrue(jimGrades.contains(grade6));		
+		assertTrue(jimGrades.contains(grade6));
 	}
 
 }

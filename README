@@ -64,7 +64,35 @@ bind the name of the service to this current running instance.
 Note: For persistent storage services, also start the MongoDB instance.
 
 To congif MongoDB replica set:
-================
+=============================
+
+The file to use is "mongo_setup" located in the project root. Usage:
+
+./mongo_setup [database name] [port #1] [port #2] [port #3]
+
+A sample valid command:
+
+./mongo_setup graded 28001 28002 28003
+
+The script will initate and setup a database with 2 secondary backups.
+Currently it only supports exactly 3 distinct port numbers for 1 primary
+and 2 secondary databases. We may change it.. but it's of little consequence.
+Note that 3 folders with the port name will be created in the same directory
+as the script for storing the databases.
+
+We can run the same script 5 times for the 5 or so databases that we need.
+
+***CURRENT ISSUE***:
+===================
+
+I don't have mongo actually installed on my (Willie's) machine... so I've been
+running it in the folder with the mongo binary. So for the "mongo_setup" script
+to work for everyone, we may have to add the path of where mongo is installed. If
+you have installed mongo correctly though, I suspect you can just delete all the "./"
+in the file and make it work that way.
+
+Detailed instructions (that can be ignored) below:
+=================================================
 
 1. Create data directory
 

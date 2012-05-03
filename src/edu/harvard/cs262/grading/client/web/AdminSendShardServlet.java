@@ -19,7 +19,7 @@ import edu.harvard.cs262.grading.server.services.StudentService;
 import edu.harvard.cs262.grading.server.web.ServletConfigReader;
 
 public class AdminSendShardServlet extends HttpServlet {
-	
+
 	public static String STAFF_EMAIL = "smuller@fas.harvard.edu";
 	public static String COURSE = "CS262";
 
@@ -29,7 +29,11 @@ public class AdminSendShardServlet extends HttpServlet {
 	private static final long serialVersionUID = -952195365293520107L;
 	private SharderService sharderService;
 	private StudentService studentService;
-	private boolean sandbox = false;
+	private boolean sandbox;
+
+	public AdminSendShardServlet(boolean sandbox) {
+		this.sandbox = sandbox;
+	}
 
 	public void lookupServices() {
 
@@ -40,7 +44,7 @@ public class AdminSendShardServlet extends HttpServlet {
 							new ServletConfigReader(this.getServletContext()),
 							"SharderService");
 			System.err.println("Successfully located a sharder server.");
-			
+
 			// get reference to student service
 			studentService = (StudentService) ServiceLookupUtility
 					.lookupService(
@@ -67,33 +71,35 @@ public class AdminSendShardServlet extends HttpServlet {
 		lookupServices();
 
 	}
-	
+
 	public void sendShard(Shard shard) throws IOException {
 		for (Entry<Long, Set<Long>> e : shard.getShard().entrySet()) {
 			PrintStream stdin;
 			if (sandbox) {
-				//Send e-mails to stdout
+				// Send e-mails to stdout
 				stdin = System.out;
 			} else {
-				Process sendmail = Runtime.getRuntime().exec("/usr/bin/sendmail -t");
+				Process sendmail = Runtime.getRuntime().exec(
+						"/usr/bin/sendmail -t");
 				stdin = new PrintStream(sendmail.getOutputStream());
 			}
-			
-			//Print headers
+
+			// Print headers
 			stdin.println("From: " + STAFF_EMAIL);
-			stdin.println("To: " + studentService.getStudent(e.getKey()).email());
+			stdin.println("To: "
+					+ studentService.getStudent(e.getKey()).email());
 			stdin.println("Subject: Your " + COURSE + " Grading Assignment");
 			stdin.println();
-			
+
 			stdin.println("You will be grading the assignments for the students with the IDs listed below:");
 			for (Long ID : e.getValue()) {
 				stdin.println(ID);
 			}
 			stdin.println();
-			
+
 			stdin.println("Thanks,");
 			stdin.println("The " + COURSE + " course staff");
-			
+
 			if (!sandbox)
 				stdin.close();
 		}
@@ -118,7 +124,7 @@ public class AdminSendShardServlet extends HttpServlet {
 				Shard shard = sharderService.getShard(shardID);
 
 				sendShard(shard);
-				
+
 				response.setContentType("text/Javascript");
 				response.setCharacterEncoding("UTF-8");
 				response.getWriter().write("grading assignments sent");
@@ -126,7 +132,6 @@ public class AdminSendShardServlet extends HttpServlet {
 			} catch (NumberFormatException e) {
 				response.sendError(HttpServletResponse.SC_BAD_REQUEST,
 						"invalid values given");
-				e.printStackTrace();
 			} catch (NullPointerException e) {
 				response.sendError(
 						HttpServletResponse.SC_INTERNAL_SERVER_ERROR,

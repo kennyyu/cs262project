@@ -17,17 +17,18 @@ public interface SharderService extends Service {
 	 * @throws RemoteException
 	 */
 	public Shard generateShard(Assignment assignment) throws RemoteException;
-	
+
 	/**
 	 * Store a given sharding for the given assignment
 	 * 
 	 * @param assignment
 	 * @param gradermap
-	 * 					a map from graders to sets of gradees
+	 *            a map from graders to sets of gradees
 	 * @return the ID of the shard
 	 * @throws RemoteException
 	 */
-	public long putShard(Assignment assignment, Map<Long, Set<Long>> gradermap) throws RemoteException;
+	public long putShard(Assignment assignment, Map<Long, Set<Long>> gradermap)
+			throws RemoteException;
 
 	/**
 	 * Retrieve a specific sharding
@@ -45,5 +46,6 @@ public interface SharderService extends Service {
 	 * @return the shard ID
 	 * @throws RemoteException
 	 */
-	public int getShardID(Assignment assignment) throws RemoteException, NoShardsForAssignmentException;
+	public int getShardID(Assignment assignment) throws RemoteException,
+			NoShardsForAssignmentException;
 }
