@@ -32,9 +32,10 @@ public class SharderServiceServer implements SharderService {
 
 		this.init();
 
-		storage = sandbox ? new MongoSubmissionStorageService() : getStorage();
-		if (sandbox)
+		if(sandbox) {
+			storage = new MongoSubmissionStorageService();
 			storage.init();
+		}
 	}
 
 	private SubmissionStorageService getStorage() throws RemoteException {
@@ -218,6 +219,7 @@ public class SharderServiceServer implements SharderService {
 		m = new Mongo();
 		db = m.getDB("dgs");
 		coll = db.getCollection("shards");
+		storage = getStorage();
 
 	}
 

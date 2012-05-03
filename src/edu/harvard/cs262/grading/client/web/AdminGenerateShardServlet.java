@@ -2,6 +2,8 @@ package edu.harvard.cs262.grading.client.web;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
+import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -12,7 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 import edu.harvard.cs262.grading.server.services.Assignment;
 import edu.harvard.cs262.grading.server.services.AssignmentImpl;
 import edu.harvard.cs262.grading.server.services.ServiceLookupUtility;
+import edu.harvard.cs262.grading.server.services.Shard;
 import edu.harvard.cs262.grading.server.services.SharderService;
+import edu.harvard.cs262.grading.server.services.Student;
 import edu.harvard.cs262.grading.server.web.ServletConfigReader;
 
 public class AdminGenerateShardServlet extends HttpServlet {
@@ -59,8 +63,9 @@ public class AdminGenerateShardServlet extends HttpServlet {
 
 		// get posted parameters (may have to update parameter names)
 		String rawAssignmentID = request.getParameter("assignmentID");
+		String rawDescription = request.getParameter("description");
 
-		if (rawAssignmentID == null) {
+		if (rawAssignmentID == null || rawDescription == null) {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST,
 					"parameters not set");
 		} else {
@@ -68,8 +73,33 @@ public class AdminGenerateShardServlet extends HttpServlet {
 			// invoke the system to shard the assignmentID
 			try {
 				Long assignmentID = Long.parseLong(rawAssignmentID);
-				Assignment assignment = new AssignmentImpl(assignmentID);
-				sharderService.generateShard(assignment);
+				Assignment assignment = new AssignmentImpl(assignmentID,rawDescription);
+				Shard shard = sharderService.generateShard(assignment);
+
+				StringBuilder responseBuilder = new StringBuilder();
+				responseBuilder.append("{\"id\":)");
+				responseBuilder.append(shard.shardID());
+				responseBuilder.append(",\"shard\":[");
+				Map<Student, Set<Student>> sharding = shard.getShard();
+
+				for (Student grader : sharding.keySet()) {
+					responseBuilder.append("{\"grader\":");
+					responseBuilder.append(grader.studentID());
+					responseBuilder.append(",\"gradees\":[");
+					for (Student gradee : sharding.get(grader)) {
+						responseBuilder.append(gradee.studentID());
+						responseBuilder.append(",");
+					}
+					responseBuilder.deleteCharAt(responseBuilder.length() - 1);
+					responseBuilder.append("]}");
+				}
+				responseBuilder.append("]}");
+
+				response.setContentType("text/Javascript");
+				response.setCharacterEncoding("UTF-8");
+				response.getWriter().write(responseBuilder.toString());
+				
+				
 			} catch (NumberFormatException e) {
 				response.sendError(HttpServletResponse.SC_BAD_REQUEST,
 						"invalid values given");

@@ -4,6 +4,7 @@ $(document).ready(function(){
 	$.ajax({
 		url: './publicgetassignments',
 		type: 'post',
+		dataType: 'json',
 		success: function(data) {
 			
 			// data is array of assignments
@@ -11,18 +12,9 @@ $(document).ready(function(){
 			
 			// populate assignment select menu
 			var select = $('select')[0];
-			// populate table
-			var table = $('table')[0];
 			for(var i in assignments) {
 				var assignment = assignments[i];
 				select.add(new Option(assignment.description, assignment.id));
-				var row = table.insertRow(-1);
-				var cell = row.insertCell(0);
-				var textNode = document.createTextNode(assignment.description);
-				firstCell.appendChild(textNode);
-				cell = row.insertCell(1);
-				textNode = document.createTextNode(assignment.id);
-				cell.appendChild(textNode);
 			}
 			
 		},
@@ -38,7 +30,15 @@ $(document).ready(function(){
 			type: 'post',
 			success: function(data) {
 				console.log(data);
-				//$("#results-content").append($("<div class='request-result'>").append(data));
+				// populate table
+				var table = $('table')[0];
+				var row = table.insertRow(-1);
+				var cell = row.insertCell(0);
+				var textNode = document.createTextNode(assignment.description);
+				cell.appendChild(textNode);
+				cell = row.insertCell(1);
+				textNode = document.createTextNode(assignment.id);
+				cell.appendChild(textNode);
 			},
 			error: function(e,jqXHR,ajaxSettings,exception){console.log(e.responseText);}
 		});

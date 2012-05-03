@@ -40,7 +40,7 @@
 				<div class="tab-content">
 					<div class="form-section">
 						<div class="section-label">Choose Assignment</div>
-						<form>
+						<form id="review-student-work-form">
 							<select name="assignment">
 								<option value="-1" selected="selected">select assignment</option>
 							</select>
@@ -70,7 +70,7 @@
 					<div class="form-section">
 						<div class="section-label">Add Assignment</div>
 						<form id="add-assignment-form">
-							<input type="text" maxlength="256" placeholder="type assignment name" />
+							<input type="text" name="description" maxlength="256" placeholder="type assignment name" />
 							<div class="form-error-box"></div>
 							<input name="submit" type="submit" value="add assignment" />
 						</form>

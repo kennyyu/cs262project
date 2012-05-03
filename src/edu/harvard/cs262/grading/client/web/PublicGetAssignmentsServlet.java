@@ -73,11 +73,11 @@ public class PublicGetAssignmentsServlet extends HttpServlet {
 			} else {
 				addComma = true;
 			}
-			json.append("{id:");
-			a.assignmentID();
-			json.append(",description:");
-			a.description();
-			json.append("}");
+			json.append("{\"id\":");
+			json.append(a.assignmentID());
+			json.append(",\"description\":\"");
+			json.append(a.description());
+			json.append("\"}");
  		}
 		json.append("]}");
 		

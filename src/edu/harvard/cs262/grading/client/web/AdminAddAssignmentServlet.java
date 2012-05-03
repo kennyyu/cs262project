@@ -29,7 +29,7 @@ public class AdminAddAssignmentServlet extends HttpServlet {
 			assignmentService = (AssignmentStorageService) ServiceLookupUtility
 					.lookupService(
 							new ServletConfigReader(this.getServletContext()),
-							"AssignmentService");
+							"AssignmentStorageService");
 			System.err.println("Successfully located an assignment server.");
 		} catch (RemoteException e) {
 			e.printStackTrace(); // To change body of catch statement use File |
@@ -39,7 +39,7 @@ public class AdminAddAssignmentServlet extends HttpServlet {
 									// Settings | File Templates.
 		}
 		if (assignmentService == null) {
-			System.err.println("Looking up AssignmentService failed.");
+			System.err.println("Looking up AssignmentStorageService failed.");
 		}
 
 	}
@@ -56,30 +56,23 @@ public class AdminAddAssignmentServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		// get posted parameters (may have to update parameter names)
-		String rawAssignmentID = request.getParameter("assignmentID");
-		String rawAssignmentDescription = request
-				.getParameter("assignmentDescription");
+		String rawDescription = request
+				.getParameter("description");
 
-		if (rawAssignmentID == null || rawAssignmentDescription == null) {
+		if (rawDescription == null) {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST,
 					"parameters not set");
 		} else {
+			
+			int assignmentID = assignmentService.getAssignments().size();
+			
+			assignmentService.addNewAssignment(assignmentID, rawDescription);
 
-			// invoke the system to shard the assignmentID
-			try {
-				Long assignmentID = Long.parseLong(rawAssignmentID);
-				assignmentService.addNewAssignment(assignmentID,
-						rawAssignmentDescription);
-			} catch (NumberFormatException e) {
-				response.sendError(HttpServletResponse.SC_BAD_REQUEST,
-						"invalid values given");
-			} catch (NullPointerException e) {
-				response.sendError(
-						HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-						"assignment addition failed");
-				e.printStackTrace();
-			}
+			// generate assignment ID
+			response.getWriter().write(assignmentID);
+			
 		}
+
 	}
 
 }

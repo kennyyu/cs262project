@@ -1,5 +1,142 @@
 $(document).ready(function() {
 	
+	function addAssignment(desc, id) {
+
+		var option = new Option(desc,id);
+		$("form#review-student-work-form select")[0].add(option);
+		$("form#assign-graders-form select")[0].add(option);
+		
+	}
+	
+	// get list of assignments
+	$.ajax({
+		url: './publicgetassignments',
+		type: 'post',
+		dataType: 'json',
+		success: function(data) {
+			
+			// data is array of assignments
+			var assignments = data.assignments;
+			
+			// populate assignment select menu
+			for(var i in assignments) {
+				var assignment = assignments[i];
+				addAssignment(assignment.description, assignment.id);
+			}
+			
+		},
+		error: function(e,jqXHR,ajaxSettings,exception){
+			console.log(e.responseText);
+		}
+	});
+
+	
+	/**
+	 * manage assignment stuff
+	 */
+	
+	// add assignment form
+	$("form#add-assignment-form").submit(function(){
+		
+		// grab reference to error box just in case
+		var errorBox = $(this).find("div.form-error-box");
+		
+		// get inputs
+		var description = $.trim(this.elements["description"].value);
+		
+		
+		// validate inputs
+		if(description != "") {
+			
+			// send request
+			$.ajax({
+				url: './adminaddassignment',
+				type: 'post',
+				dataType: 'text',
+				data: {description:description},
+				success: function(data) {
+					
+					// add assignment
+					// data is assignment ID
+					addAssignment(description, data);
+					
+					// notify user
+					var newError = buildFormError(
+							'Succesfully added assignment '+description+'.'
+						);
+					errorBox.empty().append(newError);
+					
+					// select newly-added assignment in next form
+					var select = $("form#assign-graders-form select")[0];
+					select.options[select.options.length - 1].selected = true;
+					
+				},
+				error: function(e,jqXHR,ajaxSettings,exception){
+					var newError = buildFormError(
+								'Query to server failed.'
+							);
+					errorBox.empty().append(newError);
+					console.log(e.responseText);
+				}
+			});
+			
+		} else {
+			var newError = buildFormError(
+						'To add an assignment ' +
+						'you need to enter a title'
+					);
+			errorBox.empty().append(newError);
+		}
+		
+		return false;	// prevent page refresh
+		
+	});
+	
+	$("form#assign-graders-form").submit(function() {
+		
+		// grab reference to error box just in case
+		var errorBox = $(this).find("div.form-error-box");
+		
+		 // get inputs
+		var id = parseInt($.trim(this.elements["assignment"].value));
+		var description = $.trim(this.elements["assignment"].text);
+		
+		// validate inputs
+		if(!isNaN(id)) {
+			
+			// send request
+			$.ajax({
+				url: './adminshardassignment',
+				type: 'post',
+				dataType: 'json',
+				data: {assignmentID:id,description:description},
+				success: function(data) {
+					
+					console.log(data);
+					
+					// show assignments
+					
+				},
+				error: function(e,jqXHR,ajaxSettings,exception){
+					var newError = buildFormError(
+								'Query to server failed.'
+							);
+					errorBox.empty().append(newError);
+					console.log(e.responseText);
+				}
+			});
+			
+		} else {
+			var newError = buildFormError(
+						'Select an assignment.'
+					);
+			errorBox.append(newError).hide().fadeIn(1500);
+		}
+		
+		return false;
+		
+	});
+	
 	/*
 	 * Form stuff
 	 */
@@ -26,36 +163,6 @@ $(document).ready(function() {
 	/**
 	 * Review Student Work stuff
 	 */
-	// enabled/disable appropriate input fields depending
-	// upon selection
-	$("#tab-review-student-work select").change(function(){
-		if(this.selectedIndex == 0) {
-			$(this.form.elements["student"]).attr("disabled","disabled");
-			$(this.form.elements["assignment"]).attr("disabled","disabled");
-		} else {
-			$(this.form.elements["student"]).removeAttr("disabled");
-			$(this.form.elements["assignment"]).removeAttr("disabled");
-		}
-	});
-	
-	// enable submit button only when necessary fields have been filled
-	/*$("#tab-review-student-work form").change(function(){
-		
-		var fields_to_fill = $("input[type='text']:enabled");
-		var fields_to_fill_count = fields_to_fill.size();
-		var fields_filled_count =  fields_to_fill.filter(function(index){
-			return !/^\s*$/.test(this.value);
-		}).size();
-		if(fields_to_fill_count > 0 && (
-				(this.elements["type"].value == "submissions" &&
-						fields_filled_count >= 1) ||
-				(this.elements["type"].value == "grades" &&
-						fields_filled_count == 2)))
-			$(this.elements["submit"]).removeAttr("disabled");
-		else
-			$(this.elements["submit"]).attr("disabled","disabled");
-			
-	});*/
 	
 	// handle form submission
 	// validate inputs and then send AJAX request
@@ -118,101 +225,6 @@ $(document).ready(function() {
 						'the student ID and/or the ' +
 						'assignment ID'
 					);
-				errorBox.append(newError).hide().fadeIn(2000);
-			}
-		}
-		
-		return false;
-	});
-	
-	/**
-	 * manage assignment stuff
-	 */
-	// enabled/disable appropriate input fields depending
-	// upon selection
-	$("#tab-manage-assignments select").change(function(){
-		var selectedOption = this.options[this.selectedIndex].value;
-		var form = $(this.form)[0];
-		if(selectedOption == "add") {
-			$(form.elements["assignmentID"]).attr("disabled","disabled");
-			$(form.elements["assignmentDescription"]).removeAttr("disabled");
-		} else if (selectedOption == "shard") {
-			$(form.elements["assignmentID"]).removeAttr("disabled");
-			$(form.elements["assignmentContent"]).removeAttr("disabled","disabled");
-		} else {
-			$("#tab-manage-assignments form input").attr("disabled","disabled");
-		}
-	});
-	
-	// enable submit button only when necessary fields have been filled
-	/*$("#tab-manage-assignments form").change(function(){
-		
-		var fields_to_fill = $("input[type='text']:enabled");
-		var fields_to_fill_count = fields_to_fill.size();
-		var fields_filled_count =  fields_to_fill.filter(function(index){
-			return !/^\s*$/.test(this.value);
-		}).size();
-		if(fields_to_fill_count > 0 && (
-				(this.elements["type"].value == "add" &&
-						fields_filled_count >= 1) ||
-				(this.elements["type"].value == "shard" &&
-						fields_filled_count >= 1)))
-			$(this.elements["submit"]).removeAttr("disabled");
-		else
-			$(this.elements["submit"]).attr("disabled","disabled");
-			
-	});*/
-	
-	// handle form submission
-	// validate inputs and then send AJAX request
-	$("#tab-manage-assignments form").submit(function(){
-		
-		var assignment;
-		
-		// grab reference to error box just in case
-		var errorBox = $(this).find("div.form-error-box");
-		
-		// ajax request object
-		var request = {
-				type:"post",
-				data: {},
-				success: function(data) {
-					console.log(data);
-					$("#tab-review-student-work div.results-box").append(buildRequestResult(data));
-				},
-				error: function(e,jqXHR,ajaxSettings,exception){
-					console.log(e.responseText);
-					errorBox.append(buildFormError('query to server failed'));
-				}
-		};
-		
-		// check grades request
-		if(this.elements["type"].value == "add") {
-			request.url = "./adminaddassignment";
-			assignment = $.trim(this.elements["assignmentDescription"].value);
-			if(assignment != "") {
-				request.data.assignment = assignment;
-				$.ajax(request);
-			} else {
-				var newError = buildFormError(
-							'To add an assignment ' +
-							'you need to enter a title'
-						);
-				errorBox.append(newError).hide().fadeIn(2000);
-			}
-		} // check submissions request
-		else if (this.elements["type"].value == "shard") {
-			request.url = "./adminshardassignment";
-			assignment = parseInt($.trim(this.elements["assignmentID"].value));
-			if(!isNaN(assignment)) {
-				request.data.assignmentID = assignment;
-				$.ajax(request);
-			} else {
-				var newError = buildFormError(
-							'To shard an assignment ' +
-							'you need to specify an assignment ' +
-							'by entering its ID'
-						);
 				errorBox.append(newError).hide().fadeIn(2000);
 			}
 		}
