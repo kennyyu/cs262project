@@ -16,6 +16,10 @@ public class ShardImpl implements Shard {
 	public ShardImpl() {
 		sharding = new LinkedHashMap<Student, Set<Student>>();
 	}
+	
+	public ShardImpl(Map<Student, Set<Student>> sharding) {
+		this.sharding = sharding;
+	}
 
 	/*
 	 * public ShardImpl(int shardID) { this.shardID = shardID; sharding = new
