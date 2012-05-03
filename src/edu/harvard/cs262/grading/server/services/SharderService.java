@@ -34,7 +34,7 @@ public interface SharderService extends Service {
 	 * @return the ID of the shard
 	 * @throws RemoteException
 	 */
-	public long putShard(Assignment assignment, Map<Student, Set<Student>> gradermap) throws RemoteException;
+	public long putShard(Assignment assignment, Map<Long, Set<Long>> gradermap) throws RemoteException;
 
 	/**
 	 * Retrieve a specific sharding

@@ -80,10 +80,10 @@ public class TestGradeCompilerService {
 		SharderServiceServer sharder = new SharderServiceServer();
 		sharder.init(true);
 		
-		Map<Student, Set<Student>> gradermap = new HashMap<Student, Set<Student>>();
-		HashSet<Student> willieGradees = new HashSet<Student>();
-		willieGradees.add(students[0]);
-		willieGradees.add(students[1]);
+		Map<Long, Set<Long>> gradermap = new HashMap<Long, Set<Long>>();
+		HashSet<Long> willieGradees = new HashSet<Long>();
+		willieGradees.add(0L);
+		willieGradees.add(1L);
 		sharder.putShard(assignment, gradermap);
 		
 		// instantiate a sandboxed grade compiler service
