@@ -35,8 +35,8 @@ public class TestSharderService {
 
 		assertTrue(true);
 
-		assertTrue(shard.getShard().containsKey(new StudentImpl(0)));
-		assertTrue(shard.getShard().get(new StudentImpl(0))
-				.contains(new StudentImpl(1)));
+		assertTrue(shard.getShard().containsKey(0L));
+		assertTrue(shard.getShard().get(0L)
+				.contains(1L));
 	}
 }
