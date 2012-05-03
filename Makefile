@@ -1,8 +1,11 @@
 # this is where the compiled binaries will go
 CLASSPATH = classes
 
-# requiresd libraries for compilation
+# required libraries for compilation
 LIB = lib/mongo-2.7.3.jar:lib/javax.servlet-api-3.0.1.jar
+
+# location of database files
+DB = /data/db
 
 # package and project information
 PACKAGE = edu.harvard.cs262.grading
@@ -51,3 +54,4 @@ test: all classes
 		-sourcepath $(TESTPATH) -d $(CLASSPATH) $(TEST)
 	java -cp /usr/share/java/junit.jar:$(LIB):$(CLASSPATH) \
 	org.junit.runner.JUnitCore $(TESTCASES)
+	sudo rm -rf $(DB)/*
