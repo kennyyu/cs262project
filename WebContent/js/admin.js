@@ -4,6 +4,7 @@ $(document).ready(function() {
 
 		var option = new Option(desc,id);
 		$("form#review-student-work-form select")[0].add(option);
+		option = new Option(desc,id);
 		$("form#assign-graders-form select")[0].add(option);
 		
 	}
@@ -268,10 +269,10 @@ $(document).ready(function() {
 		if(!thisTab.hasClass("active-tab")) {
 			var tabToShowText = $(thisTab).text();
 			var activeTabSection = $("section.active-tab");
-			activeTabSection.hide("slow");
+			activeTabSection.slideUp("slow");
 			activeTabSection.removeClass("active-tab");
 			var tabToShow = $("section:has(h2:contains('"+tabToShowText+"'))");
-			tabToShow.show("slow").addClass("active-tab");
+			tabToShow.slideDown("slow").addClass("active-tab");
 			$("div#main-nav > ul > li.active-tab").removeClass("active-tab");
 			thisTab.addClass("active-tab");
 		}
