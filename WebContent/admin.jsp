@@ -50,7 +50,7 @@
 					</div>
 					<div class="form-section">
 						<table id="review-student-work-table">
-							<caption class="results-header">Grades for Assignment <span id="review-student-work-assignment-span"></span></caption>
+							<caption class="results-header">Grades for Assignment "<span id="assignment-span"></span>"</caption>
 							<colgroup title="index" span="1" />
 							<colgroup title="grades" />		
 							<thead>

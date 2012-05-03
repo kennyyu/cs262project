@@ -2,7 +2,6 @@ package edu.harvard.cs262.grading.client.web;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
-import java.util.HashSet;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Set;
@@ -141,7 +140,7 @@ public class StudentGetGradesServlet extends HttpServlet {
 
 					// check if the student has a submission for the assignment
 					if(submission == null) {
-						responseBuilder.append(",\"submissionTimestamp\":-1,\"grades\":[]}");
+						responseBuilder.append(",\"submissionTimestamp\":\"\",\"grades\":[]}");
 					} else {
 						List<Grade> grades = gradeStorage.getGrade(submission);
 						responseBuilder.append(",\"submissionTimestamp\":\"");

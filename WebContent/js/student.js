@@ -39,7 +39,6 @@ $(document).ready(function(){
 			data: {uid:parseInt($.trim($('input[name="uid"]').val()))},
 			dataType: 'json',
 			success: function(data) {
-				console.log(data);
 				// populate table
 				var table = $("table#view-grades-table > tbody");
 				table.empty();
@@ -48,7 +47,7 @@ $(document).ready(function(){
 					submission.grades.forEach(function(grade){
 						grades += " <"+grade.score+","+grade.grader+">";
 					});
-					if(grades == "" && submission.submissionTimestamp < 0) grades = " no submission for assignment";
+					if(grades == "" && submission.submissionTimestamp == "") grades = " no submission for assignment";
 					else if(grades == "") grades = " no grades for submission";
 					table.append(
 						el('tr',[

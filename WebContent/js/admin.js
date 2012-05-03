@@ -268,13 +268,14 @@ $(document).ready(function() {
 	$("form#review-student-work-form").submit(function(){
 		
 		// get input (assignment ID)
-		var assignment = parseInt($.trim(this.elements["assignment"].value));
+		var assignmentSelect = this.elements["assignment"];
+		var assignment = parseInt($.trim(assignmentSelect.value));
 		
 		// grab reference to error box just in case
 		var errorBox = $(this).find("div.form-error-box");
 		
 		// check grades request
-		if(!isNaN(assignment)) {
+		if(!isNaN(assignment) && assignment >= 0) {
 			
 			$.ajax({
 				url: './admingetgrades',
@@ -282,6 +283,9 @@ $(document).ready(function() {
 				dataType: 'json',
 				data: {assignment:assignment},
 				success: function(data) {
+					// change table header
+					var description = $.trim(assignmentSelect[assignmentSelect.selectedIndex].text);
+					$("span#assignment-span").text(description);
 					// populate table
 					var table = $("table#review-student-work-table > tbody");
 					table.empty();
@@ -290,7 +294,8 @@ $(document).ready(function() {
 						submission.grades.forEach(function(grade){
 							grades += " <"+grade.score+","+grade.grader+">";
 						});
-						if(grades == "") grades = " no grades for submission";
+						if(grades == "" && submission.submissionTimestamp == "") grades = " no submission for assignment";
+						else if(grades == "") grades = " no grades for submission";
 						table.append(
 							el('tr',[
 			    				el('td',[""+submission.student]),
@@ -309,11 +314,8 @@ $(document).ready(function() {
 			
 		} else {
 			var newError = buildFormError(
-						'To request grades ' +
-						'you need to enter a number for ' +
-						'both the student ID and the ' +
-						'assignment ID');
-			errorBox.append(newError).hide().fadeIn(2000);
+						'Please, select an assignment');
+			errorBox.append(newError).hide().fadeIn(1500);
 		}
 		
 		return false;
