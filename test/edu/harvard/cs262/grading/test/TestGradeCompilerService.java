@@ -1,6 +1,8 @@
 package edu.harvard.cs262.grading.test;
 
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -77,6 +79,12 @@ public class TestGradeCompilerService {
 		// instantiate a sandboxed sharder service
 		SharderServiceServer sharder = new SharderServiceServer();
 		sharder.init(true);
+		
+		Map<Student, Set<Student>> gradermap = new HashMap<Student, Set<Student>>();
+		HashSet<Student> willieGradees = new HashSet<Student>();
+		willieGradees.add(students[0]);
+		willieGradees.add(students[1]);
+		sharder.putShard(assignment, gradermap);
 		
 		// instantiate a sandboxed grade compiler service
 		GradeCompilerService service = new GradeCompilerServiceServer(gradeStorage, submissionStorage, sharder);
