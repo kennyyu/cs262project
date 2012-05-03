@@ -26,13 +26,13 @@ public class ShardImpl implements Shard {
 	 * LinkedHashMap<Student, Set<Student>>(); }
 	 */
 
-	public void addGrader(Student grader, Student gradee) {
-		if (sharding.containsKey(grader.studentID())) {
-			sharding.get(grader.studentID()).add(gradee.studentID());
+	public void addGrader(Long grader, Long gradee) {
+		if (sharding.containsKey(grader)) {
+			sharding.get(grader).add(gradee);
 		} else {
 			Set<Long> gradeeSet = new LinkedHashSet<Long>();
-			gradeeSet.add(gradee.studentID());
-			sharding.put(grader.studentID(), gradeeSet);
+			gradeeSet.add(gradee);
+			sharding.put(grader, gradeeSet);
 		}
 	}
 
