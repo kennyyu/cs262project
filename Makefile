@@ -8,6 +8,7 @@ LIB = lib/mongo-2.7.3.jar:lib/javax.servlet-api-3.0.1.jar
 PACKAGE = edu.harvard.cs262.grading
 PROJECTDIR = edu/harvard/cs262/grading
 
+################################################################################
 # src packages
 SRCPATH = src
 SRCDIR = $(SRCPATH)/$(PROJECTDIR)
@@ -18,22 +19,23 @@ SRC = \
 	$(SRCDIR)/client/web/*
 
 
-
+################################################################################
 # test packages and test cases
 TESTPATH = test
 TEST = $(TESTPATH)/$(PROJECTDIR)/test/*
 TESTPACKAGE = $(PACKAGE).test
 TESTCASES = \
 	$(TESTPACKAGE).TestDummy \
-	$(TESTPACKAGE).TestConfigReader
+	$(TESTPACKAGE).TestConfigReader \
+	$(TESTPACKAGE).SharderServiceTestCase \
+	$(TESTPACKAGE).StudentServiceServerTests \
+	$(TESTPACKAGE).MongoSubmissionStorageServiceTests
 
 
-
+################################################################################
 # compiler flags
 JC = javac
 FLAGS = -sourcepath $(SRCPATH) -cp $(CLASSPATH):$(LIB) -d $(CLASSPATH)
-
-
 
 default: all
 
@@ -46,7 +48,6 @@ clean:
 
 test: all classes
 	$(JC) -cp /usr/share/java/junit.jar:$(LIB):$(CLASSPATH) \
-		-sourcepath test $(TEST) \
-		-d $(CLASSPATH)
-	java -cp /usr/share/java/junit.jar:$(CLASSPATH) \
+		-sourcepath $(TESTPATH) -d $(CLASSPATH) $(TEST)
+	java -cp /usr/share/java/junit.jar:$(LIB):$(CLASSPATH) \
 	org.junit.runner.JUnitCore $(TESTCASES)
