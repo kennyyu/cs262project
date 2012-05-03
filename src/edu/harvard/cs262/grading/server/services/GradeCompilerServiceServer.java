@@ -41,7 +41,7 @@ public class GradeCompilerServiceServer implements GradeCompilerService {
 
 	@Override
 	public Grade storeGrade(Student grader, Submission submission, Score score,
-			String comments) throws RemoteException, InvalidGraderForStudentException {
+			String comments) throws RemoteException, InvalidGraderForStudentException, NoShardsForAssignmentException {
 		Grade grade = new GradeImpl(score, grader, comments);
 
 		if (sandbox) {

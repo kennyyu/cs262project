@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import edu.harvard.cs262.grading.server.services.Assignment;
 import edu.harvard.cs262.grading.server.services.AssignmentImpl;
+import edu.harvard.cs262.grading.server.services.NoShardsForAssignmentException;
 import edu.harvard.cs262.grading.server.services.ServiceLookupUtility;
 import edu.harvard.cs262.grading.server.services.Shard;
 import edu.harvard.cs262.grading.server.services.SharderService;
@@ -103,6 +104,9 @@ public class AdminReviewShardServlet extends HttpServlet {
 						HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
 						"grade retrieval failed");
 				e.printStackTrace();
+			} catch (NoShardsForAssignmentException e) {
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST,
+				"assignment has no shards");
 			}
 
 		}

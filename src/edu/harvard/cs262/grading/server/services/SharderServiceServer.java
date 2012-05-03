@@ -164,7 +164,7 @@ public class SharderServiceServer implements SharderService {
 		return readShard(shardID);
 	}
 
-	public int getShardID(Assignment assignment) throws RemoteException {
+	public int getShardID(Assignment assignment) throws RemoteException, NoShardsForAssignmentException {
 		BasicDBObject query = new BasicDBObject();
 		query.put("assignmentID", assignment.assignmentID());
 
@@ -175,10 +175,14 @@ public class SharderServiceServer implements SharderService {
 		toSortBy.put("id", null);
 		results.sort(toSortBy);
 
-		List<DBObject> objs = results.toArray();
-		DBObject latest = objs.get(objs.size() - 1);
+		if (results.size() == 0) {
+			throw new NoShardsForAssignmentException(assignment);
+		} else {
+			List<DBObject> objs = results.toArray();
+			DBObject latest = objs.get(objs.size() - 1);
+			return (Integer) latest.get("id");
+		}
 
-		return (Integer) latest.get("id");
 	}
 
 	public static void main(String[] args) {
