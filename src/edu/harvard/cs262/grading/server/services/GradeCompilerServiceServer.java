@@ -63,7 +63,7 @@ public class GradeCompilerServiceServer implements GradeCompilerService {
 				// check if this grader is allowed to grade this student
 				int shardID = sharder.getShardID(submission.getAssignment());
 				Shard shard = sharder.getShard(shardID);
-				if (!shard.getGraders(submission.getStudent()).contains(grader))
+				if (!shard.getGraders(submission.getStudent()).contains(grader.studentID()))
 					throw new InvalidGraderForStudentException(grader, submission.getStudent(), shard);
 			}
 			
