@@ -13,6 +13,7 @@ import edu.harvard.cs262.grading.server.services.Assignment;
 import edu.harvard.cs262.grading.server.services.AssignmentImpl;
 import edu.harvard.cs262.grading.server.services.GradeCompilerService;
 import edu.harvard.cs262.grading.server.services.InvalidGraderForStudentException;
+import edu.harvard.cs262.grading.server.services.NoShardsForAssignmentException;
 import edu.harvard.cs262.grading.server.services.Score;
 import edu.harvard.cs262.grading.server.services.ScoreImpl;
 import edu.harvard.cs262.grading.server.services.ServiceLookupUtility;
@@ -138,6 +139,9 @@ public class StudentSubmitGradeServlet extends HttpServlet {
 			} catch (InvalidGraderForStudentException e) {
 				response.sendError(HttpServletResponse.SC_BAD_REQUEST,
 				"grader not assigned to grade that student");
+			} catch (NoShardsForAssignmentException e) {
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST,
+				"assignment has no shards");
 			}
 		}
 	}

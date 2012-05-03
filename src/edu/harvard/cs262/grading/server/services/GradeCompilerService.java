@@ -28,7 +28,8 @@ public interface GradeCompilerService extends Service {
 	 * @throws RemoteException
 	 */
 	public Grade storeGrade(Student grader, Submission submission, Score score,
-			String comments) throws RemoteException, InvalidGraderForStudentException;
+			String comments) throws RemoteException, InvalidGraderForStudentException, 
+			NoShardsForAssignmentException;
 
 	/**
 	 * Get the list of graders for a given submission.
