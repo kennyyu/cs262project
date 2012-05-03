@@ -74,24 +74,25 @@ public class SharderServiceServer implements SharderService {
 		DBCursor results = coll.find(query);
 
 		for (DBObject result : results) {
-			shard.addGrader((Student) result.get("grader"),
-					(Student) result.get("gradee"));
+			shard.addGrader((Long) result.get("grader"),
+					(Long) result.get("gradee"));
 		}
 
 		return shard;
 	}
 
-	private void writeShard(Shard shard) {
-		Map<Student, Set<Student>> sharding = shard.getShard();
+	private void writeShard(Shard shard, Assignment assignment) {
+		Map<Long, Set<Long>> sharding = shard.getShard();
 
-		for (Student grader : sharding.keySet()) {
-			for (Student gradee : sharding.get(grader)) {
+		for (Long grader : sharding.keySet()) {
+			for (Long gradee : sharding.get(grader)) {
 
 				BasicDBObject doc = new BasicDBObject();
 
 				doc.put("id", shard.shardID());
-				doc.put("grader", grader.studentID());
-				doc.put("gradee", gradee.studentID());
+				doc.put("assignmentID", assignment.assignmentID());
+				doc.put("grader", grader);
+				doc.put("gradee", gradee);
 
 				coll.insert(doc);
 			}
@@ -120,7 +121,7 @@ public class SharderServiceServer implements SharderService {
 				while (grader.equals(s.getStudent()))
 					grader = (Student) canStillGrade.keySet().toArray()[rand
 							.nextInt(canStillGrade.size())];
-				shard.addGrader(grader, s.getStudent());
+				shard.addGrader(grader.studentID(), s.getStudent().studentID());
 				if (canStillGrade.get(grader) == 1) {
 					canStillGrade.remove(grader);
 				} else {
@@ -154,7 +155,7 @@ public class SharderServiceServer implements SharderService {
 		// Randomly assign graders. We could be smarter.
 		Shard shard = assign(students, latestSubmissions);
 
-		writeShard(shard);
+		writeShard(shard, assignment);
 		return shard;
 
 	}
@@ -164,7 +165,7 @@ public class SharderServiceServer implements SharderService {
 		return readShard(shardID);
 	}
 
-	public int getShardID(Assignment assignment) throws RemoteException {
+	public int getShardID(Assignment assignment) throws RemoteException, NoShardsForAssignmentException {
 		BasicDBObject query = new BasicDBObject();
 		query.put("assignmentID", assignment.assignmentID());
 
@@ -175,10 +176,14 @@ public class SharderServiceServer implements SharderService {
 		toSortBy.put("id", null);
 		results.sort(toSortBy);
 
-		List<DBObject> objs = results.toArray();
-		DBObject latest = objs.get(objs.size() - 1);
+		if (results.size() == 0) {
+			throw new NoShardsForAssignmentException(assignment);
+		} else {
+			List<DBObject> objs = results.toArray();
+			DBObject latest = objs.get(objs.size() - 1);
+			return (Integer) latest.get("id");
+		}
 
-		return (Integer) latest.get("id");
 	}
 
 	public static void main(String[] args) {
@@ -227,6 +232,15 @@ public class SharderServiceServer implements SharderService {
 	public void heartbeat() throws RemoteException {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public long putShard(Assignment assignment,
+			Map<Long, Set<Long>> gradermap) throws RemoteException {
+		Shard shard = new ShardImpl(gradermap);
+		writeShard(shard, assignment);
+		
+		return shard.shardID();
 	}
 
 }

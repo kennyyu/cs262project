@@ -26,7 +26,7 @@ import edu.harvard.cs262.grading.server.services.SubmissionImpl;
 import static org.junit.Assert.*;
 
 @SuppressWarnings("unused")
-public class MongoSubmissionStorageServiceTests {
+public class TestSubmissionStorageService {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 	}

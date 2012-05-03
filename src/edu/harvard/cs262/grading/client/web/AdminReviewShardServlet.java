@@ -13,10 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import edu.harvard.cs262.grading.server.services.Assignment;
 import edu.harvard.cs262.grading.server.services.AssignmentImpl;
+import edu.harvard.cs262.grading.server.services.NoShardsForAssignmentException;
 import edu.harvard.cs262.grading.server.services.ServiceLookupUtility;
 import edu.harvard.cs262.grading.server.services.Shard;
 import edu.harvard.cs262.grading.server.services.SharderService;
-import edu.harvard.cs262.grading.server.services.Student;
 import edu.harvard.cs262.grading.server.web.ServletConfigReader;
 
 public class AdminReviewShardServlet extends HttpServlet {
@@ -77,14 +77,14 @@ public class AdminReviewShardServlet extends HttpServlet {
 						.getShardID(assignment));
 				StringBuilder responseBuilder = new StringBuilder();
 				responseBuilder.append("{shard:[");
-				Map<Student, Set<Student>> sharding = shard.getShard();
+				Map<Long, Set<Long>> sharding = shard.getShard();
 
-				for (Student grader : sharding.keySet()) {
+				for (Long grader : sharding.keySet()) {
 					responseBuilder.append("{grader:");
-					responseBuilder.append(grader.studentID());
+					responseBuilder.append(grader);
 					responseBuilder.append(",gradees:[");
-					for (Student gradee : sharding.get(grader)) {
-						responseBuilder.append(gradee.studentID());
+					for (Long gradee : sharding.get(grader)) {
+						responseBuilder.append(gradee);
 						responseBuilder.append(",");
 					}
 					responseBuilder.deleteCharAt(responseBuilder.length() - 1);
@@ -104,6 +104,9 @@ public class AdminReviewShardServlet extends HttpServlet {
 						HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
 						"grade retrieval failed");
 				e.printStackTrace();
+			} catch (NoShardsForAssignmentException e) {
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST,
+				"assignment has no shards");
 			}
 
 		}

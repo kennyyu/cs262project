@@ -137,6 +137,22 @@ $(document).ready(function() {
 		
 	});
 	
+	$("form#send-assignments-form").submit(function() {
+		
+		$.ajax({
+			url: './adminsendshard',
+			type: 'post',
+			dataType: 'text',
+			data:{id:33},
+			success: function(data) {
+				console.log(data);
+			}
+		});
+		
+		return false;
+		
+	});
+	
 	/*
 	 * Form stuff
 	 */

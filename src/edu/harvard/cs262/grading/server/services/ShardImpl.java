@@ -11,33 +11,33 @@ public class ShardImpl implements Shard {
 	 * 
 	 */
 	private static final long serialVersionUID = -2985077449389912337L;
-	private Map<Student, Set<Student>> sharding;
+	private Map<Long, Set<Long>> sharding;
 
 	public ShardImpl() {
-		sharding = new LinkedHashMap<Student, Set<Student>>();
+		sharding = new LinkedHashMap<Long, Set<Long>>();
+	}
+	
+	public ShardImpl(Map<Long, Set<Long>> sharding) {
+		this.sharding = sharding;
 	}
 
-	/*
-	 * public ShardImpl(int shardID) { this.shardID = shardID; sharding = new
-	 * LinkedHashMap<Student, Set<Student>>(); }
-	 */
-
-	public void addGrader(Student grader, Student gradee) {
+	@Override
+	public void addGrader(Long grader, Long gradee) {
 		if (sharding.containsKey(grader)) {
 			sharding.get(grader).add(gradee);
 		} else {
-			Set<Student> gradeeSet = new LinkedHashSet<Student>();
+			Set<Long> gradeeSet = new LinkedHashSet<Long>();
 			gradeeSet.add(gradee);
 			sharding.put(grader, gradeeSet);
 		}
 	}
 
 	@Override
-	public Set<Student> getGraders(Student student) {
-		Set<Student> graderSet = new LinkedHashSet<Student>();
+	public Set<Long> getGraders(Student student) {
+		Set<Long> graderSet = new LinkedHashSet<Long>();
 
-		for (Student grader : sharding.keySet()) {
-			if (sharding.get(grader).contains(student)) {
+		for (Long grader : sharding.keySet()) {
+			if (sharding.get(grader).contains(student.studentID())) {
 				graderSet.add(grader);
 			}
 		}
@@ -45,7 +45,7 @@ public class ShardImpl implements Shard {
 	}
 
 	@Override
-	public Map<Student, Set<Student>> getShard() {
+	public Map<Long, Set<Long>> getShard() {
 		return sharding;
 	}
 

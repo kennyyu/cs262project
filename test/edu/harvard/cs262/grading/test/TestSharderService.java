@@ -12,7 +12,7 @@ import edu.harvard.cs262.grading.server.services.StudentImpl;
 import edu.harvard.cs262.grading.server.services.Submission;
 import edu.harvard.cs262.grading.server.services.SubmissionImpl;
 
-public class SharderServiceTestCase {
+public class TestSharderService {
 
 	@Test
 	public void testShard() throws Exception {
@@ -35,8 +35,8 @@ public class SharderServiceTestCase {
 
 		assertTrue(true);
 
-		assertTrue(shard.getShard().containsKey(new StudentImpl(0)));
-		assertTrue(shard.getShard().get(new StudentImpl(0))
-				.contains(new StudentImpl(1)));
+		assertTrue(shard.getShard().containsKey(0L));
+		assertTrue(shard.getShard().get(0L)
+				.contains(1L));
 	}
 }

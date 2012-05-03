@@ -77,17 +77,20 @@ public class AdminGenerateShardServlet extends HttpServlet {
 				Shard shard = sharderService.generateShard(assignment);
 
 				StringBuilder responseBuilder = new StringBuilder();
-				responseBuilder.append("{\"id\":)");
+				responseBuilder.append("{\"id\":");
 				responseBuilder.append(shard.shardID());
 				responseBuilder.append(",\"shard\":[");
-				Map<Student, Set<Student>> sharding = shard.getShard();
+				Map<Long, Set<Long>> sharding = shard.getShard();
 
-				for (Student grader : sharding.keySet()) {
+				boolean addComma = false;
+				for (Long grader : sharding.keySet()) {
+					if(addComma) responseBuilder.append(",");
+					else addComma = true;
 					responseBuilder.append("{\"grader\":");
-					responseBuilder.append(grader.studentID());
+					responseBuilder.append(grader);
 					responseBuilder.append(",\"gradees\":[");
-					for (Student gradee : sharding.get(grader)) {
-						responseBuilder.append(gradee.studentID());
+					for (Long gradee : sharding.get(grader)) {
+						responseBuilder.append(gradee);
 						responseBuilder.append(",");
 					}
 					responseBuilder.deleteCharAt(responseBuilder.length() - 1);
