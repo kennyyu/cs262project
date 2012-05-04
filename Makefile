@@ -2,7 +2,7 @@
 CLASSPATH = classes
 
 # required libraries for compilation
-LIB = lib/mongo-2.7.3.jar:lib/javax.servlet-api-3.0.1.jar:lib/emma.jar
+LIB = lib/mongo-2.7.3.jar:lib/javax.servlet-api-3.0.1.jar:lib/emma.jar:lib/junit-4.10.jar
 
 # package and project information
 PACKAGE = edu.harvard.cs262.grading
@@ -62,13 +62,13 @@ test: all classes
 	eval $(MONGO) &
 	sleep 5
 
-	$(JC) -cp /usr/share/java/junit.jar:$(LIB):$(CLASSPATH) \
-		-sourcepath $(TESTPATH) -d $(CLASSPATH) $(TEST)
+	$(JC) -cp $(LIB):$(CLASSPATH) -sourcepath $(TESTPATH) \
+		-d $(CLASSPATH) $(TEST)
 
 	java -cp lib/emma.jar emmarun -r html \
 		-filter +$(PACKAGE).server.*,+$(PACKAGE).client.* \
 		-sourcepath $(SRCPATH):$(TESTPATH) \
-		-cp /usr/share/java/junit.jar:$(LIB):$(CLASSPATH) \
+		-cp $(LIB):$(CLASSPATH) \
 		org.junit.runner.JUnitCore $(TESTCASES)
 
 	kill -9 $$(ps ax | grep -e "${MONGO}" | grep -v grep | awk '{print $$1}')
