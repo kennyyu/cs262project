@@ -44,16 +44,12 @@ The code coverage report will be generated as html files in the coverage/ direct
 
 To run tests on seas:
 ====================
-1) make a directory in the cs262project director:
-   $ mkdir dbtest
+Tests require JUnit installed. To compile and run the JUnit tests, execute:
+    $ make seastest
 
-2) run mongod:
-   $ mongod --dbpath=dbtest &
-
-3) After mongod has started listening on port 27107, run the tests:
-   $ make seastest
-
-4) after the tests are done, kill the mongod and remove dbtest
+Note: mongod must be in your PATH
+A code coverage report will NOT be generated with make seastest (this is because
+Emma requires javac 1.6)
 
 Dependencies:
 ============
