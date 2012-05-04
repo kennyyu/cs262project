@@ -56,6 +56,9 @@ REQUIREMENTS:
 * 64-bit mongoDB
 * Java SDK 1.6
 
+To run tests on the SEAS cloud, use:
+   $ make seastest
+
 To run the services:
 ===================
 0. Place the hostnames of all replicas into the config/services.config file, and
