@@ -113,16 +113,16 @@ public class SharderServiceServer implements SharderService {
 			canStillGrade.put(s, GRADERS_PER_SUBMISSION);
 		}
 		boolean done = false;
+		outer:
 		while (!done) {
 			shard = new ShardImpl();
-			outer:
 			for (Submission s : submissions) {
 				for (int i = 0; i < GRADERS_PER_SUBMISSION; i++) {
 					if (canStillGrade.isEmpty())
 						throw new RemoteException("Can't find enough graders");
 					if ((canStillGrade.size() == 1)
 							&& canStillGrade.containsKey(s.getStudent())) {
-						break outer;
+						continue outer;
 					}
 					Student grader = s.getStudent();
 					// This could loop infinitely if canStillGrade.size() == 1 
