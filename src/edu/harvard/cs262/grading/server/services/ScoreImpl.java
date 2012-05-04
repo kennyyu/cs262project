@@ -1,5 +1,8 @@
 package edu.harvard.cs262.grading.server.services;
 
+/**
+ * Implementation of a score
+ */
 public class ScoreImpl implements Score {
 
 	/**

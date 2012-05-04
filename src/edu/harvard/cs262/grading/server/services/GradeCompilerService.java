@@ -35,6 +35,7 @@ public interface GradeCompilerService extends Service {
 	 * Get the list of graders for a given submission.
 	 * 
 	 * @param submission
+	 * 				the submission that was graded
 	 * @return the list of graders for the submission
 	 * @throws RemoteException
 	 */

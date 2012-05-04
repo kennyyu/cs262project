@@ -3,7 +3,7 @@ package edu.harvard.cs262.grading.server.services;
 import java.io.Serializable;
 
 /**
- * Represents an assignment.
+ * Represents an assignment, e.g. problem set 4.
  */
 public interface Assignment extends Serializable {
 

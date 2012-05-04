@@ -3,6 +3,9 @@ package edu.harvard.cs262.grading.server.services;
 import java.rmi.RemoteException;
 import java.util.Set;
 
+/**
+ * Service for adding and retrieving students
+ */
 public interface StudentService extends Service {
 
 	/**

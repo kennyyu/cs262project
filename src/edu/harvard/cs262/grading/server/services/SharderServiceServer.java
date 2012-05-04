@@ -20,6 +20,9 @@ import com.mongodb.DBObject;
 import com.mongodb.Mongo;
 import com.mongodb.ServerAddress;
 
+/**
+ * An implementation of the SharderService using the a MongoDB backend
+ */
 public class SharderServiceServer implements SharderService {
 
 	static int GRADERS_PER_SUBMISSION = 2;

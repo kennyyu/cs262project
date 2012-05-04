@@ -3,6 +3,9 @@ package edu.harvard.cs262.grading.server.services;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
+/**
+ * Represents a student submission.
+ */
 public interface Submission extends Serializable {
 
 	/**

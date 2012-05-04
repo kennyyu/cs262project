@@ -19,6 +19,9 @@ import com.mongodb.DBCursor;
 import com.mongodb.MongoException;
 import com.mongodb.ServerAddress;
 
+/**
+ * A MongoDB implementation of the GradeStorageService
+ */
 public class MongoGradeStorageService implements GradeStorageService {
 
 	private Mongo m;

@@ -3,6 +3,9 @@ package edu.harvard.cs262.grading.server.services;
 import java.rmi.RemoteException;
 import java.util.Set;
 
+/**
+ * Service for persistent storage of assignments.
+ */
 public interface AssignmentStorageService extends Service {
 
 	/**
