@@ -73,3 +73,16 @@ test: all classes
 
 	kill -9 $$(ps ax | grep -e "${MONGO}" | grep -v grep | awk '{print $$1}')
 	rm -rf $(DB)
+
+# these tests expect a mongod to already be running on port 27017 locally
+# using --dbpath=dbtest
+# these tests do NOT clean up after themselves--the mongod will still run
+seastest: all classes
+	$(JC) -cp $(LIB):$(CLASSPATH) -sourcepath $(TESTPATH) \
+		-d $(CLASSPATH) $(TEST)
+
+	java -cp lib/emma.jar emmarun -r html \
+		-filter +$(PACKAGE).server.*,+$(PACKAGE).client.* \
+		-sourcepath $(SRCPATH):$(TESTPATH) \
+		-cp $(LIB):$(CLASSPATH) \
+		org.junit.runner.JUnitCore $(TESTCASES)

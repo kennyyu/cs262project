@@ -31,6 +31,9 @@ To compile:
 To compile, execute:
     $ make
 
+We are using Javac 1.6. You must use a 64-bit machine, 64-bit OS, and 64-bit version
+of MongoDB.
+
 To run tests + generate code coverage report:
 ============================================
 Tests require JUnit installed. To compile and run the JUnit tests, execute:
@@ -38,6 +41,19 @@ Tests require JUnit installed. To compile and run the JUnit tests, execute:
 
 Note: mongod must be in your PATH
 The code coverage report will be generated as html files in the coverage/ directory
+
+To run tests on seas:
+====================
+1) make a directory in the cs262project director:
+   $ mkdir dbtest
+
+2) run mongod:
+   $ mongod --dbpath=dbtest &
+
+3) After mongod has started listening on port 27107, run the tests:
+   $ make seastest
+
+4) after the tests are done, kill the mongod and remove dbtest
 
 Dependencies:
 ============
