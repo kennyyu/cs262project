@@ -57,6 +57,10 @@ clean:
 
 # tests will start mongod, sleep for 5 seconds while starting up, run unit
 # tests, then clean up the database
+#
+# REQUIREMENTS:
+#   64-bit machine, OS, and mongo instance
+#   JDK 1.6 (for emma.jar, code coverage tool)
 test: all classes
 	mkdir $(DB)
 	eval $(MONGO) &
@@ -69,23 +73,6 @@ test: all classes
 		-filter +$(PACKAGE).server.*,+$(PACKAGE).client.* \
 		-sourcepath $(SRCPATH):$(TESTPATH) \
 		-cp $(LIB):$(CLASSPATH) \
-		org.junit.runner.JUnitCore $(TESTCASES)
-
-	kill -9 $$(ps ax | grep -e "${MONGO}" | grep -v grep | awk '{print $$1}')
-	rm -rf $(DB)
-
-# tests will start mongod, sleep for 5 seconds while starting up, run unit
-# tests, then clean up the database
-# this does NOT run emma (code coverage)
-seastest: all classes
-	mkdir $(DB)
-	eval $(MONGO) &
-	sleep 10
-
-	$(JC) -cp $(LIB):$(CLASSPATH) -sourcepath $(TESTPATH) \
-		-d $(CLASSPATH) $(TEST)
-
-	java -cp $(LIB):$(CLASSPATH) \
 		org.junit.runner.JUnitCore $(TESTCASES)
 
 	kill -9 $$(ps ax | grep -e "${MONGO}" | grep -v grep | awk '{print $$1}')
