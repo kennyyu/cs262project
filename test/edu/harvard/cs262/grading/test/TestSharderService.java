@@ -19,7 +19,7 @@ public class TestSharderService {
 		MongoSubmissionStorageService storage = new MongoSubmissionStorageService();
 		storage.init();
 		SharderServiceServer sharder = new SharderServiceServer();
-		sharder.init();
+		sharder.init(true);
 
 		byte[] contents = new byte[42];
 

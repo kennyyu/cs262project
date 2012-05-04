@@ -28,6 +28,15 @@ public class SharderServiceServer implements SharderService {
 
 	private SubmissionStorageService storage;
 
+	public void init(boolean sandbox) throws Exception {
+
+		this.init();
+
+		storage = sandbox ? new MongoSubmissionStorageService() : getStorage();
+		if (sandbox)
+			storage.init();
+	}
+
 	private SubmissionStorageService getStorage() throws RemoteException {
 		ConfigReader config = new ConfigReaderImpl();
 		SubmissionStorageService storage = (SubmissionStorageService) ServiceLookupUtility
@@ -155,8 +164,7 @@ public class SharderServiceServer implements SharderService {
 		return readShard(shardID);
 	}
 
-	public int getShardID(Assignment assignment) throws RemoteException,
-			NoShardsForAssignmentException {
+	public int getShardID(Assignment assignment) throws RemoteException, NoShardsForAssignmentException {
 		BasicDBObject query = new BasicDBObject();
 		query.put("assignmentID", assignment.assignmentID());
 
@@ -215,7 +223,6 @@ public class SharderServiceServer implements SharderService {
 		m = new Mongo();
 		db = m.getDB("dgs");
 		coll = db.getCollection("shards");
-		storage = getStorage();
 
 	}
 
@@ -226,8 +233,8 @@ public class SharderServiceServer implements SharderService {
 	}
 
 	@Override
-	public long putShard(Assignment assignment, Map<Long, Set<Long>> gradermap)
-			throws RemoteException {
+	public long putShard(Assignment assignment,
+			Map<Long, Set<Long>> gradermap) throws RemoteException {
 		Shard shard = new ShardImpl(gradermap);
 		writeShard(shard, assignment);
 
