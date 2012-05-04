@@ -21,6 +21,7 @@ import edu.harvard.cs262.grading.server.services.GradeStorageService;
 import edu.harvard.cs262.grading.server.services.InvalidGraderForStudentException;
 import edu.harvard.cs262.grading.server.services.MongoGradeStorageService;
 import edu.harvard.cs262.grading.server.services.MongoSubmissionStorageService;
+import edu.harvard.cs262.grading.server.services.Score;
 import edu.harvard.cs262.grading.server.services.ScoreImpl;
 import edu.harvard.cs262.grading.server.services.SharderServiceServer;
 import edu.harvard.cs262.grading.server.services.Student;
@@ -163,6 +164,21 @@ public class TestGradeCompilerService {
 		assertTrue(jimGrades.contains(grade2));
 		assertTrue(jimGrades.contains(grade4));
 		assertTrue(jimGrades.contains(grade6));
+		
+		// test score hashcode
+		HashSet<Score> scores = new HashSet<Score>();
+		scores.add(grade1.getScore());
+		scores.add(grade2.getScore());
+		scores.add(grade3.getScore());
+		scores.add(grade4.getScore());
+		scores.add(grade5.getScore());
+		scores.add(grade6.getScore());
+		assertTrue(scores.contains(grade1.getScore()));
+		assertTrue(scores.contains(grade2.getScore()));
+		assertTrue(scores.contains(grade3.getScore()));
+		assertTrue(scores.contains(grade4.getScore()));
+		assertTrue(scores.contains(grade5.getScore()));
+		assertTrue(scores.contains(grade6.getScore()));
 	}
 
 }

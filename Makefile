@@ -25,7 +25,6 @@ TESTPATH = test
 TEST = $(TESTPATH)/$(PROJECTDIR)/test/*
 TESTPACKAGE = $(PACKAGE).test
 TESTCASES = \
-	$(TESTPACKAGE).TestDummy \
 	$(TESTPACKAGE).TestConfigReader \
 	$(TESTPACKAGE).TestSharderService \
 	$(TESTPACKAGE).TestStudentService \
