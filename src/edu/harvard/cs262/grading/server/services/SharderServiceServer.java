@@ -113,9 +113,9 @@ public class SharderServiceServer implements SharderService {
 			canStillGrade.put(s, GRADERS_PER_SUBMISSION);
 		}
 		boolean done = false;
-		outer:
 		while (!done) {
 			shard = new ShardImpl();
+			outer:
 			for (Submission s : submissions) {
 				for (int i = 0; i < GRADERS_PER_SUBMISSION; i++) {
 					if (canStillGrade.isEmpty())
