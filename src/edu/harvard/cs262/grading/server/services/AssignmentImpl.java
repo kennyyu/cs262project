@@ -16,7 +16,7 @@ public class AssignmentImpl implements Assignment {
 	}
 
 	public AssignmentImpl(long ID) {
-		new AssignmentImpl(ID, "");
+		this(ID, "");
 	}
 
 	public AssignmentImpl(long long1, String desc) {

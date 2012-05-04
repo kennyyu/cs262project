@@ -6,6 +6,7 @@ import org.junit.Test;
 import edu.harvard.cs262.grading.server.services.Assignment;
 import edu.harvard.cs262.grading.server.services.AssignmentImpl;
 import edu.harvard.cs262.grading.server.services.MongoSubmissionStorageService;
+import edu.harvard.cs262.grading.server.services.NoShardsForAssignmentException;
 import edu.harvard.cs262.grading.server.services.Shard;
 import edu.harvard.cs262.grading.server.services.SharderServiceServer;
 import edu.harvard.cs262.grading.server.services.StudentImpl;
@@ -33,9 +34,20 @@ public class TestSharderService {
 
 		Shard shard = sharder.generateShard(assn);
 
-		assertTrue(true);
-
 		assertTrue(shard.getShard().containsKey(0L));
 		assertTrue(shard.getShard().get(0L).contains(1L));
+		
+		assertTrue(sharder.getShard(shard.shardID()).equals(shard));
+		
+		assertTrue(sharder.getShardID(assn) == shard.shardID());
+		
+		try {
+			System.out.println(sharder.getShardID(new AssignmentImpl(1874298374L)));
+			fail();
+		}
+		catch (NoShardsForAssignmentException e) {
+			assertTrue(true);
+		}
+		
 	}
 }
