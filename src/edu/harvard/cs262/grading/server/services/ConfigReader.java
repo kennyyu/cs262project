@@ -9,7 +9,7 @@ public interface ConfigReader {
 
 	/**
 	 * @param service
-	 * 				The name of the service to lookup in the config file
+	 *            The name of the service to lookup in the config file
 	 * @return the list of registries containing this service
 	 */
 	public List<String> getRegistryLocations(String service);

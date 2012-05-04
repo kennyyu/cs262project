@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.Date;
 
 /**
- * An implementation of the Submission interface 
+ * An implementation of the Submission interface
  */
 public class SubmissionImpl implements Submission {
 

@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- *  An implementation of the shard interface
+ * An implementation of the shard interface
  */
 public class ShardImpl implements Shard {
 

@@ -62,13 +62,13 @@ public class AssignmentStorageServiceServer implements AssignmentStorageService 
 	@Override
 	public void init() throws Exception {
 		ConfigReader config = new ConfigReaderImpl();
-		List<String> servers = config.getRegistryLocations("AssignmentStorageServiceDB");
+		List<String> servers = config
+				.getRegistryLocations("AssignmentStorageServiceDB");
 		List<ServerAddress> addrs = new ArrayList<ServerAddress>();
-		for (String server : servers)
-		{
+		for (String server : servers) {
 			int split = server.indexOf(":");
 			String host = server.substring(0, split);
-			int port = Integer.parseInt(server.substring(split+1));
+			int port = Integer.parseInt(server.substring(split + 1));
 			addrs.add(new ServerAddress(host, port));
 		}
 		m = new Mongo(addrs);

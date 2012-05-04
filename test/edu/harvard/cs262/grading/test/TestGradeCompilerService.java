@@ -108,8 +108,8 @@ public class TestGradeCompilerService {
 
 		// instantiate a sandboxed grade compiler service
 		GradeCompilerService service = new GradeCompilerServiceServer();
-		service = new GradeCompilerServiceServer(
-				gradeStorage, submissionStorage, sharder);
+		service = new GradeCompilerServiceServer(gradeStorage,
+				submissionStorage, sharder);
 		service.init();
 		service.heartbeat();
 
@@ -164,7 +164,7 @@ public class TestGradeCompilerService {
 		assertTrue(jimGrades.contains(grade2));
 		assertTrue(jimGrades.contains(grade4));
 		assertTrue(jimGrades.contains(grade6));
-		
+
 		// test score hashcode
 		HashSet<Score> scores = new HashSet<Score>();
 		scores.add(grade1.getScore());

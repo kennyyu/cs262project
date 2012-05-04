@@ -38,18 +38,18 @@ public class TestSharderService {
 
 		assertTrue(shard.getShard().containsKey(0L));
 		assertTrue(shard.getShard().get(0L).contains(1L));
-		
+
 		assertTrue(sharder.getShard(shard.shardID()).equals(shard));
-		
+
 		assertTrue(sharder.getShardID(assn) == shard.shardID());
-		
+
 		try {
-			System.out.println(sharder.getShardID(new AssignmentImpl(1874298374L)));
+			System.out.println(sharder.getShardID(new AssignmentImpl(
+					1874298374L)));
 			fail();
-		}
-		catch (NoShardsForAssignmentException e) {
+		} catch (NoShardsForAssignmentException e) {
 			assertTrue(true);
 		}
-		
+
 	}
 }
