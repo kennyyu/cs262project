@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.Random;
+import java.util.Set;
 
 import javax.sql.rowset.serial.SerialException;
 
@@ -74,5 +75,37 @@ public class TestSubmissionStorageService {
 		// XXX: I don't know why getTimeStamp is deprecated.
 		sub.getTimeStamp().setHours((sub.getTimeStamp().getHours()+1)%24);
 		assertTrue(service.getSubmission(student, assn, sub.getTimeStamp()) == null);
+		
+		Set<Submission> submissions = service.getSubmissions(student, assn);
+		Set<Submission> studentWork = service.getStudentWork(student);
+		assertTrue(submissions.size() == 1);
+		assertTrue(studentWork.size() == 1);
+		
+		// Another submission for the same (student, assn)
+		Submission sub2 = new SubmissionImpl(student, assn, b);
+		service.storeSubmission(sub2);
+		submissions = service.getSubmissions(student, assn);
+		studentWork = service.getStudentWork(student);
+		assertTrue(submissions.size() == 2);
+		assertTrue(studentWork.size() == 2);
+		
+		
+		// Different student, same assignment
+		Submission sub3 = new SubmissionImpl(new StudentImpl(60), assn, b);
+		service.storeSubmission(sub3);
+		submissions = service.getSubmissions(student, assn);
+		studentWork = service.getStudentWork(student);
+		assertTrue(submissions.size() == 2);
+		assertTrue(studentWork.size() == 2);
+		
+		// Different assignment, same student
+		Submission sub4 = new SubmissionImpl(student, new AssignmentImpl(55), b);
+		service.storeSubmission(sub4);
+		submissions = service.getSubmissions(student, assn);
+		studentWork = service.getStudentWork(student);
+		assertTrue(submissions.size() == 2);
+		assertTrue(studentWork.size() == 3);
+		
+		
 	}
 }
