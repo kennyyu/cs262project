@@ -35,11 +35,11 @@ public class TestGradeStorageService {
 		byte[] content = new byte[42];
 
 		Submission sub1 = new SubmissionImpl(new StudentImpl(0),
-				new AssignmentImpl(), content);
+				new AssignmentImpl(59), content);
 
 		// Oh no, they submitted the same assignment! Plagiarism!
 		Submission sub2 = new SubmissionImpl(new StudentImpl(1),
-				new AssignmentImpl(), content);
+				new AssignmentImpl(59), content);
 
 		Student grader1 = new StudentImpl(2);
 		Student grader2 = new StudentImpl(3);

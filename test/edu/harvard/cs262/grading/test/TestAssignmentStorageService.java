@@ -25,11 +25,11 @@ public class TestAssignmentStorageService {
 		service.init();
 		service.heartbeat();
 
-		service.addNewAssignment(0, "Description1");
-		service.addNewAssignment(1, "Description2");
+		service.addNewAssignment(90, "Description1");
+		service.addNewAssignment(91, "Description2");
 
-		Assignment assn0 = new AssignmentImpl(0, "Description1");
-		Assignment assn1 = new AssignmentImpl(1, "Description2");
+		Assignment assn0 = new AssignmentImpl(90, "Description1");
+		Assignment assn1 = new AssignmentImpl(91, "Description2");
 
 		Set<Assignment> assignments = service.getAssignments();
 
