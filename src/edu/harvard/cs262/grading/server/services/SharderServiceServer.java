@@ -105,38 +105,43 @@ public class SharderServiceServer implements SharderService {
 
 	public Shard assign(Set<Student> students, Set<Submission> submissions)
 			throws RemoteException {
-		ShardImpl shard = new ShardImpl();
 
+		ShardImpl shard = null;
 		Random rand = new Random();
 		Map<Student, Integer> canStillGrade = new LinkedHashMap<Student, Integer>();
 		for (Student s : students) {
 			canStillGrade.put(s, GRADERS_PER_SUBMISSION);
 		}
-
-		for (Submission s : submissions) {
-			for (int i = 0; i < GRADERS_PER_SUBMISSION; i++) {
-				if (canStillGrade.isEmpty())
-					throw new RemoteException("Can't find enough graders");
-				if ((canStillGrade.size() == 1)
-						&& canStillGrade.containsKey(s.getStudent())) {
-					return assign(students, submissions);
-				}
-				// This could loop infinitely if canStillGrade.size() == 1 
-				//              && canStillGrade.containsKey(s.getStudent())
-				// So, the above if-statement gives up and tries again if we get to that
-				// case (the case where we only have one person left who can grade, and it's
-				// the student in question
-				Student grader = s.getStudent();
-				while (grader.equals(s.getStudent()))
-					grader = (Student) canStillGrade.keySet().toArray()[rand
-							.nextInt(canStillGrade.size())];
-				shard.addGrader(grader.studentID(), s.getStudent().studentID());
-				if (canStillGrade.get(grader) == 1) {
-					canStillGrade.remove(grader);
-				} else {
-					canStillGrade.put(grader, canStillGrade.get(grader) - 1);
+		boolean done = false;
+		outer:
+		while (!done) {
+			shard = new ShardImpl();
+			for (Submission s : submissions) {
+				for (int i = 0; i < GRADERS_PER_SUBMISSION; i++) {
+					if (canStillGrade.isEmpty())
+						throw new RemoteException("Can't find enough graders");
+					if ((canStillGrade.size() == 1)
+							&& canStillGrade.containsKey(s.getStudent())) {
+						break outer;
+					}
+					Student grader = s.getStudent();
+					// This could loop infinitely if canStillGrade.size() == 1 
+					//              && canStillGrade.containsKey(s.getStudent())
+					// So, the above if-statement gives up and tries again if we get to that
+					// case (the case where we only have one person left who can grade, and it's
+					// the student in question
+					while (grader.equals(s.getStudent()))
+						grader = (Student) canStillGrade.keySet().toArray()[rand
+								.nextInt(canStillGrade.size())];
+					shard.addGrader(grader.studentID(), s.getStudent().studentID());
+					if (canStillGrade.get(grader) == 1) {
+						canStillGrade.remove(grader);
+					} else {
+						canStillGrade.put(grader, canStillGrade.get(grader) - 1);
+					}
 				}
 			}
+			done = true;
 		}
 
 		return shard;
