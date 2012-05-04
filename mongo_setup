@@ -4,10 +4,10 @@ mkdir $2
 mkdir $3
 mkdir $4
 
-./mongod --replSet $1 --port $2 --dbpath $2 &
-./mongod --replSet $1 --port $3 --dbpath $3 &
-./mongod --replSet $1 --port $4 --dbpath $4 &
+mongod --replSet $1 --port $2 --dbpath $2 &
+mongod --replSet $1 --port $3 --dbpath $3 &
+mongod --replSet $1 --port $4 --dbpath $4 &
 
 sleep 3
 
-./mongo localhost:$2 --eval "rs.initiate({_id: '$1', members: [{_id: 0, host: 'localhost:$2'},{_id: 1, host: 'localhost:$3'},{_id: 2, host: 'localhost:$4'}]});"
+mongo localhost:$2 --eval "rs.initiate({_id: '$1', members: [{_id: 0, host: 'localhost:$2'},{_id: 1, host: 'localhost:$3'},{_id: 2, host: 'localhost:$4'}]});"

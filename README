@@ -82,14 +82,7 @@ as the script for storing the databases.
 
 We can run the same script 5 times for the 5 or so databases that we need.
 
-***CURRENT ISSUE***:
-===================
-
-I don't have mongo actually installed on my (Willie's) machine... so I've been
-running it in the folder with the mongo binary. So for the "mongo_setup" script
-to work for everyone, we may have to add the path of where mongo is installed. If
-you have installed mongo correctly though, I suspect you can just delete all the "./"
-in the file and make it work that way.
+Be sure to set your path to mongo.
 
 Detailed instructions (that can be ignored) below:
 =================================================
