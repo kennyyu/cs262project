@@ -34,8 +34,11 @@ public class TestSharderService {
 		storage.storeSubmission(s0);
 		storage.storeSubmission(s1);
 
-		Shard shard = sharder.generateShard(assn);
+		assertTrue(storage.getAllSubmissions(assn).contains(s0));
+		assertTrue(storage.getAllSubmissions(assn).contains(s1));
 
+		Shard shard = sharder.generateShard(assn);
+		System.out.println(shard.getShard());
 		assertTrue(shard.getShard().containsKey(400L));
 		assertTrue(shard.getShard().get(400L).contains(401L));
 

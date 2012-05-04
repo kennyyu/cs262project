@@ -118,6 +118,7 @@ public class SharderServiceServer implements SharderService {
 			shard = new ShardImpl();
 			for (Submission s : submissions) {
 				for (int i = 0; i < GRADERS_PER_SUBMISSION; i++) {
+					System.out.println(shard);
 					if (canStillGrade.isEmpty())
 						throw new RemoteException("Can't find enough graders");
 					if ((canStillGrade.size() == 1)
