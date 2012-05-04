@@ -13,6 +13,11 @@ import javax.servlet.http.HttpServlet;
  *
  */
 public class StudentGetGradingAssignments extends HttpServlet {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5154245667051633936L;
 	
 	//TODO
 
