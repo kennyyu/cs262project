@@ -1,1 +1,5 @@
+edu.harvard.cs262.grading.client.cmdline
+edu.harvard.cs262.grading.client.web
+edu.harvard.cs262.grading.server.services
+edu.harvard.cs262.grading.server.web
 edu.harvard.cs262.grading.test
