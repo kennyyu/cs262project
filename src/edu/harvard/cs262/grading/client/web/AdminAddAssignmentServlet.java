@@ -56,23 +56,22 @@ public class AdminAddAssignmentServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		// get posted parameters (may have to update parameter names)
-		String rawDescription = request
-				.getParameter("description");
+		String rawDescription = request.getParameter("description");
 
 		if (rawDescription == null) {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST,
 					"parameters not set");
 		} else {
-			
+
 			int assignmentID = assignmentService.getAssignments().size();
-			
+
 			assignmentService.addNewAssignment(assignmentID, rawDescription);
 
 			// generate assignment ID
 			response.setContentType("text/plain");
 			response.setCharacterEncoding("UTF-8");
 			response.getWriter().write(String.valueOf(assignmentID));
-			
+
 		}
 
 	}

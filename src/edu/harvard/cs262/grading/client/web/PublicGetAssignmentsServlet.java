@@ -60,15 +60,15 @@ public class PublicGetAssignmentsServlet extends HttpServlet {
 
 		// get assignments from storage services
 		Set<Assignment> assignments = assignmentStorage.getAssignments();
-		
+
 		// build response
 		response.setContentType("text/Javascript");
 		response.setCharacterEncoding("UTF-8");
-		
+
 		StringBuilder json = new StringBuilder("{\"assignments\":[");
 		boolean addComma = false;
-		for(Assignment a : assignments) {
-			if(addComma) {
+		for (Assignment a : assignments) {
+			if (addComma) {
 				json.append(",");
 			} else {
 				addComma = true;
@@ -78,11 +78,11 @@ public class PublicGetAssignmentsServlet extends HttpServlet {
 			json.append(",\"description\":\"");
 			json.append(a.description());
 			json.append("\"}");
- 		}
+		}
 		json.append("]}");
-		
+
 		response.getWriter().write(json.toString());
-		
+
 	}
-	
+
 }

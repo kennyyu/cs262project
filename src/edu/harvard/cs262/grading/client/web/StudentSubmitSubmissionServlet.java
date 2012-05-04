@@ -77,7 +77,7 @@ public class StudentSubmitSubmissionServlet extends HttpServlet {
 			try {
 				long studentID = Long.parseLong(rawStudent);
 				long assignmentID = Long.parseLong(rawAssignment);
-				Assignment assignment = new AssignmentImpl(assignmentID,"");
+				Assignment assignment = new AssignmentImpl(assignmentID, "");
 				Student student = new StudentImpl(studentID);
 
 				submission = new SubmissionImpl(student, assignment,

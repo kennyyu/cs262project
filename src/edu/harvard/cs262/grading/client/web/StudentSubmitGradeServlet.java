@@ -105,7 +105,7 @@ public class StudentSubmitGradeServlet extends HttpServlet {
 				Score score = new ScoreImpl(scoreValue, scoreValue);
 				Student grader = new StudentImpl(graderID);
 				Student student = new StudentImpl(studentID);
-				Assignment assignment = new AssignmentImpl(assignmentID,"");
+				Assignment assignment = new AssignmentImpl(assignmentID, "");
 
 				Submission submission = submissionStorage.getLatestSubmission(
 						student, assignment);
@@ -138,11 +138,11 @@ public class StudentSubmitGradeServlet extends HttpServlet {
 				e.printStackTrace();
 			} catch (InvalidGraderForStudentException e) {
 				response.sendError(HttpServletResponse.SC_BAD_REQUEST,
-				"grader not assigned to grade that student");
+						"grader not assigned to grade that student");
 				e.printStackTrace();
 			} catch (NoShardsForAssignmentException e) {
 				response.sendError(HttpServletResponse.SC_BAD_REQUEST,
-				"assignment has no shards");
+						"assignment has no shards");
 			}
 		}
 	}

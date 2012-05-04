@@ -117,8 +117,8 @@ public class AdminGetGradesServlet extends HttpServlet {
 			// try to convert parameters into usable format
 			try {
 				Long assignmentID = Long.parseLong(rawAssignment);
-				Assignment assignment = new AssignmentImpl(assignmentID,"");
-				
+				Assignment assignment = new AssignmentImpl(assignmentID, "");
+
 				// get students
 				Set<Student> students = studentService.getStudents();
 
@@ -126,50 +126,53 @@ public class AdminGetGradesServlet extends HttpServlet {
 				// grade pertaining to the latest
 				// submission
 
-	    		// start building response text
-	    		StringBuilder responseBuilder = new StringBuilder("{\"submissions\":[");
-		    	
-	    		// iterate over students
-	    		boolean addComma = false;
-		    	for(Student student : students){
-	    			if(addComma) {
-	    				responseBuilder.append(",");
-	    			} else {
-	    				addComma = true;
-	    			}
+				// start building response text
+				StringBuilder responseBuilder = new StringBuilder(
+						"{\"submissions\":[");
+
+				// iterate over students
+				boolean addComma = false;
+				for (Student student : students) {
+					if (addComma) {
+						responseBuilder.append(",");
+					} else {
+						addComma = true;
+					}
 
 					Submission submission = submissionStorage
 							.getLatestSubmission(student, assignment);
-    				responseBuilder.append("{\"student\":");
-    				responseBuilder.append(student.studentID());
-    				responseBuilder.append(",\"timestamp\":\"");
-    				responseBuilder.append(submission == null? "" : submission.getTimeStamp());
-    				responseBuilder.append("\",\"grades\":[");
-    				if(submission != null) {	// get grades for submission
-    	    			List<Grade> grades = gradeService.getGrade(submission);
-    	    			ListIterator<Grade> gradeIter = grades.listIterator();
-	    	    		boolean addInnerComma = false;
-		    			while(gradeIter.hasNext()) {
-			    			if(addInnerComma) {
-			    				responseBuilder.append(",");
-			    			} else {
-			    				addInnerComma = true;
-			    			}
-		    				Grade grade = gradeIter.next();
-		    				responseBuilder.append("{\"grader\":");
-		    				responseBuilder.append(grade.getGrader().studentID());
+					responseBuilder.append("{\"student\":");
+					responseBuilder.append(student.studentID());
+					responseBuilder.append(",\"timestamp\":\"");
+					responseBuilder.append(submission == null ? "" : submission
+							.getTimeStamp());
+					responseBuilder.append("\",\"grades\":[");
+					if (submission != null) { // get grades for submission
+						List<Grade> grades = gradeService.getGrade(submission);
+						ListIterator<Grade> gradeIter = grades.listIterator();
+						boolean addInnerComma = false;
+						while (gradeIter.hasNext()) {
+							if (addInnerComma) {
+								responseBuilder.append(",");
+							} else {
+								addInnerComma = true;
+							}
+							Grade grade = gradeIter.next();
+							responseBuilder.append("{\"grader\":");
+							responseBuilder.append(grade.getGrader()
+									.studentID());
 							responseBuilder.append(",\"score\":\"");
 							responseBuilder.append(grade.getScore().getScore()
 									+ "/" + grade.getScore().maxScore());
 							responseBuilder.append("\"}");
-		    			}
-    				}
-    				responseBuilder.append("]}");
-    				
-		   		}
-		    	
-		    	// finish response and send
-	    		responseBuilder.append("]}");
+						}
+					}
+					responseBuilder.append("]}");
+
+				}
+
+				// finish response and send
+				responseBuilder.append("]}");
 
 				response.setContentType("text/Javascript");
 				response.setCharacterEncoding("UTF-8");

@@ -164,7 +164,8 @@ public class SharderServiceServer implements SharderService {
 		return readShard(shardID);
 	}
 
-	public int getShardID(Assignment assignment) throws RemoteException, NoShardsForAssignmentException {
+	public int getShardID(Assignment assignment) throws RemoteException,
+			NoShardsForAssignmentException {
 		BasicDBObject query = new BasicDBObject();
 		query.put("assignmentID", assignment.assignmentID());
 
@@ -233,8 +234,8 @@ public class SharderServiceServer implements SharderService {
 	}
 
 	@Override
-	public long putShard(Assignment assignment,
-			Map<Long, Set<Long>> gradermap) throws RemoteException {
+	public long putShard(Assignment assignment, Map<Long, Set<Long>> gradermap)
+			throws RemoteException {
 		Shard shard = new ShardImpl(gradermap);
 		writeShard(shard, assignment);
 

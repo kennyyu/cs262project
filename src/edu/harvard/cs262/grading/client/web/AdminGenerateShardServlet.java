@@ -82,8 +82,10 @@ public class AdminGenerateShardServlet extends HttpServlet {
 
 				boolean addComma = false;
 				for (Long grader : sharding.keySet()) {
-					if(addComma) responseBuilder.append(",");
-					else addComma = true;
+					if (addComma)
+						responseBuilder.append(",");
+					else
+						addComma = true;
 					responseBuilder.append("{\"grader\":");
 					responseBuilder.append(grader);
 					responseBuilder.append(",\"gradees\":[");
@@ -99,8 +101,7 @@ public class AdminGenerateShardServlet extends HttpServlet {
 				response.setContentType("text/Javascript");
 				response.setCharacterEncoding("UTF-8");
 				response.getWriter().write(responseBuilder.toString());
-				
-				
+
 			} catch (NumberFormatException e) {
 				response.sendError(HttpServletResponse.SC_BAD_REQUEST,
 						"invalid values given");

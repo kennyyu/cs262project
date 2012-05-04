@@ -24,7 +24,7 @@ import edu.harvard.cs262.grading.server.services.SubmissionStorageService;
 import edu.harvard.cs262.grading.server.web.ServletConfigReader;
 
 public class PublicGetGradesServlet extends HttpServlet {
-	
+
 	/**
 	 * 
 	 */
@@ -32,19 +32,25 @@ public class PublicGetGradesServlet extends HttpServlet {
 	private GradeStorageService gradeService;
 	private StudentService studentService;
 	private SubmissionStorageService submissionStorage;
-    
-    public void lookupServices() {
-    
-        try {
-        	// get reference to database service
-        	gradeService = (GradeStorageService) ServiceLookupUtility.lookupService(new ServletConfigReader(this.getServletContext()), "GradeStorageService");
-        } catch (RemoteException e) {
-        	e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (NullPointerException e) {
-        	e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
-		if(gradeService == null) {
-			System.err.println("StudentGetGradesServlet: Looking up GradeStorageService failed.");
+
+	public void lookupServices() {
+
+		try {
+			// get reference to database service
+			gradeService = (GradeStorageService) ServiceLookupUtility
+					.lookupService(
+							new ServletConfigReader(this.getServletContext()),
+							"GradeStorageService");
+		} catch (RemoteException e) {
+			e.printStackTrace(); // To change body of catch statement use File |
+									// Settings | File Templates.
+		} catch (NullPointerException e) {
+			e.printStackTrace(); // To change body of catch statement use File |
+									// Settings | File Templates.
+		}
+		if (gradeService == null) {
+			System.err
+					.println("StudentGetGradesServlet: Looking up GradeStorageService failed.");
 		}
 
 		try {
@@ -80,35 +86,35 @@ public class PublicGetGradesServlet extends HttpServlet {
 		if (submissionStorage == null) {
 			System.err.println("Looking up SubmissionStorageService failed.");
 		}
-    	
-    }
 
-    public void init(ServletConfig config) throws ServletException {
+	}
 
-        super.init(config);
-        
-        lookupServices();
+	public void init(ServletConfig config) throws ServletException {
 
-    }
+		super.init(config);
 
-    public void doPost(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
-    	
-    	// get posted parameters
-    	String rawAssignment = request.getParameter("assignment");
-    	
-    	// attempt to get corresponding grade
-    	if(rawAssignment == null) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST,
-                    "parameters not set");
-    	} else {
-    	
-	    	try{
-	    		
-	    		// check parameters and convert into proper format
-		    	Long assignmentID = Long.parseLong(rawAssignment);
-		    	Assignment assignment = new AssignmentImpl(assignmentID,"");
-				
+		lookupServices();
+
+	}
+
+	public void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		// get posted parameters
+		String rawAssignment = request.getParameter("assignment");
+
+		// attempt to get corresponding grade
+		if (rawAssignment == null) {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST,
+					"parameters not set");
+		} else {
+
+			try {
+
+				// check parameters and convert into proper format
+				Long assignmentID = Long.parseLong(rawAssignment);
+				Assignment assignment = new AssignmentImpl(assignmentID, "");
+
 				// get students
 				Set<Student> students = studentService.getStudents();
 
@@ -116,65 +122,69 @@ public class PublicGetGradesServlet extends HttpServlet {
 				// grade pertaining to the latest
 				// submission
 
-	    		// start building response text
-	    		StringBuilder responseBuilder = new StringBuilder("{\"submissions\":[");
-		    	
-	    		// iterate over students
-	    		boolean addComma = false;
-		    	for(Student student : students){
-	    			if(addComma) {
-	    				responseBuilder.append(",");
-	    			} else {
-	    				addComma = true;
-	    			}
+				// start building response text
+				StringBuilder responseBuilder = new StringBuilder(
+						"{\"submissions\":[");
+
+				// iterate over students
+				boolean addComma = false;
+				for (Student student : students) {
+					if (addComma) {
+						responseBuilder.append(",");
+					} else {
+						addComma = true;
+					}
 
 					Submission submission = submissionStorage
 							.getLatestSubmission(student, assignment);
-    				responseBuilder.append("{\"student\":");
-    				responseBuilder.append(student.studentID());
-    				responseBuilder.append(",\"timestamp\":\"");
-    				responseBuilder.append(submission == null? "" : submission.getTimeStamp());
-    				responseBuilder.append("\",\"grades\":[");
-    				if(submission != null) {	// get grades for submission
-    	    			List<Grade> grades = gradeService.getGrade(submission);
-    	    			ListIterator<Grade> gradeIter = grades.listIterator();
-	    	    		boolean addInnerComma = false;
-		    			while(gradeIter.hasNext()) {
-			    			if(addInnerComma) {
-			    				responseBuilder.append(",");
-			    			} else {
-			    				addInnerComma = true;
-			    			}
-		    				Grade grade = gradeIter.next();
-		    				responseBuilder.append("{\"grader\":");
-		    				responseBuilder.append(grade.getGrader().studentID());
+					responseBuilder.append("{\"student\":");
+					responseBuilder.append(student.studentID());
+					responseBuilder.append(",\"timestamp\":\"");
+					responseBuilder.append(submission == null ? "" : submission
+							.getTimeStamp());
+					responseBuilder.append("\",\"grades\":[");
+					if (submission != null) { // get grades for submission
+						List<Grade> grades = gradeService.getGrade(submission);
+						ListIterator<Grade> gradeIter = grades.listIterator();
+						boolean addInnerComma = false;
+						while (gradeIter.hasNext()) {
+							if (addInnerComma) {
+								responseBuilder.append(",");
+							} else {
+								addInnerComma = true;
+							}
+							Grade grade = gradeIter.next();
+							responseBuilder.append("{\"grader\":");
+							responseBuilder.append(grade.getGrader()
+									.studentID());
 							responseBuilder.append(",\"score\":\"");
 							responseBuilder.append(grade.getScore().getScore()
 									+ "/" + grade.getScore().maxScore());
 							responseBuilder.append("\"}");
-		    			}
-    				}
-    				responseBuilder.append("]}");
-    				
-		   		}
-		    	
-		    	// finish response and send
-	    		responseBuilder.append("]}");
+						}
+					}
+					responseBuilder.append("]}");
+
+				}
+
+				// finish response and send
+				responseBuilder.append("]}");
 
 				response.setContentType("text/Javascript");
 				response.setCharacterEncoding("UTF-8");
 				response.getWriter().write(responseBuilder.toString());
-	    		
-	    	} catch (NumberFormatException e){
-	            response.sendError(HttpServletResponse.SC_BAD_REQUEST,
-	                    "invalid values given");
-	    	} catch (NullPointerException e) {
-	    		response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-	    				"grade retrieval failed");
-	    		e.printStackTrace();
-	    	}
-	    
-    	}
-    }
+
+			} catch (NumberFormatException e) {
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST,
+						"invalid values given");
+			} catch (NullPointerException e) {
+				response.sendError(
+						HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+						"grade retrieval failed");
+				e.printStackTrace();
+			}
+
+		}
+	}
 
 }

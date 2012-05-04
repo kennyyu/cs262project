@@ -116,14 +116,16 @@ public class StudentGetGradesServlet extends HttpServlet {
 			try {
 				Integer studentID = Integer.parseInt(rawStudent);
 				Student student = new StudentImpl(studentID);
-				
-				Set<Assignment> allAssignments = assignmentStorage.getAssignments();
+
+				Set<Assignment> allAssignments = assignmentStorage
+						.getAssignments();
 
 				// iterate over assignments
-				StringBuilder responseBuilder = new StringBuilder("{\"grades\":[");
+				StringBuilder responseBuilder = new StringBuilder(
+						"{\"grades\":[");
 				boolean addComma = false;
 				for (Assignment assignment : allAssignments) {
-					if(addComma) {
+					if (addComma) {
 						responseBuilder.append(",");
 					} else {
 						addComma = true;
@@ -139,8 +141,9 @@ public class StudentGetGradesServlet extends HttpServlet {
 							.getLatestSubmission(student, assignment);
 
 					// check if the student has a submission for the assignment
-					if(submission == null) {
-						responseBuilder.append(",\"submissionTimestamp\":\"\",\"grades\":[]}");
+					if (submission == null) {
+						responseBuilder
+								.append(",\"submissionTimestamp\":\"\",\"grades\":[]}");
 					} else {
 						List<Grade> grades = gradeStorage.getGrade(submission);
 						responseBuilder.append(",\"submissionTimestamp\":\"");
@@ -148,23 +151,27 @@ public class StudentGetGradesServlet extends HttpServlet {
 						responseBuilder.append("\",\"grades\":[");
 						boolean addInnerComma = false;
 						if (grades != null) {
-							ListIterator<Grade> gradeIter = grades.listIterator();
+							ListIterator<Grade> gradeIter = grades
+									.listIterator();
 							while (gradeIter.hasNext()) {
-								if(addInnerComma) {
+								if (addInnerComma) {
 									responseBuilder.append(",");
 								} else {
 									addInnerComma = true;
 								}
 								Grade grade = gradeIter.next();
 								responseBuilder.append("{\"grader\":");
-								responseBuilder.append(grade.getGrader().studentID());
+								responseBuilder.append(grade.getGrader()
+										.studentID());
 								responseBuilder.append(",\"score\":\"");
-								responseBuilder.append(grade.getScore().getScore()
-										+ "/" + grade.getScore().maxScore());
+								responseBuilder.append(grade.getScore()
+										.getScore()
+										+ "/"
+										+ grade.getScore().maxScore());
 								responseBuilder.append("\"}");
 							}
 						}
-						responseBuilder.append("]}");	// end assignment
+						responseBuilder.append("]}"); // end assignment
 					}
 				}
 
