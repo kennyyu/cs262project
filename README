@@ -31,12 +31,13 @@ To compile:
 To compile, execute:
     $ make
 
-To run tests:
-============
+To run tests + generate code coverage report:
+============================================
 Tests require JUnit installed. To compile and run the JUnit tests, execute:
     $ make test
 
 Note: mongod must be in your PATH
+The code coverage report will be generated as html files in the coverage/ directory
 
 Dependencies:
 ============
