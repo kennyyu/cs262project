@@ -4,7 +4,9 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 import com.mongodb.BasicDBObject;
@@ -13,6 +15,7 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.Mongo;
+import com.mongodb.ServerAddress;
 
 public class AssignmentStorageServiceServer implements AssignmentStorageService {
 
@@ -49,7 +52,11 @@ public class AssignmentStorageServiceServer implements AssignmentStorageService 
 
 	@Override
 	public void init() throws Exception {
-		m = new Mongo();
+		List<ServerAddress> addrs = new ArrayList<ServerAddress>();
+		addrs.add(new ServerAddress("127.0.0.1", 21034));
+		addrs.add(new ServerAddress("127.0.0.1", 21035));
+		addrs.add(new ServerAddress("127.0.0.1", 21036));
+		m = new Mongo(addrs);
 		db = m.getDB("dgs");
 		coll = db.getCollection("assignments");
 	}

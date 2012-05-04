@@ -4,6 +4,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -17,6 +18,7 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.Mongo;
+import com.mongodb.ServerAddress;
 
 public class SharderServiceServer implements SharderService {
 
@@ -220,8 +222,17 @@ public class SharderServiceServer implements SharderService {
 
 	@Override
 	public void init() throws Exception {
-
-		m = new Mongo();
+		ConfigReader config = new ConfigReaderImpl();
+		List<String> servers = config.getRegistryLocations("SharderServiceDB");
+		List<ServerAddress> addrs = new ArrayList<ServerAddress>();
+		for (String server : servers)
+		{
+			int split = server.indexOf(":");
+			String host = server.substring(0, split);
+			int port = Integer.parseInt(server.substring(split+1));
+			addrs.add(new ServerAddress(host, port));
+		}
+		m = new Mongo(addrs);
 		db = m.getDB("dgs");
 		coll = db.getCollection("shards");
 

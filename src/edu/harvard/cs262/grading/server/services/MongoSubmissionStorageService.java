@@ -2,6 +2,7 @@ package edu.harvard.cs262.grading.server.services;
 
 import java.net.UnknownHostException;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -18,6 +19,7 @@ import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.BasicDBObject;
 import com.mongodb.MongoException;
+import com.mongodb.ServerAddress;
 
 public class MongoSubmissionStorageService implements SubmissionStorageService {
 
@@ -26,7 +28,11 @@ public class MongoSubmissionStorageService implements SubmissionStorageService {
 	private DBCollection coll;
 
 	public void init() throws UnknownHostException, MongoException {
-		m = new Mongo();
+		List<ServerAddress> addrs = new ArrayList<ServerAddress>();
+		addrs.add(new ServerAddress("127.0.0.1", 21040));
+		addrs.add(new ServerAddress("127.0.0.1", 21041));
+		addrs.add(new ServerAddress("127.0.0.1", 21042));
+		m = new Mongo(addrs);
 		db = m.getDB("dgs");
 		coll = db.getCollection("submissions");
 	}
