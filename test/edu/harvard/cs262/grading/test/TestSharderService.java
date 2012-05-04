@@ -26,10 +26,10 @@ public class TestSharderService {
 
 		byte[] contents = new byte[42];
 
-		Assignment assn = new AssignmentImpl(0);
+		Assignment assn = new AssignmentImpl(0L);
 
-		Submission s0 = new SubmissionImpl(new StudentImpl(0), assn, contents);
-		Submission s1 = new SubmissionImpl(new StudentImpl(1), assn, contents);
+		Submission s0 = new SubmissionImpl(new StudentImpl(0L), assn, contents);
+		Submission s1 = new SubmissionImpl(new StudentImpl(1L), assn, contents);
 
 		storage.storeSubmission(s0);
 		storage.storeSubmission(s1);
