@@ -36,7 +36,7 @@ TESTCASES = \
 
 # location of database files for tests
 DB = dbtest
-MONGO = mongod --dbpath=$(DB)
+MONGO = mongod --dbpath=$(DB) --nojournal
 
 
 ################################################################################
