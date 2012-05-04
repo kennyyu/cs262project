@@ -60,7 +60,7 @@ clean:
 test: all classes
 	mkdir $(DB)
 	eval $(MONGO) &
-	sleep 5
+	sleep 10
 
 	$(JC) -cp $(LIB):$(CLASSPATH) -sourcepath $(TESTPATH) \
 		-d $(CLASSPATH) $(TEST)
