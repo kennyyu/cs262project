@@ -71,8 +71,8 @@ public class TestGradeCompilerService {
 		Assignment assignment = new AssignmentImpl(66, "hw");
 
 		// instantiate a sandboxed submission receiver service
-		SubmissionReceiverService receiver = new SubmissionReceiverServiceServer(
-				submissionStorage);
+		SubmissionReceiverService receiver = new SubmissionReceiverServiceServer();
+		receiver = new SubmissionReceiverServiceServer(submissionStorage);
 		receiver.init();
 		receiver.heartbeat();
 
@@ -106,8 +106,11 @@ public class TestGradeCompilerService {
 		sharder.putShard(assignment, gradermap);
 
 		// instantiate a sandboxed grade compiler service
-		GradeCompilerService service = new GradeCompilerServiceServer(
+		GradeCompilerService service = new GradeCompilerServiceServer();
+		service = new GradeCompilerServiceServer(
 				gradeStorage, submissionStorage, sharder);
+		service.init();
+		service.heartbeat();
 
 		// Willie and Tony grade both Kenny and Jim
 		// Stefan grades Kenny
