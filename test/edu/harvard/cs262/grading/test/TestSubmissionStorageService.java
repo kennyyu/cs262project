@@ -3,6 +3,8 @@ package edu.harvard.cs262.grading.test;
 import java.net.UnknownHostException;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.Arrays;
 import java.util.Random;
 
 import javax.sql.rowset.serial.SerialException;
@@ -43,6 +45,7 @@ public class TestSubmissionStorageService {
 	public void tearDown() throws Exception {
 	}
 
+	@SuppressWarnings("deprecation")
 	@Test
 	public void testMongoInit() throws UnknownHostException, MongoException,
 			SerialException, SQLException, RemoteException {
@@ -62,7 +65,14 @@ public class TestSubmissionStorageService {
 
 		service.storeSubmission(sub);
 
-		assert (service.getLatestSubmission(student, assn).getContents()
-				.equals(contents.getBytes()));
+		assertTrue(Arrays.equals(service.getLatestSubmission(student, assn).getContents(),
+									contents.getBytes()));
+		
+		assertTrue(Arrays.equals(service.getSubmission(student, assn, sub.getTimeStamp()).getContents(),
+									contents.getBytes()));
+		
+		// XXX: I don't know why getTimeStamp is deprecated.
+		sub.getTimeStamp().setHours((sub.getTimeStamp().getHours()+1)%24);
+		assertTrue(service.getSubmission(student, assn, sub.getTimeStamp()) == null);
 	}
 }

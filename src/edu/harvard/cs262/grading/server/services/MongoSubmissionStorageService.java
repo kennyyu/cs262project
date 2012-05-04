@@ -67,9 +67,10 @@ public class MongoSubmissionStorageService implements SubmissionStorageService {
 		query.put("timestamp", timestamp);
 
 		DBObject info = coll.findOne(query);
+		if (info == null) return null;
 
 		Submission submission = new SubmissionImpl(student, assignment,
-				(byte[]) info.get("contents"));
+				(byte[]) info.get("contents"), timestamp);
 
 		return submission;
 	}
