@@ -26,10 +26,16 @@ public class MongoGradeStorageService implements GradeStorageService {
 	private DBCollection coll;
 
 	public void init() throws UnknownHostException, MongoException {
+		ConfigReader config = new ConfigReaderImpl();
+		List<String> servers = config.getRegistryLocations("GradeStorageServiceDB");
 		List<ServerAddress> addrs = new ArrayList<ServerAddress>();
-		addrs.add(new ServerAddress("127.0.0.1", 21037));
-		addrs.add(new ServerAddress("127.0.0.1", 21038));
-		addrs.add(new ServerAddress("127.0.0.1", 21039));
+		for (String server : servers)
+		{
+			int split = server.indexOf(":");
+			String host = server.substring(0, split);
+			int port = Integer.parseInt(server.substring(split+1));
+			addrs.add(new ServerAddress(host, port));
+		}
 		m = new Mongo(addrs);
 		db = m.getDB("dgs");
 		coll = db.getCollection("grades"); // change collection name?
