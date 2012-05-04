@@ -26,26 +26,25 @@ public class TestSharderService {
 
 		byte[] contents = new byte[42];
 
-		Assignment assn = new AssignmentImpl(0L);
+		Assignment assn = new AssignmentImpl(0);
 
-		Submission s0 = new SubmissionImpl(new StudentImpl(0L), assn, contents);
-		Submission s1 = new SubmissionImpl(new StudentImpl(1L), assn, contents);
+		Submission s0 = new SubmissionImpl(new StudentImpl(0), assn, contents);
+		Submission s1 = new SubmissionImpl(new StudentImpl(1), assn, contents);
 
 		storage.storeSubmission(s0);
 		storage.storeSubmission(s1);
 
 		Shard shard = sharder.generateShard(assn);
 
-		assertTrue(shard.getShard().containsKey(0L));
-		assertTrue(shard.getShard().get(0L).contains(1L));
+		assertTrue(shard.getShard().containsKey(0));
+		assertTrue(shard.getShard().get(0).contains(1));
 
 		assertTrue(sharder.getShard(shard.shardID()).equals(shard));
 
 		assertTrue(sharder.getShardID(assn) == shard.shardID());
 
 		try {
-			System.out.println(sharder.getShardID(new AssignmentImpl(
-					1874298374L)));
+			System.out.println(sharder.getShardID(new AssignmentImpl(1874)));
 			fail();
 		} catch (NoShardsForAssignmentException e) {
 			assertTrue(true);
