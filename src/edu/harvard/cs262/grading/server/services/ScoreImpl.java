@@ -1,7 +1,7 @@
 package edu.harvard.cs262.grading.server.services;
 
 /**
- * Implementation of a score
+ * Implementation of the Score interface
  */
 public class ScoreImpl implements Score {
 

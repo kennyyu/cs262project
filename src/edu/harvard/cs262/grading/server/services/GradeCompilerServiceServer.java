@@ -11,6 +11,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * A MongoDB implementation of the GradeCompilerService
+ */
 public class GradeCompilerServiceServer implements GradeCompilerService {
 
 	private ConfigReader config;

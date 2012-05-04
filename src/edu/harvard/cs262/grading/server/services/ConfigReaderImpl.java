@@ -10,6 +10,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+/**
+ * Implementation of the ConfigReader interface
+ */
 public class ConfigReaderImpl implements ConfigReader {
 
 	private static final String DEFAULT_CONFIG = "./config/services.config";

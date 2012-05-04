@@ -3,6 +3,9 @@ package edu.harvard.cs262.grading.server.services;
 import java.sql.Timestamp;
 import java.util.Date;
 
+/**
+ * An implementation of the grade interface
+ */
 public class GradeImpl implements Grade {
 
 	/**

@@ -17,6 +17,9 @@ import com.mongodb.DBObject;
 import com.mongodb.Mongo;
 import com.mongodb.ServerAddress;
 
+/**
+ * A MongoDB implementation of the StudentService interface
+ */
 public class StudentServiceServer implements StudentService {
 
 	private Mongo m;
