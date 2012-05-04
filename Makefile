@@ -77,3 +77,18 @@ test: all classes
 
 	kill -9 $$(ps ax | grep -e "${MONGO}" | grep -v grep | awk '{print $$1}')
 	rm -rf $(DB)
+
+# same as test, but no emma code coverage
+seastest: all classes
+	mkdir $(DB)
+	eval $(MONGO) &
+	sleep 5
+
+	$(JC) -cp $(LIB):$(CLASSPATH) -sourcepath $(TESTPATH) \
+		-d $(CLASSPATH) $(TEST)
+
+	java -cp $(LIB):$(CLASSPATH) \
+		org.junit.runner.JUnitCore $(TESTCASES)
+
+	kill -9 $$(ps ax | grep -e "${MONGO}" | grep -v grep | awk '{print $$1}')
+	rm -rf $(DB)
