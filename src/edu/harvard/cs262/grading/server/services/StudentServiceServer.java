@@ -20,6 +20,12 @@ public class StudentServiceServer implements StudentService {
 	private DB db;
 	private DBCollection coll;
 
+	public StudentServiceServer() {
+		m = null;
+		db = null;
+		coll = null;
+	}
+
 	@Override
 	public void addNewStudent(long ID, String email, String firstName,
 			String lastName) throws RemoteException {
