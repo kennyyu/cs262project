@@ -64,8 +64,12 @@ test: all classes
 
 	$(JC) -cp /usr/share/java/junit.jar:$(LIB):$(CLASSPATH) \
 		-sourcepath $(TESTPATH) -d $(CLASSPATH) $(TEST)
-	java -cp /usr/share/java/junit.jar:$(LIB):$(CLASSPATH) \
-	org.junit.runner.JUnitCore $(TESTCASES)
+
+	java -cp lib/emma.jar emmarun -r html \
+		-filter +$(PACKAGE).server.*,+$(PACKAGE).client.* \
+		-sourcepath $(SRCPATH):$(TESTPATH) \
+		-cp /usr/share/java/junit.jar:$(LIB):$(CLASSPATH) \
+		org.junit.runner.JUnitCore $(TESTCASES)
 
 	kill -9 $$(ps ax | grep -e "${MONGO}" | grep -v grep | awk '{print $$1}')
 	rm -rf $(DB)
