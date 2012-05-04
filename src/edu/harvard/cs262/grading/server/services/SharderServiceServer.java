@@ -115,13 +115,18 @@ public class SharderServiceServer implements SharderService {
 
 		for (Submission s : submissions) {
 			for (int i = 0; i < GRADERS_PER_SUBMISSION; i++) {
-				Student grader = s.getStudent();
 				if (canStillGrade.isEmpty())
 					throw new RemoteException("Can't find enough graders");
 				if ((canStillGrade.size() == 1)
 						&& canStillGrade.containsKey(s.getStudent())) {
 					return assign(students, submissions);
 				}
+				// This could loop infinitely if canStillGrade.size() == 1 
+				//              && canStillGrade.containsKey(s.getStudent())
+				// So, the above if-statement gives up and tries again if we get to that
+				// case (the case where we only have one person left who can grade, and it's
+				// the student in question
+				Student grader = s.getStudent();
 				while (grader.equals(s.getStudent()))
 					grader = (Student) canStillGrade.keySet().toArray()[rand
 							.nextInt(canStillGrade.size())];
