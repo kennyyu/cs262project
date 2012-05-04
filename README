@@ -26,6 +26,14 @@ NOTE:
 * Every time you pull new changes, click on the project's name on the left side 
   (containing the directory tree), and hit 'refresh'
 
+Dependencies:
+============
+* MongoDB 64-bit (http://www.mongodb.org/)
+* Apache Tomcat (http://tomcat.apache.org/)
+* 64-bit OS
+* 64-bit machine
+* Java SDK 1.6
+
 To compile:
 ==========
 To compile, execute:
@@ -47,11 +55,6 @@ REQUIREMENTS:
 * 64-bit OS
 * 64-bit mongoDB
 * Java SDK 1.6
-
-Dependencies:
-============
-* MongoDB (http://www.mongodb.org/)
-* Apache Tomcat (http://tomcat.apache.org/)
 
 To run the services:
 ===================
