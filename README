@@ -66,23 +66,37 @@ Note: For persistent storage services, also start the MongoDB instance.
 To congif MongoDB replica set:
 =============================
 
-The file to use is "mongo_setup" located in the project root. Usage:
+To setup each database, use "mongo_setup" located in the project root. Usage:
 
-./mongo_setup [database name] [port #1] [port #2] [port #3]
+./mongo_setup [database name] [port #]
 
 A sample valid command:
 
-./mongo_setup graded 28001 28002 28003
+./mongo_setup graded 28001
 
-The script will initate and setup a database with 2 secondary backups.
+The script will setup a database with that name and localhost:port #
+
+To config the databases so they work as a replication set, use "mongo_config":
+
+./mongo_config [database name] [port #1] [port #2] [port #3]
+
 Currently it only supports exactly 3 distinct port numbers for 1 primary
 and 2 secondary databases. We may change it.. but it's of little consequence.
 Note that 3 folders with the port name will be created in the same directory
 as the script for storing the databases.
 
-We can run the same script 5 times for the 5 or so databases that we need.
+Valid set of commands for setting up a fault tolerant database would be
+(and this would be done once per database):
+
+./mongo_setup graded 28001
+./mongo_setup graded 28002
+./mongo_setup graded 28003
+./mongo_config graded 28001 28002 28003
 
 Be sure to set your path to mongo.
+
+It would also be trivial for these 2 script to take ip address + port number if we don't
+want to set up these databases locally.
 
 Detailed instructions (that can be ignored) below:
 =================================================
