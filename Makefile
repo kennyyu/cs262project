@@ -59,7 +59,6 @@ clean:
 # tests, then clean up the database
 #
 # REQUIREMENTS:
-#   64-bit machine, OS, and mongo instance
 #   JDK 1.6 (for emma.jar, code coverage tool)
 test: all classes
 	mkdir $(DB)

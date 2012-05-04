@@ -28,10 +28,8 @@ NOTE:
 
 Dependencies:
 ============
-* MongoDB 64-bit (http://www.mongodb.org/)
+* MongoDB (http://www.mongodb.org/)
 * Apache Tomcat (http://tomcat.apache.org/)
-* 64-bit OS
-* 64-bit machine
 * Java SDK 1.6
 
 To compile:
@@ -39,22 +37,13 @@ To compile:
 To compile, execute:
     $ make
 
-We are using Javac 1.6. You must use a 64-bit machine, 64-bit OS, and 64-bit version
-of MongoDB.
-
 To run tests + generate code coverage report:
 ============================================
 Tests require JUnit installed. To compile and run the JUnit tests, execute:
     $ make test
 
-Note: mongod must be in your PATH
+Note: mongod must be in your PATH, and you must have Java SDK 1.6
 The code coverage report will be generated as html files in the coverage/ directory
-
-REQUIREMENTS:
-* 64-bit machine
-* 64-bit OS
-* 64-bit mongoDB
-* Java SDK 1.6
 
 To run tests on the SEAS cloud, use:
    $ make seastest
