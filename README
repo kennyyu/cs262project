@@ -42,14 +42,11 @@ Tests require JUnit installed. To compile and run the JUnit tests, execute:
 Note: mongod must be in your PATH
 The code coverage report will be generated as html files in the coverage/ directory
 
-To run tests on seas:
-====================
-Tests require JUnit installed. To compile and run the JUnit tests, execute:
-    $ make seastest
-
-Note: mongod must be in your PATH
-A code coverage report will NOT be generated with make seastest (this is because
-Emma requires javac 1.6)
+REQUIREMENTS:
+* 64-bit machine
+* 64-bit OS
+* 64-bit mongoDB
+* Java SDK 1.6
 
 Dependencies:
 ============
