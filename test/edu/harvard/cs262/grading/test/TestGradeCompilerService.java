@@ -84,8 +84,8 @@ public class TestGradeCompilerService {
 				(new String("cheddar")).getBytes());
 
 		// instantiate a sandboxed sharder service
-		SharderServiceServer sharder = new SharderServiceServer();
-		sharder.init(true);
+		SharderServiceServer sharder = new SharderServiceServer(submissionStorage);
+		sharder.init();
 		sharder.heartbeat();
 
 		// generate a sharding

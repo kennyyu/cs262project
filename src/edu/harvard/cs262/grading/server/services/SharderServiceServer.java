@@ -31,18 +31,21 @@ public class SharderServiceServer implements SharderService {
 	private DB db;
 	private DBCollection coll;
 
-	private SubmissionStorageService storage;
-
-	public void init(boolean sandbox) throws Exception {
-
-		this.init();
-
-		storage = sandbox ? new MongoSubmissionStorageService() : getStorage();
-		if (sandbox)
-			storage.init();
+	private SubmissionStorageService sandboxStorage;
+	private boolean sandbox;
+	
+	public SharderServiceServer() {
+		this.sandbox = false;
+	}
+	
+	public SharderServiceServer(SubmissionStorageService storage) {
+		this.sandboxStorage = storage;
+		this.sandbox = true;
 	}
 
 	private SubmissionStorageService getStorage() throws RemoteException {
+		if (sandbox) return this.sandboxStorage;
+		
 		ConfigReader config = new ConfigReaderImpl();
 		SubmissionStorageService storage = (SubmissionStorageService) ServiceLookupUtility
 				.lookupService(config, "SubmissionStorageService");
@@ -150,6 +153,7 @@ public class SharderServiceServer implements SharderService {
 
 	@Override
 	public Shard generateShard(Assignment assignment) throws RemoteException {
+		SubmissionStorageService storage = getStorage();
 		Set<Submission> submissions = storage.getAllSubmissions(assignment);
 
 		// Compile list of students
@@ -236,19 +240,26 @@ public class SharderServiceServer implements SharderService {
 
 	@Override
 	public void init() throws Exception {
-		ConfigReader config = new ConfigReaderImpl();
-		List<String> servers = config.getRegistryLocations("SharderServiceDB");
-		List<ServerAddress> addrs = new ArrayList<ServerAddress>();
-		for (String server : servers) {
-			int split = server.indexOf(":");
-			String host = server.substring(0, split);
-			int port = Integer.parseInt(server.substring(split + 1));
-			addrs.add(new ServerAddress(host, port));
+		if (!sandbox) {
+			ConfigReader config = new ConfigReaderImpl();
+			List<String> servers = config.getRegistryLocations("SharderServiceDB");
+			List<ServerAddress> addrs = new ArrayList<ServerAddress>();
+			for (String server : servers) {
+				int split = server.indexOf(":");
+				String host = server.substring(0, split);
+				int port = Integer.parseInt(server.substring(split + 1));
+				addrs.add(new ServerAddress(host, port));
+			}
+			
+			m = new Mongo(addrs);
 		}
-		m = new Mongo(addrs);
+		else {
+			// localhost for sandbox mode
+			m = new Mongo();
+		}
+
 		db = m.getDB("dgs");
 		coll = db.getCollection("shards");
-
 	}
 
 	@Override

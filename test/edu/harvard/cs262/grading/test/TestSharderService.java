@@ -20,8 +20,8 @@ public class TestSharderService {
 		MongoSubmissionStorageService storage = new MongoSubmissionStorageService();
 		storage.init();
 		storage.heartbeat();
-		SharderServiceServer sharder = new SharderServiceServer();
-		sharder.init(true);
+		SharderServiceServer sharder = new SharderServiceServer(storage);
+		sharder.init();
 		sharder.heartbeat();
 
 		byte[] contents = new byte[42];
@@ -33,9 +33,6 @@ public class TestSharderService {
 
 		storage.storeSubmission(s0);
 		storage.storeSubmission(s1);
-
-		assertTrue(storage.getAllSubmissions(assn).contains(s0));
-		assertTrue(storage.getAllSubmissions(assn).contains(s1));
 
 		Shard shard = sharder.generateShard(assn);
 		assertTrue(shard.getShard().containsKey(400L));
