@@ -53,6 +53,7 @@ all:
 clean:
 	rm -rf $(CLASSPATH)
 	rm -rf $(DB)
+	rm -rf coverage
 
 # tests will start mongod, sleep for 5 seconds while starting up, run unit
 # tests, then clean up the database
