@@ -21,6 +21,7 @@ public class TestStudentService {
 	public void testStudent() throws Exception {
 		StudentService service = new StudentServiceServer();
 		service.init();
+		service.heartbeat();
 
 		service.addNewStudent(0, "student@college.edu", "Joe", "Student");
 		service.addNewStudent(1, "bovik@cs.cmu.edu", "Harry", "Bovik");

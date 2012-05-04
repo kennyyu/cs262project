@@ -54,8 +54,10 @@ public class TestGradeCompilerService {
 		// instantiate the storage services locally
 		GradeStorageService gradeStorage = new MongoGradeStorageService();
 		gradeStorage.init();
+		gradeStorage.heartbeat();
 		SubmissionStorageService submissionStorage = new MongoSubmissionStorageService();
 		submissionStorage.init();
+		submissionStorage.heartbeat();
 
 		// create students
 		Student[] students = {
@@ -71,6 +73,8 @@ public class TestGradeCompilerService {
 		// instantiate a sandboxed submission receiver service
 		SubmissionReceiverService receiver = new SubmissionReceiverServiceServer(
 				submissionStorage);
+		receiver.init();
+		receiver.heartbeat();
 
 		// Kenny and Jim submit
 		Submission submission1 = receiver.submit(students[0], assignment,
@@ -81,6 +85,7 @@ public class TestGradeCompilerService {
 		// instantiate a sandboxed sharder service
 		SharderServiceServer sharder = new SharderServiceServer();
 		sharder.init(true);
+		sharder.heartbeat();
 
 		// generate a sharding
 		Map<Long, Set<Long>> gradermap = new HashMap<Long, Set<Long>>();

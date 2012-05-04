@@ -48,6 +48,7 @@ public class TestSubmissionStorageService {
 			SerialException, SQLException, RemoteException {
 		MongoSubmissionStorageService service = new MongoSubmissionStorageService();
 		service.init();
+		service.heartbeat();
 
 		Random r = new Random();
 

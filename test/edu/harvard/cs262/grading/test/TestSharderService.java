@@ -19,8 +19,10 @@ public class TestSharderService {
 	public void testShard() throws Exception {
 		MongoSubmissionStorageService storage = new MongoSubmissionStorageService();
 		storage.init();
+		storage.heartbeat();
 		SharderServiceServer sharder = new SharderServiceServer();
 		sharder.init(true);
+		sharder.heartbeat();
 
 		byte[] contents = new byte[42];
 

@@ -23,6 +23,7 @@ public class TestAssignmentStorageService {
 	public void testAssignment() throws Exception {
 		AssignmentStorageService service = new AssignmentStorageServiceServer();
 		service.init();
+		service.heartbeat();
 
 		service.addNewAssignment(0, "Description1");
 		service.addNewAssignment(1, "Description2");

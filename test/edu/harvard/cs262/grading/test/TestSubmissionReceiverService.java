@@ -51,6 +51,7 @@ public class TestSubmissionReceiverService {
 	public void testSubmit() throws Exception {
 		SubmissionStorageService storage = new MongoSubmissionStorageService();
 		storage.init();
+		storage.heartbeat();
 
 		// generate a test submission
 		Student student = new StudentImpl(5L, "waldo@eecs.harvard.edu", "Jim",

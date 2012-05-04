@@ -30,6 +30,7 @@ public class TestGradeStorageService {
 	public void testAssignment() throws Exception {
 		GradeStorageService service = new MongoGradeStorageService();
 		service.init();
+		service.heartbeat();
 
 		byte[] content = new byte[42];
 
