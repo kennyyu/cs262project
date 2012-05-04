@@ -2,7 +2,7 @@
 CLASSPATH = classes
 
 # required libraries for compilation
-LIB = lib/mongo-2.7.3.jar:lib/javax.servlet-api-3.0.1.jar
+LIB = lib/mongo-2.7.3.jar:lib/javax.servlet-api-3.0.1.jar:lib/emma.jar
 
 # package and project information
 PACKAGE = edu.harvard.cs262.grading
