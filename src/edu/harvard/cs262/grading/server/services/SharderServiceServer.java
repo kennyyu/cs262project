@@ -123,7 +123,7 @@ public class SharderServiceServer implements SharderService {
 						throw new RemoteException("Can't find enough graders");
 					if ((canStillGrade.size() == 1)
 							&& canStillGrade.containsKey(s.getStudent())) {
-						break outer;
+						continue outer;
 					}
 					Student grader = s.getStudent();
 					// This could loop infinitely if canStillGrade.size() == 1 
