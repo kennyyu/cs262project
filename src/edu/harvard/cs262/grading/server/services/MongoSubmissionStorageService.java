@@ -21,6 +21,9 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.MongoException;
 import com.mongodb.ServerAddress;
 
+/**
+ * A MongoDB implementation of the SubmissionStorageService
+ */
 public class MongoSubmissionStorageService implements SubmissionStorageService {
 
 	private Mongo m;
