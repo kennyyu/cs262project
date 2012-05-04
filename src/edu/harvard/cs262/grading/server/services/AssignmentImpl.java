@@ -1,5 +1,8 @@
 package edu.harvard.cs262.grading.server.services;
 
+/**
+ * Implements the assignment interface
+ */
 public class AssignmentImpl implements Assignment {
 
 	/**

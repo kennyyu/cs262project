@@ -1,5 +1,8 @@
 package edu.harvard.cs262.grading.server.services;
 
+/**
+ * An implemenetation of the Student interface
+ */
 public class StudentImpl implements Student {
 
 	/**

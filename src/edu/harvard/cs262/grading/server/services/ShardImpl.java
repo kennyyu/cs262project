@@ -5,6 +5,9 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ *  An implementation of the shard interface
+ */
 public class ShardImpl implements Shard {
 
 	/**

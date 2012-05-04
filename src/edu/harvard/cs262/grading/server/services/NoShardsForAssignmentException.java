@@ -1,5 +1,8 @@
 package edu.harvard.cs262.grading.server.services;
 
+/**
+ * Exception for when no shards were generated for an assignment.
+ */
 public class NoShardsForAssignmentException extends Exception {
 
 	/**
