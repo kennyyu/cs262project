@@ -23,6 +23,12 @@ public class AssignmentStorageServiceServer implements AssignmentStorageService 
 	private DB db;
 	private DBCollection coll;
 
+	public AssignmentStorageServiceServer() {
+		m = null;
+		db = null;
+		coll = null;
+	}
+
 	@Override
 	public void addNewAssignment(long ID, String desc) throws RemoteException {
 
